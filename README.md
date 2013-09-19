@@ -22,7 +22,8 @@ If you haven't already done so, install your global dependencies. These instruct
 1. `npm install -g grunt-cli`
 1. `npm install -g bower`
 
-Next, `cd` into the `mapattack-web` working directory and run `npm install` to make sure all node modules are present. You will also need to run `bower install` to install front-end dependencies.
+Next, `cd` into the `mapattack-web` working directory and run `npm install` to make sure all node modules are present.
+You will also need to run `bower install` to install front-end dependencies.
 
 ### Working locally
 
@@ -34,7 +35,7 @@ todo
 
 ### Grunt Tasks
 
-todo
+`grunt server`
 
 ## Issues
 
