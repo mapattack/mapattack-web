@@ -4,7 +4,10 @@
   "dependencies": {
     "flatiron": "~0.3.8",
     "ecstatic": "~0.4.8",
-    "union": "~0.3.7"
+    "union": "~0.3.7",
+    "connect": "~2.9.0",
+    "passport": "~0.1.17",
+    "passport-twitter": "~1.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
