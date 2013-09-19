@@ -40,7 +40,7 @@ module.exports = function (grunt) {
         }]
       },
       styles: {
-        src: ['<%= yeoman.src %>/css']
+        src: ['<%= yeoman.app %>/css']
       }
     },
     jshint: {
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
       all: [
         'Gruntfile.js',
         '<%= yeoman.app %>/js/{,*/}*.js',
-        '!<%= yeoman.app %>/js/vendor/*',
+        '!<%= yeoman.app %>/js/vendor/*'
       ]
     },
     compass: {
@@ -175,13 +175,6 @@ module.exports = function (grunt) {
             'fonts/{,*/}*.*'
           ]
         }]
-      },
-      styles: {
-        cwd: '<%= yeoman.app %>',
-        dest: '<%= yeoman.dist %>',
-        src: [
-          'css/*.css'
-        ]
       }
     },
     concurrent: {
@@ -217,7 +210,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('server', ['clean:styles','concurrent:server']);
+  grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
 
   grunt.registerTask('build', [
     'clean',
