@@ -12,7 +12,7 @@ app
   .set('port', port)
   .set('views', __dirname + '/views')
   .set('view engine', 'ejs')
-  .use(express.favicon())
+  .use(express.favicon(__dirname + '/app/favicon.ico'))
   .use(express.bodyParser())
   .use(express.methodOverride())
   .use(express.cookieParser('loqisaur'))
