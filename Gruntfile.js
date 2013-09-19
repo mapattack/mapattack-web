@@ -210,7 +210,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('server', ['clean:styles','concurrent:server']);
+  grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
 
   grunt.registerTask('build', [
     'clean',
