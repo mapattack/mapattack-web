@@ -1,0 +1,19 @@
+.panel {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3em 1em;
+  background-color: $white;
+  color: $dark-gray;
+  &.cream {
+    background-color: $cream;
+    color: $darker-gray;
+  }
+  &.red {
+    background-color: $red;
+    color: $white;
+  }
+  &.blue {
+    background-color:$blue;
+    color: $white;
+  }
+}

@@ -1,25 +1,11 @@
 @import "compass";
+@import "config";
+@import "base/reset";
+@import "base/mixins";
+@import "base/typography";
+@import "base/forms";
+@import "base/buttons";
+@import "base/layout";
 
-body {
-  background: #fafafa;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #333;
-}
-
-.hero-unit {
-  margin: 50px auto 0 auto;
-  width: 300px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: red;
-  color: white;
-  border-radius: 6px;
-  padding: 60px;
-
-  h1 {
-    @include adjust-font-size-to(48px, 1);
-    letter-spacing: -1px;
-  }
-
-}
+//page specific
+@import "home";
