@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Karla);
 /* - - - - - - - - - - Basic Reset - - - - - - - - - - */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_reset\.scss}line{font-family:\000032}}
 html {
@@ -66,7 +67,23 @@ applet, canvas, embed, figure, figcaption, iframe, img, object {
 }
 
 /* - - - - - - - - - Basic Typography - - - - - - - */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\000032}}
+@font-face {
+  font-family: 'Mensch';
+  src: url("../fonts/mensch-wf.eot");
+  src: url("../fonts/mensch-wf.eot?#iefix") format("embedded-opentype"), url("../fonts/mensch-wf.woff") format("woff"), url("../fonts/mensch-wf.ttf") format("truetype"), url("../fonts/mensch-wf.svg#MenschMenschRegular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mensch Bold';
+  src: url("../fonts/mensch-bold-wf.eot");
+  src: url("../fonts/mensch-bold-wf.eot?#iefix") format("embedded-opentype"), url("../fonts/mensch-bold-wf.woff") format("woff"), url("../fonts/mensch-bold-wf.ttf") format("truetype"), url("../fonts/mensch-bold-wf.svg#MenschMenschBold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000326}}
 body {
   font-family: "Karla", Arial, Helvetica, sans;
   color: #242323;
@@ -75,7 +92,7 @@ body {
   line-height: 1.5em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000334}}
 h1, h2, h3, h4, h5, h6 {
   font-family: "Mensch", Arial, Helvetica, sans;
   line-height: 1em;
@@ -84,38 +101,38 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1em 0 0.5em 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000342}}
 h1 {
   font-size: 3em;
   margin: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000319}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000343}}
 h2 {
   font-size: 2.7em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000344}}
 h3 {
   font-size: 1.8em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000345}}
 h4 {
   font-size: 1.65em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000346}}
 h5 {
   font-size: 1.5em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000347}}
 h6 {
   font-size: 1.35em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000349}}
 blockquote {
   font-family: "Mensch", Arial, Helvetica, sans;
   text-align: center;
@@ -124,17 +141,17 @@ blockquote {
   font-style: italic;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000333}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000357}}
 p {
   line-height: 1.75em;
   margin: 1em 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000360}}
 p.large {
   font-size: 1.75em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000365}}
 a {
   text-decoration: none;
   color: #f54130;
