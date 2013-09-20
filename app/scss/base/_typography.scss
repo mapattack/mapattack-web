@@ -58,6 +58,9 @@ blockquote {
   font-size: 2em;
   line-height: 3em;
   font-style: italic;
+  &.blue {
+    color: $blue;
+  }
 }
 
 p {
@@ -65,6 +68,15 @@ p {
   margin: 1em 0;
   &.large {
     font-size: 1.75em;
+  }
+}
+
+span {
+  &.blue {
+    color: $blue;
+  }
+  &.red {
+    color: $red;
   }
 }
 
