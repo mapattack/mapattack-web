@@ -1,8 +1,8 @@
-<div class="panel cream">
+<div class="panel blue">
   <section>
     <header>
       <h2>My Boards</h2>
-      <a class="btn blue">New Board</a>
+      <a class="btn cream">New Board</a>
     </header>
     <ul class="boards">
       <li><a href="/board-id/edit">Board Title</a></li>
@@ -16,9 +16,9 @@
 <div class="panel cream">
   <section>
     <header>
-      <h2>Boards Around You</h2>
+      <h2 class="red">Boards Around You</h2>
     </header>
-    <ul class="boards">
+    <ul class="boards red">
       <li><a href="/board-id/view">Board Title</a></li>
       <li><a href="/board-id/view">Board Title</a></li>
       <li><a href="/board-id/view">Board Title</a></li>
@@ -27,21 +27,33 @@
   </section>
 </div>
 
-<div class="panel cream">
+<div class="panel white">
   <section>
     <header>
-      <h2>Games In Progress</h2>
+      <h2 class="blue">Games In Progress</h2>
     </header>
     <div class="games">
-      <div class="game">
-        <a href="/game/view">Board Title</a>
-        <div class="hours">Started at 4:30pm</div>
-        <div class="players">12 players</div>
+      <div class="game col-group no-padding label">
+        <div class="col col1of2">
+          <span class="plain">Title</span>
+        </div>
+        <div class="col col1of4">
+          <span class="plain">Start Time</span>
+        </div>
+        <div class="col col1of4">
+          <span class="plain">Players</span>
+        </div>
       </div>
-      <div class="game">
-        <a href="/game/view">Board Title</a>
-        <div class="hours">Started at 4:30pm</div>
-        <div class="players">12 players</div>
+      <div class="game col-group no-padding">
+        <div class="col col1of2">
+          <a class="title" href="/game/view">Board Title</a>
+        </div>
+        <div class="col col1of4">
+          <span class="hours">4:30pm</span>
+        </div>
+        <div class="col col1of4">
+          <span class="hours">12</span>
+        </div>
       </div>
     </div>
   </section>
