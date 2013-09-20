@@ -68,7 +68,7 @@ applet, canvas, embed, figure, figcaption, iframe, img, object {
 /* - - - - - - - - - Basic Typography - - - - - - - */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\000032}}
 body {
-  font-family: "Open Sans", Arial, Helvetica, sans;
+  font-family: "Karla", Arial, Helvetica, sans;
   color: #242323;
   font-weight: 400;
   font-size: 1em;
@@ -77,9 +77,9 @@ body {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000310}}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Open Sans", Arial, Helvetica, sans;
+  font-family: "Mensch", Arial, Helvetica, sans;
   line-height: 1em;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 3em;
   margin: 1em 0 0.5em 0;
 }
@@ -117,23 +117,24 @@ h6 {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000325}}
 blockquote {
+  font-family: "Mensch", Arial, Helvetica, sans;
   text-align: center;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 2em;
+  line-height: 3em;
   font-style: italic;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000333}}
 p {
   line-height: 1.75em;
   margin: 1em 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000336}}
 p.large {
-  font-size: 2em;
+  font-size: 1.75em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_typography\.scss}line{font-family:\0000341}}
 a {
   text-decoration: none;
   color: #f54130;
@@ -355,7 +356,7 @@ input[type="submit"] {
   border-radius: 3px;
   border: none;
   text-decoration: none;
-  font-family: "Open Sans", Arial, Helvetica, sans;
+  font-family: "Karla", Arial, Helvetica, sans;
   font-size: 0.85rem;
   cursor: pointer;
   -webkit-transition: background-color 50ms linear;
@@ -489,8 +490,8 @@ input[type="submit"] {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000378}}
 video, img {
-  width: 100%    !important;
-  height: auto   !important;
+  width: 100%;
+  height: auto;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000385}}
@@ -565,7 +566,7 @@ video, img {
 .col-group .col {
   display: inline-block;
   float: none;
-  font-family: "Open Sans", Arial, Helvetica, sans;
+  font-family: "Karla", Arial, Helvetica, sans;
   letter-spacing: normal;
   padding-left: 15px;
   padding-right: 15px;

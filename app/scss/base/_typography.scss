@@ -23,9 +23,10 @@ h5 { font-size: $header-size * 0.5;}
 h6 { font-size: $header-size * 0.45;}
 
 blockquote {
+  font-family: $header-font;
   text-align:center;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 2em;
+  line-height: 3em;
   font-style: italic;
 }
 
@@ -33,7 +34,7 @@ p {
   line-height: 1.75em;
   margin: 1em 0;
   &.large {
-    font-size: 2em;
+    font-size: 1.75em;
   }
 }
 
