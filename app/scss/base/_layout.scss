@@ -85,11 +85,6 @@
       line-height: 1.5em;
       color: $red;
       font-family: $body-font;
-      font-weight: $header-weight;
-      ::-webkit-input-placeholder {color: $red;}
-           :-ms-input-placeholder {color: $red;}
-               ::-moz-placeholder {color: $red;}
-                :-moz-placeholder {color: $red;}
     }
   }
   video, img {
