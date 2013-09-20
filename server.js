@@ -76,7 +76,11 @@ app.get('/auth/twitter/callback',
 );
 
 app.get('/', function(req, res){
-  res.render('index', { user: req.user });
+  if (req.user) {
+    res.render('home', { user: req.user });
+  } else {
+    res.render('index');
+  }
 });
 
 app.get('/logout', function(req, res){
