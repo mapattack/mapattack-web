@@ -1,0 +1,90 @@
+.large-link {
+  @include box-sizing(border-box);
+  width: 100%;
+  padding: 1em;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  background-color: $blue;
+  color: $white;
+  display: block;
+  border: 2px solid $white;
+  margin-top: -2px;
+}
+
+.boards {
+  li {
+    list-style-type: none;
+    a {
+      @extend .large-link;
+      &:after {
+        content: ">";
+        float: right;
+        color: $white;
+      }
+      &:hover {
+        color: $blue;
+        background-color: $white;
+        &:after {
+          color: $blue;
+        }
+      }
+    }
+  }
+  &.red {
+    li {
+      a {
+        color: $red;
+        background-color: $cream;
+        border: 2px solid $red;
+        &:after {
+          color: $red;
+        }
+        &:hover {
+          color: $cream;
+          background-color: $red;
+          &:after {
+            color: $cream;
+          }
+        }
+      }
+    }
+  }
+}
+
+.games-link {
+  @extend .large-link;
+  font-size: 1em;
+  border: 2px solid $blue;
+  color: $blue;
+  background-color: $white;
+}
+
+.game {
+  .title {
+    @extend .games-link;
+    &:hover {
+    }
+    &:after {
+      content: ">";
+      float: right;
+      color: $white;
+    }
+    &:hover {
+      background-color: $blue;
+      color: $white;
+      &:after {
+        color: $blue;
+      }
+    }
+  }
+  .hours {
+    @extend .games-link;
+    border-left: none;
+  }
+  &.label {
+    .plain {
+      @extend .games-link;
+      border-color: transparent;
+    }
+  }
+}

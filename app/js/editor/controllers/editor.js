@@ -8,8 +8,6 @@ GeotriggerEditor.module('Editor', function(Editor, App, Backbone, Marionette, $,
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
       '': 'index',
-      'list': 'list',
-      'list?q=:term': 'list',
       'new': 'new',
       ':id/edit': 'edit',
       '*notfound': 'notFound'
@@ -64,7 +62,6 @@ GeotriggerEditor.module('Editor', function(Editor, App, Backbone, Marionette, $,
 
     setup: function() {
       this.setupMap();
-      this.setupDrawer();
       this.setupControls();
       this.setupNotifications();
     },
@@ -72,19 +69,6 @@ GeotriggerEditor.module('Editor', function(Editor, App, Backbone, Marionette, $,
     setupMap: function() {
       var view = new App.Views.Map({ collection: App.collections.triggers });
       App.regions.map.show(view);
-    },
-
-    setupDrawer: function() {
-      var drawer = App.regions.drawer;
-      var content = App.mainRegion.$el.find('#gt-content');
-
-      drawer.on('show', function(){
-        content.addClass('gt-active');
-      });
-
-      drawer.on('close', function(){
-        content.removeClass('gt-active');
-      });
     },
 
     setupControls: function() {

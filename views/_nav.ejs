@@ -1,0 +1,13 @@
+<div class="nav-wrap">
+  <header class="top-nav">
+    <h1><span class="blue">Map</span> <span class="red">Attack</span></h1>
+    <nav>
+      <% if (typeof user === 'undefined') { %>
+        <a href="/auth/twitter" class="btn blue">Log In</a>
+      <% } else if (user) { %>
+        <a href="/logout" class="btn blue">want to logout, <img src="<%= user.photos[0].value %>" width="12"> <%= user.username %>?</a>
+        </p>
+      <% } %>
+    </nav>
+  </header>
+</div>
