@@ -1,4 +1,28 @@
 /* - - - - - - - - - Basic Typography - - - - - - - */
+@import url(http://fonts.googleapis.com/css?family=Karla);
+
+@font-face {
+    font-family: 'Mensch';
+    src: url('../fonts/mensch-wf.eot');
+    src: url('../fonts/mensch-wf.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mensch-wf.woff') format('woff'),
+         url('../fonts/mensch-wf.ttf') format('truetype'),
+         url('../fonts/mensch-wf.svg#MenschMenschRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mensch Bold';
+    src: url('../fonts/mensch-bold-wf.eot');
+    src: url('../fonts/mensch-bold-wf.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/mensch-bold-wf.woff') format('woff'),
+         url('../fonts/mensch-bold-wf.ttf') format('truetype'),
+         url('../fonts/mensch-bold-wf.svg#MenschMenschBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
   font-family: $body-font;
   color: $body-color;
@@ -13,25 +37,35 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: $header-weight;
   font-size: $header-size;
   margin: 1em 0 0.5em 0;
+  &.red {
+    color: $red;
+  }
+  &.blue {
+    color: $blue;
+  }
 }
 
 h1 { font-size: $header-size; margin: 0; }
 h2 { font-size: $header-size * 0.9;}
-h3 { font-size: $header-size * 0.8;}
-h4 { font-size: $header-size * 0.7;}
-h5 { font-size: $header-size * 0.6;}
-h6 { font-size: $header-size * 0.5;}
+h3 { font-size: $header-size * 0.6;}
+h4 { font-size: $header-size * 0.55;}
+h5 { font-size: $header-size * 0.5;}
+h6 { font-size: $header-size * 0.45;}
 
 blockquote {
+  font-family: $header-font;
   text-align:center;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 2em;
+  line-height: 3em;
   font-style: italic;
 }
 
 p {
   line-height: 1.75em;
   margin: 1em 0;
+  &.large {
+    font-size: 1.75em;
+  }
 }
 
 a {

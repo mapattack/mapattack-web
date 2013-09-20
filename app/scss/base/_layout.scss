@@ -52,7 +52,10 @@
       float: right;
     }
   }
-
+  video, img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .feature {
@@ -69,6 +72,9 @@
     width: 45%;
     float:right;
     display: inline-block;
+    h3 {
+      margin-top: 2em;
+    }
   }
 }
 
