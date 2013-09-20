@@ -77,6 +77,19 @@
     .btn {
       float: right;
     }
+    input {
+      float: right;
+
+      font-size: $header-size * 0.9;
+      color: $red;
+      font-family: $header-font;
+      line-height: 1em;
+      font-weight: $header-weight;
+      ::-webkit-input-placeholder {color: $red;}
+           :-ms-input-placeholder {color: $red;}
+               ::-moz-placeholder {color: $red;}
+                :-moz-placeholder {color: $red;}
+    }
   }
   video, img {
     width: 100%;
