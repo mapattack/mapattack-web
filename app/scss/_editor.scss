@@ -1,0 +1,50 @@
+.edit-tools {
+  @include box-sizing(border-box);
+  width: 300px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 2em;
+  background-color: $white;
+  border: 2px solid $light-gray;
+  input[type='text']{
+    width: 100%;
+    font-size: 1.5em;
+    &:hover {
+      background-color: $cream;
+    }
+    &:focus {
+      background-color: $blue;
+      color: $white;
+    }
+  }
+  .city {
+    margin-bottom:1em;
+  }
+  .btn {
+    width: 80%;
+    text-align:center;
+    display: block;
+    margin: 1em auto;
+  }
+  .point:before {
+    content: "";
+    display: inline-block;
+    width:  32px;
+    height: 32px;
+    background: url('../img/point2.png') left center no-repeat transparent;
+    background-size: 28px;
+    vertical-align: -12px;
+  }
+  .line:before {
+    content: "";
+    display: inline-block;
+    width:  32px;
+    height: 32px;
+    background: url('../img/line2.png') left center no-repeat transparent;
+    background-size: 28px;
+    vertical-align: -12px;
+  }
+}
