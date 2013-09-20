@@ -12,6 +12,16 @@
     font-size: 1.5em;
     line-height: 2em;
     float: left;
+    &:before {
+      content: "";
+      display: inline-block;
+      height:  40px;
+      width: 40px;
+      background: transparent url('../img/logo.png') center center no-repeat;
+      background-size: contain;
+      vertical-align: -11px;
+      margin-right:8px;
+    }
   }
   nav {
     display: inline-block;
