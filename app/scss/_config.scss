@@ -12,6 +12,8 @@ $red:            #F54130 !default;
 $blue:           #5498E8 !default;
 $dark-blue:      #1E6ACA !default;
 
+$body-blue:      darken($blue, 6%);
+
 
 // Font Families
 $body-font:      "Karla", Arial, Helvetica, sans !default;
