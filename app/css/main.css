@@ -481,37 +481,36 @@ input[type="submit"] {
 .panel header .btn {
   float: right;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000355}}
+.panel video, .panel img {
+  width: 100%;
+  height: auto;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000361}}
 .feature {
   width: 100%;
   margin: 3em 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000365}}
 .feature .graphic {
   width: 50%;
   margin-right: 5%;
   float: left;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000371}}
 .feature .copy {
   width: 45%;
   float: right;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000375}}
 .feature .copy h3 {
   margin-top: 2em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000378}}
-video, img {
-  width: 100%;
-  height: auto;
-}
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000383}}
 .col {
   display: block;
   float: left;
@@ -521,57 +520,57 @@ video, img {
   box-sizing: border-box;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000392}}
 .col1of1 {
   float: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000393}}
 .col1of2 {
   width: 50%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000394}}
 .col1of3 {
   width: 33.33333%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000395}}
 .col2of3 {
   width: 66.66666%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000398}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000396}}
 .col1of4 {
   width: 25%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000399}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000397}}
 .col3of4 {
   width: 75%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000398}}
 .col1of5 {
   width: 20%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\0000399}}
 .col2of5 {
   width: 40%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003102}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003100}}
 .col3of5 {
   width: 60%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003103}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003101}}
 .col4of5 {
   width: 80%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003103}}
 .col-group {
   font-family: 'Courier New', Monospace;
   letter-spacing: -.65em;
@@ -579,7 +578,7 @@ video, img {
   margin-right: -15px;
   text-align: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/paulcpederson\/Documents\/Projects\/Map-Attack-Web\/app\/scss\/base\/_layout\.scss}line{font-family:\00003109}}
 .col-group .col {
   display: inline-block;
   float: none;

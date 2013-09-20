@@ -52,7 +52,10 @@
       float: right;
     }
   }
-
+  video, img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .feature {
@@ -73,11 +76,6 @@
       margin-top: 2em;
     }
   }
-}
-
-video, img {
-  width: 100%;
-  height: auto;
 }
 
 // Mini Inline-Block Grid
