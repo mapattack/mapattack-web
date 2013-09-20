@@ -1,0 +1,32 @@
+.btn {
+  display: inline-block;
+  padding: 1em;
+  background-color: $red;
+  color: $white;
+  @include border-radius(3px);
+  border: none;
+  text-decoration: none;
+  font-family: $body-font;
+  font-size: 0.85rem;
+  cursor: pointer;
+  @include transition(background-color 50ms linear);
+  &:hover {
+    background-color: darken($red, 5%);
+  }
+  &.blue {
+    background-color: $blue;
+    &:hover {
+      background-color: darken($blue, 5%);
+    }
+  }
+  &.cream {
+    background-color: $cream;
+    color: $blue;
+    &:hover {
+      background-color: darken($cream, 5%);
+    }
+  }
+  &.margin {
+    margin-right: 2em;
+  }
+}
