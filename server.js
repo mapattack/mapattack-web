@@ -8,6 +8,8 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var TWITTER_CONSUMER_KEY = 'VSCJzgLBienoPOs45tgYRQ';
 var TWITTER_CONSUMER_SECRET = 'CnMscq17Btt8cMuOTm7NQd72DYDoo676YUxm7L3fA';
 
+var hour = 3600000;
+
 app
   .set('port', port)
   .set('views', __dirname + '/views')
@@ -16,7 +18,7 @@ app
   .use(express.bodyParser())
   .use(express.methodOverride())
   .use(express.cookieParser('loqisaur'))
-  .use(express.session({secret : '#unicorner'}))
+  .use(express.session({ secret: '#unicorner' }))
   .use(passport.initialize())
   .use(passport.session())
   .configure('development', function(){
@@ -46,7 +48,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: 'http://127.0.0.1:3000/auth/twitter/callback'
+    callbackURL: '/auth/twitter/callback'
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
@@ -60,9 +62,8 @@ passport.use(new TwitterStrategy({
 ));
 
 function ensureAuthenticated(req, res, next) {
-  console.log('ensuring', req.isAuthenticated());
   if (req.isAuthenticated()) { return next(); }
-  res.sendfile('index.html', {root: './app'});
+  res.render('/fail');
 }
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
@@ -70,12 +71,12 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/fail' }),
   function(req, res) {
-    res.redirect('/login');
+    res.redirect('/');
   }
 );
 
-app.get('/login', function(req, res){
-  res.render('login', { user: req.user });
+app.get('/', function(req, res){
+  res.render('index', { user: req.user });
 });
 
 app.get('/logout', function(req, res){
