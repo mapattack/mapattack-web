@@ -45,5 +45,6 @@ tmp
 _yardoc
 doc/
 
-# bower
+# yeoman
 app/bower_components
+app/css

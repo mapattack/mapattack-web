@@ -22,7 +22,11 @@
       <header class="top-nav">
         <h1>Map Attack</h1>
         <nav>
-          <a href="/login" class="btn blue">Log In</a>
+          <% if (!user) { %>
+            <a href="/auth/twitter" class="btn blue">Log In</a>
+          <% } else { %>
+            <a href="/logout" class="btn blue">want to logout, <img src="<%= user.photos[0].value %>" width="12"> <%= user.username %>?</a>
+          <% } %>
         </nav>
       </header>
     </div>
