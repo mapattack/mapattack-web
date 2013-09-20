@@ -4,7 +4,7 @@
 }
 
 .top-nav {
-  padding: 1em 0;
+  padding: 1em 0 0.5em 0;
   max-width: 1080px;
   margin: 0 auto;
   .brand {
@@ -15,6 +15,9 @@
     line-height: 2em;
     float: left;
     margin-right: 2.5em;
+    span:first-child {
+      margin-right: -0.25em;
+    }
     &:before {
       content: "";
       display: inline-block;
@@ -28,11 +31,26 @@
   }
   nav {
     display: inline-block;
+    float:right;
+    width: auto;
+
     &.left {
       float: left;
     }
     &.right {
       float: right;
+    }
+
+    img {
+      @include border-radius(26px, 26px);
+      border: 4px solid $blue;
+      display: inline;
+      float: left;
+      margin-top: -4px;
+    }
+
+    a {
+      margin-left: 18px;
     }
   }
   @include clearfix;
@@ -68,6 +86,15 @@
     }
     .btn {
       float: right;
+    }
+    input {
+      float: right;
+      margin-top: -14px;
+      padding: 0.5em;
+      font-size: 1.5em;
+      line-height: 1.5em;
+      color: $red;
+      font-family: $body-font;
     }
   }
   video, img {

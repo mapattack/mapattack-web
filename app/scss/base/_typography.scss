@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: $header-size;
   margin: 1em 0 0.5em 0;
   text-transform: none;
+  word-spacing: -0.125em;
   &.red {
     color: $red;
   }
@@ -74,7 +75,7 @@ p {
 
 span {
   &.blue {
-    color: $blue;
+    color: $body-blue;
   }
   &.red {
     color: $red;
