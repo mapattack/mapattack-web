@@ -58,37 +58,23 @@ input[type="checkbox"], input[type="radio"] {
   padding: 0;
 }
 
-input[type='email'],
-input[type='number'],
-input[type='password'],
 input[type='search'],
-input[type='tel'],
 input[type='text'],
-input[type='url'],
-input[type='color'],
-input[type='date'],
-input[type='datetime'],
-input[type='datetime-local'],
-input[type='month'],
-input[type='time'],
-input[type='week'],
 textarea{
-  @include box-sizing(border-box);
   @include transition(all 100ms linear);
-  @include border-radius(3px);
+  @include border-radius(0);
   font-size: 1em;
-  border: 1px solid $light-gray;
+  font-family: $body-font;
+  border: none;
   display: inline-block;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 0;
   outline: none;
   outline-offset: 0;
-  padding: 0.5em 0.25em;
-  background-color: $off-white;
-  color: $darkest-gray;
+  padding: 0.5em;
+  background-color: $white;
+  color: $dark-gray;
   &:focus {
-    border: 1px solid $blue;
-    @include box-shadow(0 0 12px rgba(0,0,0,.2));
+    color: $blue;
   }
 }
 
@@ -123,7 +109,7 @@ input[type="submit"] {
   width: auto;
 }
 
-::-webkit-input-placeholder {color: $dark-gray;}
-     :-ms-input-placeholder {color: $dark-gray;}
-         ::-moz-placeholder {color: $dark-gray;}
-          :-moz-placeholder {color: $dark-gray;}
+::-webkit-input-placeholder {color: $light-gray;}
+     :-ms-input-placeholder {color: $light-gray;}
+         ::-moz-placeholder {color: $light-gray;}
+          :-moz-placeholder {color: $light-gray;}
