@@ -4,12 +4,10 @@
   "dependencies": {
     "modernizr": "~2.6.2",
     "jquery": "~1.10.2",
-    "json2": "*",
-    "backbone.marionette": "~1.1.0",
-    "handlebars": "~1.0.0",
     "esri-leaflet": "https://github.com/Esri/esri-leaflet.git#~0.0.1-rc1",
     "leaflet": "https://github.com/vperron/leaflet-dist.git#~0.6.4",
-    "html5shiv": "~3.6.2"
+    "html5shiv": "~3.6.2",
+    "leaflet.draw": "~0.2.1"
   },
   "devDependencies": {}
 }

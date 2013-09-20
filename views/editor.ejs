@@ -1,3 +1,46 @@
-<div class="gt-wrapper">
-  <div id="gt-editor"></div>
-</div>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Map Attack | Home</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="stylesheet" href="/bower_components/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/bower_components/leaflet.draw/dist/leaflet.draw.css">
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/bower_components/leaflet/leaflet.ie.css">
+    <link rel="stylesheet" href="/bower_components/leaflet.draw/dist/leaflet.draw.ie.css">
+  <![endif]-->
+  <!-- Base Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <!-- Theme Styles-->
+  <!--[if lte IE 8]>
+    <script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <%- partial('partials/_nav') %>
+
+  <div class="wrapper">
+    <div id="editor"></div>
+  </div>
+
+  <script src="/bower_components/jquery/jquery.js"></script>
+  <script src="/bower_components/leaflet/leaflet-src.js"></script>
+  <script src="/bower_components/esri-leaflet/dist/esri-leaflet-src.js"></script>
+  <script src="/bower_components/leaflet.draw/dist/leaflet.draw-src.js"></script>
+
+  <%- partial('partials/_ga') %>
+
+  <script src="/js/editor.js"></script>
+</body>
+</html>

@@ -24,20 +24,6 @@ var api = new Geotriggers.Session({
 // misc
 var hour = 3600000;
 
-var vendorStyles = [
-  'leaflet/leaflet'
-];
-var vendorScripts = [
-  'json2/json2',
-  'jquery/jquery',
-  'underscore/underscore',
-  'backbone/backbone',
-  'backbone.marionette/lib/backbone.marionette',
-  'handlebars/handlebars',
-  'leaflet/leaflet-src',
-  'esri-leaflet/dist/esri-leaflet-src.js'
-];
-
 // server config superchain
 
 app
@@ -141,16 +127,13 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/editor', function(req, res){
-  res.render('editor', { layout: 'editor_layout' });
+  res.render('editor', { layout: false });
 });
 
 app.post('/api/*', function(req, res){
-  console.log(req.params);
-  console.log(req.body);
-  // api.request('trigger/list', function(error, response){
-  //   res.json(error || response);
-  // });
-  res.json({ yo: 'sup' });
+  api.request(req.params[0], req.body, function(error, response){
+    res.json(error || response);
+  });
 });
 
 // start server

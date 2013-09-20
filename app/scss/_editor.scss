@@ -1,0 +1,15 @@
+.wrapper {
+  position: relative;
+  padding: 1em 0;
+  width: 100%;
+  min-height: 600px;
+  margin: 0 auto;
+}
+
+#editor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
