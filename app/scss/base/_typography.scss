@@ -17,10 +17,10 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 { font-size: $header-size; margin: 0; }
 h2 { font-size: $header-size * 0.9;}
-h3 { font-size: $header-size * 0.8;}
-h4 { font-size: $header-size * 0.7;}
-h5 { font-size: $header-size * 0.6;}
-h6 { font-size: $header-size * 0.5;}
+h3 { font-size: $header-size * 0.6;}
+h4 { font-size: $header-size * 0.55;}
+h5 { font-size: $header-size * 0.5;}
+h6 { font-size: $header-size * 0.45;}
 
 blockquote {
   text-align:center;
@@ -32,6 +32,9 @@ blockquote {
 p {
   line-height: 1.75em;
   margin: 1em 0;
+  &.large {
+    font-size: 2em;
+  }
 }
 
 a {
