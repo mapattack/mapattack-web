@@ -1,0 +1,41 @@
+@mixin crisp-edges {
+  image-rendering: optimizeSpeed;             /*                     */
+  image-rendering: -moz-crisp-edges;          /* Firefox             */
+  image-rendering: -o-crisp-edges;            /* Opera               */
+  image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
+  image-rendering: optimize-contrast;         /* CSS3 Proposed       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
+}
+
+@mixin retina-display {
+  @media screen and (-webkit-min-device-pixel-ratio : 1.5), screen and (min-device-pixel-ratio : 1.5) {
+    @content;
+  }
+}
+
+@mixin full {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.gt-hide {
+  display: none;
+}
+
+@mixin clearfix(){
+  &:before,
+  &:after {
+      content:"";
+      display:table;
+  }
+  &:after {
+      clear:both;
+  }
+}
+
+.clearfix {
+  @include clearfix();
+}
