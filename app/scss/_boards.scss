@@ -62,6 +62,7 @@
 .game {
   .title {
     @extend .games-link;
+    color: $body-blue;
     &:hover {
     }
     &:after {
@@ -80,11 +81,13 @@
   .hours {
     @extend .games-link;
     border-left: none;
+    color: $body-blue;
   }
   &.label {
     .plain {
       @extend .games-link;
       border-color: transparent;
+      color: $body-blue;
     }
   }
 }

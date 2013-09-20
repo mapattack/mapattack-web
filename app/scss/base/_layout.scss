@@ -79,11 +79,12 @@
     }
     input {
       float: right;
-
-      font-size: $header-size * 0.9;
+      margin-top: -14px;
+      padding: 0.5em;
+      font-size: 1.5em;
+      line-height: 1.5em;
       color: $red;
-      font-family: $header-font;
-      line-height: 1em;
+      font-family: $body-font;
       font-weight: $header-weight;
       ::-webkit-input-placeholder {color: $red;}
            :-ms-input-placeholder {color: $red;}
