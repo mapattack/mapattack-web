@@ -37,6 +37,7 @@
     background: url('../img/point2.png') left center no-repeat transparent;
     background-size: 28px;
     vertical-align: -12px;
+    margin-left: -16px;
   }
   .line:before {
     content: "";
@@ -46,5 +47,6 @@
     background: url('../img/line2.png') left center no-repeat transparent;
     background-size: 28px;
     vertical-align: -12px;
+    margin-left: -16px;
   }
 }
