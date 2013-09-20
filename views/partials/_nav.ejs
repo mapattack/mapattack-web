@@ -1,0 +1,19 @@
+<div class="nav-wrap">
+  <header class="top-nav">
+    <a class="brand" href="/">Map Attack</a>
+    <% if (authenticated) { %>
+    <nav class="left">
+      <a href="/editor" class="btn blue">editor</a>
+    </nav>
+    <% } %>
+
+    <nav class="right">
+    <% if (authenticated && user) { %>
+      <a class="btn cream"><img src="<%= user.photos[0].value %>" width="12"> <%= user.username %></a>
+      <a href="/logout" class="btn blue">logout</a>
+    <% } else { %>
+      <a href="/auth/twitter" class="btn blue">Log In</a>
+    <% } %>
+    </nav>
+  </header>
+</div>

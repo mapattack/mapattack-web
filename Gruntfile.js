@@ -26,6 +26,10 @@ module.exports = function (grunt) {
       compass: {
         files: ['<%= yeoman.app %>/scss/{,*/}*.{scss,sass}'],
         tasks: ['compass:server']
+      },
+      scripts: {
+        files: ['<%= yeoman.app %>/js/{,*/}*.js'],
+        tasks: ['concat:scripts']
       }
     },
     clean: {
@@ -179,7 +183,7 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: {
-        tasks: ['nodemon:server', 'watch'],
+        tasks: ['nodemon:server', 'watch:compass', 'watch:scripts'],
         options: {
           logConcurrentOutput: true
         }
@@ -207,10 +211,31 @@ module.exports = function (grunt) {
           cwd: __dirname
         }
       }
+    },
+    concat: {
+      options: {
+        // define a string to put between each file in the concatenated output
+        separator: '\n\n'
+      },
+      scripts: {
+        files: {
+          '<%= yeoman.app %>/js/editor.js': [
+            '<%= yeoman.app %>/js/editor/app.js',
+            '<%= yeoman.app %>/js/editor/templates/compiled.js',
+            '<%= yeoman.app %>/js/editor/lib/*.js',
+            '<%= yeoman.app %>/js/editor/modules/*.js',
+            '<%= yeoman.app %>/js/editor/controllers/*.js',
+            '<%= yeoman.app %>/js/editor/models/*.js',
+            '<%= yeoman.app %>/js/editor/collections/*.js',
+            '<%= yeoman.app %>/js/editor/layouts/*.js',
+            '<%= yeoman.app %>/js/editor/views/*.js'
+          ]
+        }
+      }
     }
   });
 
-  grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
+  grunt.registerTask('server', ['clean:styles', 'concat:scripts', 'compass:server', 'concurrent:server']);
 
   grunt.registerTask('build', [
     'clean',

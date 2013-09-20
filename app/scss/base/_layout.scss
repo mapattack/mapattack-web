@@ -7,17 +7,25 @@
   padding: 1em 0;
   max-width: 1080px;
   margin: 0 auto;
-  h1 {
+  .brand {
+    @extend h1;
+    color: $body-color;
     display: inline-block;
     font-size: 1.5em;
     line-height: 2em;
     float: left;
+    margin-right: 2.5em;
   }
   nav {
     display: inline-block;
-    float:right;
+    &.left {
+      float: left;
+    }
+    &.right {
+      float: right;
+    }
   }
-  @include clearfix();
+  @include clearfix;
 }
 
 .panel {
