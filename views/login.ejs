@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MapAttack</title>
+</head>
+<body>
+  <% if (!user) { %>
+    <h2>Welcome! Please <a href="/auth/twitter">log in</a>.</h2>
+  <% } else { %>
+    <h2>Hello, <%= user.username %>. <a href="/logout">Logout</a>?</h2>
+  <% } %>
+</body>
+</html>
