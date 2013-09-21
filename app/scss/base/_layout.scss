@@ -7,14 +7,15 @@
   padding: 1em 0 0.5em 0;
   max-width: 1080px;
   margin: 0 auto;
-  h1 {
+  .brand {
+    @extend h1;
+    color: $body-color;
     display: inline-block;
     font-size: 1.5em;
     line-height: 2em;
     float: left;
+    margin-right: 2.5em;
     span:first-child {
-      // margin: 0;
-      // float: left;
       margin-right: -0.25em;
     }
     &:before {
@@ -32,6 +33,14 @@
     display: inline-block;
     float:right;
     width: auto;
+
+    &.left {
+      float: left;
+    }
+    &.right {
+      float: right;
+    }
+
     img {
       @include border-radius(26px, 26px);
       border: 4px solid $blue;
@@ -39,11 +48,12 @@
       float: left;
       margin-top: -4px;
     }
+
     a {
       margin-left: 18px;
     }
   }
-  @include clearfix();
+  @include clearfix;
 }
 
 .panel {

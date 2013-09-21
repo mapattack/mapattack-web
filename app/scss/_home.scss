@@ -2,7 +2,7 @@
   height: 400px;
   width: 100%;
   display: block;
-  background: $dark-gray url('../img/dark.jpg') center center no-repeat;
+  background: $dark-gray url('/img/dark.jpg') center center no-repeat;
   background-size: cover;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .high-five {
-  background:url('../img/points.svg') center center no-repeat;
+  background:url('/img/points.svg') center center no-repeat;
   background-size: cover;
   text-align: center;
 }

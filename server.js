@@ -12,6 +12,15 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var TWITTER_CONSUMER_KEY = 'VSCJzgLBienoPOs45tgYRQ';
 var TWITTER_CONSUMER_SECRET = 'CnMscq17Btt8cMuOTm7NQd72DYDoo676YUxm7L3fA';
 
+// geotriggers!
+var Geotriggers = require('./lib/geotriggers');
+var AGO_CLIENT_ID ='CtdWgRicIZLzI9xJ';
+var AGO_CLIENT_SECRET = '3fbef6f9a02441efaaea5519ed9afac3';
+var api = new Geotriggers.Session({
+  clientId: AGO_CLIENT_ID,
+  clientSecret: AGO_CLIENT_SECRET
+});
+
 // misc
 var hour = 3600000;
 
@@ -72,16 +81,25 @@ passport.use(new TwitterStrategy({
 // drop-in function to ensure user is authenticated
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.render('/fail');
+  res.redirect('/');
+}
+
+function loadAuthentication(req, res, next) {
+  res.locals({
+    user: req.user ? req.user : null,
+    authenticated: req.isAuthenticated()
+  })
+  next();
 }
 
 // routes
+app.get('*', loadAuthentication);
 
 // root
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
   if (req.user) {
-    res.render('home', { user: req.user });
+    res.render('home');
   } else {
     res.render('index');
   }
@@ -93,9 +111,9 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // twitter auth callback endpoint
 // where twitter sends the user once auth step is done
-// redirects to `/fail` if auth fails, else `/`
+// redirects to `/` if auth fails, else `/`
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/fail' }),
+  passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   }
@@ -106,6 +124,16 @@ app.get('/auth/twitter/callback',
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+});
+
+app.get('/editor', function(req, res){
+  res.render('editor', { layout: false });
+});
+
+app.post('/api/*', function(req, res){
+  api.request(req.params[0], req.body, function(error, response){
+    res.json(error || response);
+  });
 });
 
 // start server
