@@ -95,6 +95,22 @@
       line-height: 1.5em;
       color: $red;
       font-family: $body-font;
+
+      // width: 100%;
+      // font-size: 1.25em;
+      // color: $blue;
+      background-color: $cream;
+      border: 2px solid $red;
+      &:first-child{
+        border-bottom: none;
+      }
+      &:hover {
+        background-color: rgba($red, 0.1);
+      }
+      &:focus {
+        background-color: $red;
+        color: $white;
+      }
     }
   }
   video, img {
