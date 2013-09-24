@@ -20,16 +20,23 @@
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
-  padding: 0;
+  right: 0;
+  padding: 1em;
   margin: 2em;
-  background-color: $white;
-  border: 2px solid $light-gray;
+  background-color: $cream;
+  // border: 2px solid $light-gray;
+
   input[type='text']{
     width: 100%;
-    font-size: 1.5em;
+    font-size: 1.25em;
+    color: $blue;
+    background-color: $cream;
+    border: 2px solid $blue;
+    &:first-child{
+      border-bottom: none;
+    }
     &:hover {
-      background-color: $cream;
+      background-color: rgba($blue, 0.1);
     }
     &:focus {
       background-color: $blue;
@@ -40,29 +47,58 @@
     margin-bottom:1em;
   }
   .btn {
-    width: 80%;
-    text-align:center;
+    @include box-sizing(border-box);
+    @include border-radius(0px);
+    width: 100%;
     display: block;
-    margin: 1em auto;
+    border: 2px solid $blue;
+    background-color: $cream;
+    color: $blue;
+    padding: 0.5em;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    font-family: $body-font;
+    &:hover {
+      color: $white;
+      background-color: $blue;
+    }
   }
-  .point:before {
+
+  .point {
+    border-bottom: none;
+  }
+
+  .point:after {
     content: "";
     display: inline-block;
     width:  32px;
     height: 32px;
-    background: url('../img/point2.png') left center no-repeat transparent;
+    float: right;
+    background: url('../img/pointBlue.png') left center no-repeat transparent;
+    margin-top: -3px;
     background-size: 28px;
-    vertical-align: -12px;
-    margin-left: -16px;
   }
-  .line:before {
+  .line:after {
     content: "";
     display: inline-block;
     width:  32px;
     height: 32px;
-    background: url('../img/line2.png') left center no-repeat transparent;
+    float: right;
+    background: url('../img/lineBlue.png') left center no-repeat transparent;
+    margin-top: -3px;
     background-size: 28px;
-    vertical-align: -12px;
-    margin-left: -16px;
+  }
+  .active {
+    color: $white;
+    background-color: $blue;
+  }
+  .done {
+    margin-top: 1.5em;
+    text-align: center;
+    border: 2px solid $red;
+    color: $red;
+    &:hover {
+      background-color: $red;
+    }
   }
 }

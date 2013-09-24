@@ -1,4 +1,6 @@
-(function(window, $, undefined){
+/*global $:false, L:false */
+
+(function(window,$,L,undefined){
 
   var api = {};
 
@@ -76,5 +78,5 @@
     drawnItems.addLayer(layer);
   });
 
-})(window, $);
+})(window,$,L);
 
