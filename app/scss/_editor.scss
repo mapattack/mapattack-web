@@ -59,6 +59,9 @@
     line-height: 1.25em;
     font-family: $body-font;
     &:hover {
+      background-color: rgba($blue, 0.1);
+    }
+    &.active {
       color: $white;
       background-color: $blue;
     }

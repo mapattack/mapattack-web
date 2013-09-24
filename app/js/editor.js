@@ -28,11 +28,30 @@
   // create a map in the "map" div, set the view to a given place and zoom
   var map = L.map('editor').setView([45.50845, -122.64935], 16);
 
-  window.map = map;
-  //L.esri.basemapLayer('Streets').addTo(map);
   L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
     maxZoom: 18
   }).addTo(map);
+
+  var Coin = L.Icon.extend({
+    options: {
+      iconUrl:       '/img/coin10.png',
+      iconSize:      [20, 20],
+      iconAnchor:    [10, 10],
+      popupAnchor:   [0, -13]
+    }
+  });
+
+  var coin10 = new Coin({iconUrl: '/img/coin10.png'}),
+      coin20 = new Coin({iconUrl: '/img/coin20.png'}),
+      coin30 = new Coin({iconUrl: '/img/coin30.png'}),
+      coin40 = new Coin({iconUrl: '/img/coin40.png'}),
+      coin50 = new Coin({iconUrl: '/img/coin50.png'});
+
+  L.marker([45.50845, -122.64935], {icon: coin10}).addTo(map).bindPopup('Worth 10 points.');
+  L.marker([45.50845, -122.64835], {icon: coin20}).addTo(map).bindPopup('Worth 20 points.');
+  L.marker([45.50845, -122.64735], {icon: coin30}).addTo(map).bindPopup('Worth 30 points.');
+  L.marker([45.50845, -122.64635], {icon: coin40}).addTo(map).bindPopup('Worth 40 points.');
+  L.marker([45.50845, -122.64535], {icon: coin50}).addTo(map).bindPopup('Worth 50 points.');
 
   var drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);
@@ -65,6 +84,7 @@
       featureGroup: drawnItems
     }
   });
+
   map.addControl(drawControl);
 
   map.on('draw:created', function (e) {
