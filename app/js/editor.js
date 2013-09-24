@@ -2,10 +2,14 @@
 
 (function(window,$,L,undefined){
 
+  // let's capitalize!!!!!!!!
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
+
   // Ed is just a simple country editor singleton object literal
   var Ed = {
-    $: null,            // tricksy jquery
-    cache: {},          // jquery cache
+    $: {},              // dom cache
     request: null,      // make requests to the API
     Coin: null,         // coin class
     addCoin: null,      // add a coin to the map
@@ -17,16 +21,6 @@
     tools: {
       line: null,       // line tool
       point: null       // point tool
-    }
-  };
-
-  // dark magic
-  Ed.$ = function(selector){
-    if (Ed.cache.hasOwnProperty(selector)) {
-      return Ed.cache[selector];
-    } else {
-      Ed.cache[selector] = $(selector);
-      return Ed.cache[selector];
     }
   };
 
@@ -54,17 +48,27 @@
       iconUrl:       '/img/coin10.png',
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
-      popupAnchor:   [0, -13]
+      popupAnchor:   [0, -10]
     }
   });
 
   // add a new coin to the map
-  Ed.addCoin = function(latLng, pts){
-    var coin = new Ed.Coin({iconUrl: '/img/coin' + pts + '.png'});
+  Ed.addCoin = function(latLng, pts, color){
+    var path = '/img/coin';
+    var msg;
+    if (color) {
+      path += color;
+      msg = color.capitalize() + ' team got ' + pts + ' points';
+    } else {
+      msg = 'Worth ' + pts + ' points.';
+    }
+    path += pts + '.png';
+
+    var coin = new Ed.Coin({iconUrl: path});
 
     var marker = L.marker(latLng, {icon: coin});
 
-    marker.addTo(Ed.map).bindPopup('Worth ' + pts + ' points.');
+    marker.addTo(Ed.map).bindPopup(msg);
 
     Ed.coins.push(marker);
 
@@ -74,11 +78,9 @@
   // initialize the editor
   Ed.init = function(){
 
-    console.log(this);
-
-    Ed.$.tools = $('.edit-tools');
-    Ed.$.line = Ed.$.tools.find('.btn.line');
-    Ed.$.point = Ed.$.tools.find('.btn.point');
+    Ed.$.tools = $('.edit-tools .btn.tool');
+    Ed.$.line = Ed.$.tools.filter('.line');
+    Ed.$.point = Ed.$.tools.filter('.point');
 
     // init map
     // --------
@@ -94,39 +96,6 @@
 
     Ed.drawnItems = new L.FeatureGroup();
     Ed.map.addLayer(Ed.drawnItems);
-
-    // ye olde terrible leaflet.draw control
-
-    // Ed.drawControl = new L.Control.Draw({
-    //   draw: {
-    //     position: 'topleft',
-    //     polygon: {
-    //       title: 'Draw a sexy polygon!',
-    //       allowIntersection: false,
-    //       drawError: {
-    //         color: '#b00b00',
-    //         timeout: 1000
-    //       },
-    //       shapeOptions: {
-    //         color: '#bada55'
-    //       },
-    //       showArea: true
-    //     },
-    //     polyline: {
-    //       metric: false
-    //     },
-    //     circle: {
-    //       shapeOptions: {
-    //         color: '#662d91'
-    //       }
-    //     }
-    //   },
-    //   edit: {
-    //     featureGroup: Ed.drawnItems
-    //   }
-    // });
-
-    // Ed.map.addControl(Ed.drawControl);
 
     Ed.tools.line = new L.Draw.Polyline(Ed.map);
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
@@ -148,7 +117,9 @@
         layer = e.layer;
 
       if (type === 'marker') {
-        Ed.tools.point.enable();
+        // point
+      } else {
+        // line
       }
 
       Ed.drawnItems.addLayer(layer);
@@ -168,11 +139,23 @@
     Ed.addCoin([45.50845, -122.64635], 40);
     Ed.addCoin([45.50845, -122.64535], 50);
 
+    Ed.addCoin([45.50745, -122.64935], 10, 'red');
+    Ed.addCoin([45.50745, -122.64835], 20, 'red');
+    Ed.addCoin([45.50745, -122.64735], 30, 'red');
+    Ed.addCoin([45.50745, -122.64635], 40, 'red');
+    Ed.addCoin([45.50745, -122.64535], 50, 'red');
+
+    Ed.addCoin([45.50945, -122.64935], 10, 'blue');
+    Ed.addCoin([45.50945, -122.64835], 20, 'blue');
+    Ed.addCoin([45.50945, -122.64735], 30, 'blue');
+    Ed.addCoin([45.50945, -122.64635], 40, 'blue');
+    Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+
     // make an api call
     // ----------------
 
-    Ed.request('trigger/list', function(){
-      console.log('hello', arguments);
+    Ed.request('trigger/list', function(response, message){
+      console.log('You\'ve got ' + response.triggers.length + ' triggers!');
     });
   });
 
