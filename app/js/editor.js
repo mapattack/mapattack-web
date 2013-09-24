@@ -2,9 +2,30 @@
 
 (function(window,$,L,undefined){
 
-  var api = {};
+  // let's capitalize!!!!!!!!
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
 
-  api.request = function(method, params, callback) {
+  // Ed is just a simple country editor singleton object literal
+  var Ed = {
+    $: {},              // dom cache
+    request: null,      // make requests to the API
+    Coin: null,         // coin class
+    addCoin: null,      // add a coin to the map
+    coins: [],          // array of all coins
+    init: null,         // initialize the editor
+    map: null,          // map instance
+    drawnItems: null,   // feature group of drawn items
+    drawControl: null,  // draw controls
+    tools: {
+      line: null,       // line tool
+      point: null       // point tool
+    }
+  };
+
+  // make any Geotrigger API request
+  Ed.request = function(method, params, callback){
     var post;
 
     if (typeof callback === 'undefined' &&
@@ -21,81 +42,121 @@
     post.done(callback);
   };
 
-  api.request('trigger/list', function(){
-    console.log('hello', arguments);
-  });
-
-  // create a map in the "map" div, set the view to a given place and zoom
-  var map = L.map('editor').setView([45.50845, -122.64935], 16);
-
-  L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
-    maxZoom: 18
-  }).addTo(map);
-
-  var Coin = L.Icon.extend({
+  // coin class
+  Ed.Coin = L.Icon.extend({
     options: {
       iconUrl:       '/img/coin10.png',
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
-      popupAnchor:   [0, -13]
+      popupAnchor:   [0, -10]
     }
   });
 
-  var coin10 = new Coin({iconUrl: '/img/coin10.png'}),
-      coin20 = new Coin({iconUrl: '/img/coin20.png'}),
-      coin30 = new Coin({iconUrl: '/img/coin30.png'}),
-      coin40 = new Coin({iconUrl: '/img/coin40.png'}),
-      coin50 = new Coin({iconUrl: '/img/coin50.png'});
+  // add a new coin to the map
+  Ed.addCoin = function(latLng, pts, color){
+    var path = '/img/coin';
+    var msg;
+    if (color) {
+      path += color;
+      msg = color.capitalize() + ' team got ' + pts + ' points';
+    } else {
+      msg = 'Worth ' + pts + ' points.';
+    }
+    path += pts + '.png';
 
-  L.marker([45.50845, -122.64935], {icon: coin10}).addTo(map).bindPopup('Worth 10 points.');
-  L.marker([45.50845, -122.64835], {icon: coin20}).addTo(map).bindPopup('Worth 20 points.');
-  L.marker([45.50845, -122.64735], {icon: coin30}).addTo(map).bindPopup('Worth 30 points.');
-  L.marker([45.50845, -122.64635], {icon: coin40}).addTo(map).bindPopup('Worth 40 points.');
-  L.marker([45.50845, -122.64535], {icon: coin50}).addTo(map).bindPopup('Worth 50 points.');
+    var coin = new Ed.Coin({iconUrl: path});
 
-  var drawnItems = new L.FeatureGroup();
-  map.addLayer(drawnItems);
+    var marker = L.marker(latLng, {icon: coin});
 
-  var drawControl = new L.Control.Draw({
-    draw: {
-      position: 'topleft',
-      polygon: {
-        title: 'Draw a sexy polygon!',
-        allowIntersection: false,
-        drawError: {
-          color: '#b00b00',
-          timeout: 1000
-        },
-        shapeOptions: {
-          color: '#bada55'
-        },
-        showArea: true
-      },
-      polyline: {
-        metric: false
-      },
-      circle: {
-        shapeOptions: {
-          color: '#662d91'
-        }
+    marker.addTo(Ed.map).bindPopup(msg);
+
+    Ed.coins.push(marker);
+
+    return marker;
+  };
+
+  // initialize the editor
+  Ed.init = function(){
+
+    Ed.$.tools = $('.edit-tools .btn.tool');
+    Ed.$.line = Ed.$.tools.filter('.line');
+    Ed.$.point = Ed.$.tools.filter('.point');
+
+    // init map
+    // --------
+
+    Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
+
+    L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
+      maxZoom: 18
+    }).addTo(Ed.map);
+
+    // init draw
+    // ---------
+
+    Ed.drawnItems = new L.FeatureGroup();
+    Ed.map.addLayer(Ed.drawnItems);
+
+    Ed.tools.line = new L.Draw.Polyline(Ed.map);
+    Ed.tools.point = new L.Draw.Marker(Ed.map, {
+      icon: new Ed.Coin()
+    });
+
+    Ed.$.line.click(function(e){
+      e.preventDefault();
+      Ed.tools.line.enable();
+    });
+
+    Ed.$.point.click(function(e){
+      e.preventDefault();
+      Ed.tools.point.enable();
+    });
+
+    Ed.map.on('draw:created', function (e) {
+      var type = e.layerType,
+        layer = e.layer;
+
+      if (type === 'marker') {
+        // point
+      } else {
+        // line
       }
-    },
-    edit: {
-      featureGroup: drawnItems
-    }
-  });
 
-  map.addControl(drawControl);
+      Ed.drawnItems.addLayer(layer);
+    });
+  };
 
-  map.on('draw:created', function (e) {
-    var type = e.layerType,
-      layer = e.layer;
+  // init editor when DOM is ready
+  $(function(){
+    Ed.init();
 
-    if (type === 'marker') {
-      layer.bindPopup('A popup!');
-    }
+    // add coins
+    // ---------
 
-    drawnItems.addLayer(layer);
+    Ed.addCoin([45.50845, -122.64935], 10);
+    Ed.addCoin([45.50845, -122.64835], 20);
+    Ed.addCoin([45.50845, -122.64735], 30);
+    Ed.addCoin([45.50845, -122.64635], 40);
+    Ed.addCoin([45.50845, -122.64535], 50);
+
+    Ed.addCoin([45.50745, -122.64935], 10, 'red');
+    Ed.addCoin([45.50745, -122.64835], 20, 'red');
+    Ed.addCoin([45.50745, -122.64735], 30, 'red');
+    Ed.addCoin([45.50745, -122.64635], 40, 'red');
+    Ed.addCoin([45.50745, -122.64535], 50, 'red');
+
+    Ed.addCoin([45.50945, -122.64935], 10, 'blue');
+    Ed.addCoin([45.50945, -122.64835], 20, 'blue');
+    Ed.addCoin([45.50945, -122.64735], 30, 'blue');
+    Ed.addCoin([45.50945, -122.64635], 40, 'blue');
+    Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+
+    // make an api call
+    // ----------------
+
+    Ed.request('trigger/list', function(response, message){
+      console.log('You\'ve got ' + response.triggers.length + ' triggers!');
+    });
   });
 
 })(window,$,L);
