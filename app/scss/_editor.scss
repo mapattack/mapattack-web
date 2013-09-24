@@ -1,9 +1,14 @@
 .wrapper {
-  position: relative;
-  padding: 1em 0;
-  width: 100%;
-  min-height: 600px;
-  margin: 0 auto;
+  min-height: 320px;
+  position: absolute;
+  top: 72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.leaflet-container {
+  background-color: $darkest-gray;
 }
 
 #editor {
@@ -107,6 +112,7 @@
     color: $red;
     &:hover {
       background-color: $red;
+      color: $white;
     }
   }
 }

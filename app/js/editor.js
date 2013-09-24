@@ -87,6 +87,8 @@
 
     Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
 
+    // L.esri.basemapLayer('Streets').addTo(Ed.map);
+
     L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
       maxZoom: 18
     }).addTo(Ed.map);
