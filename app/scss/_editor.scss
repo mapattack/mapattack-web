@@ -105,3 +105,21 @@
     }
   }
 }
+
+.leaflet-popup-content-wrapper {
+  @include border-radius(0);
+  font-family: $body-font;
+  color: $dark-gray;
+  font-size: 12px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  display: none;
+}
+
+.leaflet-popup-tip {
+  width: 12px;
+  height: 12px;
+  padding: 1px;
+  margin: -8px auto 0;
+}

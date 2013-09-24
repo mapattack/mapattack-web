@@ -37,7 +37,7 @@
       iconUrl:       '/img/coin10.png',
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
-      popupAnchor:   [0, -13]
+      popupAnchor:   [0, -10]
     }
   });
 
@@ -47,11 +47,35 @@
       coin40 = new Coin({iconUrl: '/img/coin40.png'}),
       coin50 = new Coin({iconUrl: '/img/coin50.png'});
 
+  var coinred10 = new Coin({iconUrl: '/img/coinred10.png'}),
+      coinred20 = new Coin({iconUrl: '/img/coinred20.png'}),
+      coinred30 = new Coin({iconUrl: '/img/coinred30.png'}),
+      coinred40 = new Coin({iconUrl: '/img/coinred40.png'}),
+      coinred50 = new Coin({iconUrl: '/img/coinred50.png'});
+
+  var coinblue10 = new Coin({iconUrl: '/img/coinblue10.png'}),
+      coinblue20 = new Coin({iconUrl: '/img/coinblue20.png'}),
+      coinblue30 = new Coin({iconUrl: '/img/coinblue30.png'}),
+      coinblue40 = new Coin({iconUrl: '/img/coinblue40.png'}),
+      coinblue50 = new Coin({iconUrl: '/img/coinblue50.png'});
+
   L.marker([45.50845, -122.64935], {icon: coin10}).addTo(map).bindPopup('Worth 10 points.');
   L.marker([45.50845, -122.64835], {icon: coin20}).addTo(map).bindPopup('Worth 20 points.');
   L.marker([45.50845, -122.64735], {icon: coin30}).addTo(map).bindPopup('Worth 30 points.');
   L.marker([45.50845, -122.64635], {icon: coin40}).addTo(map).bindPopup('Worth 40 points.');
   L.marker([45.50845, -122.64535], {icon: coin50}).addTo(map).bindPopup('Worth 50 points.');
+
+  L.marker([45.50745, -122.64935], {icon: coinred10}).addTo(map).bindPopup('Red team got 10 points.');
+  L.marker([45.50745, -122.64835], {icon: coinred20}).addTo(map).bindPopup('Red team got 20 points.');
+  L.marker([45.50745, -122.64735], {icon: coinred30}).addTo(map).bindPopup('Red team got 30 points.');
+  L.marker([45.50745, -122.64635], {icon: coinred40}).addTo(map).bindPopup('Red team got 40 points.');
+  L.marker([45.50745, -122.64535], {icon: coinred50}).addTo(map).bindPopup('Red team got 50 points.');
+
+  L.marker([45.50945, -122.64935], {icon: coinblue10}).addTo(map).bindPopup('Blue team got 10 points.');
+  L.marker([45.50945, -122.64835], {icon: coinblue20}).addTo(map).bindPopup('Blue team got 20 points.');
+  L.marker([45.50945, -122.64735], {icon: coinblue30}).addTo(map).bindPopup('Blue team got 30 points.');
+  L.marker([45.50945, -122.64635], {icon: coinblue40}).addTo(map).bindPopup('Blue team got 40 points.');
+  L.marker([45.50945, -122.64535], {icon: coinblue50}).addTo(map).bindPopup('Blue team got 50 points.');
 
   var drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);
