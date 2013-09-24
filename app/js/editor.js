@@ -24,9 +24,13 @@
   });
 
   // create a map in the "map" div, set the view to a given place and zoom
-  var map = L.map('editor').setView([45.516484, -122.676339], 12);
+  var map = L.map('editor').setView([45.50845, -122.64935], 16);
 
-  L.esri.basemapLayer('Streets').addTo(map);
+  window.map = map;
+  //L.esri.basemapLayer('Streets').addTo(map);
+  L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
+    maxZoom: 18
+  }).addTo(map);
 
   var drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);
