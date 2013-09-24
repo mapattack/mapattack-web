@@ -1,12 +1,19 @@
 .nav-wrap {
-  width: 100%;
   background-color: $white;
+  padding-top: 72px;
+  width: 100%;
 }
 
 .top-nav {
-  padding: 1em 32px 0.5em 0;
-  max-width: 1080px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 1em 32px 0.5em;
   margin: 0 auto;
+  position: fixed;
+  background: white;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
   .brand {
     @extend h1;
     color: $body-color;
