@@ -65,6 +65,11 @@
       color: $white;
       background-color: $blue;
     }
+    &.red {
+      &:hover {
+        color: $white;
+      }
+    }
   }
 
   .point {
