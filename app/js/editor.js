@@ -100,12 +100,10 @@
 
     Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
 
-    L.esri.basemapLayer('Streets').addTo(Ed.map);
-
-    // not ready yet
-    // L.tileLayer('http://mapattack-tiles-0.pdx.esri.com/dark/{z}/{y}/{x}', {
-    //   maxZoom: 18
-    // }).addTo(Ed.map);
+    L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
+      maxZoom: 18,
+      subdomains: '0123'
+    }).addTo(Ed.map);
 
     // init draw
     // ---------
