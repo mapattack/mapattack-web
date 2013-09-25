@@ -2,13 +2,12 @@
   <section>
     <header>
       <h2>My Boards</h2>
-      <a class="btn cream">New Board</a>
+      <a href="/boards/new" class="btn cream">New Board</a>
     </header>
     <ul class="boards">
-      <li><a href="/board-id/edit">Board Title</a></li>
-      <li><a href="/board-id/edit">Board Title</a></li>
-      <li><a href="/board-id/edit">Board Title</a></li>
-      <li><a href="/board-id/edit">Board Title</a></li>
+      <% Object.keys(boards).forEach(function(key){ %>
+        <li><a href="/boards/<%= key %>/edit"><%= boards[key].title %></a></li>
+      <% }) %>
     </ul>
   </section>
 </div>
@@ -20,10 +19,9 @@
       <input class="col col1of3" placeholder="Portland"></input>
     </header>
     <ul class="boards red">
-      <li><a href="/board-id/view">Board Title</a></li>
-      <li><a href="/board-id/view">Board Title</a></li>
-      <li><a href="/board-id/view">Board Title</a></li>
-      <li><a href="/board-id/view">Board Title</a></li>
+      <% Object.keys(boards).forEach(function(key){ %>
+        <li><a href="/boards/<%= key %>"><%= boards[key].title %></a></li>
+      <% }) %>
     </ul>
   </section>
 </div>

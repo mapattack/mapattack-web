@@ -5,7 +5,7 @@
   // let's capitalize!!!!!!!!
   String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-  }
+  };
 
   // Ed is just a simple country editor singleton object literal
   var Ed = {
@@ -22,6 +22,18 @@
       line: null,       // line tool
       point: null       // point tool
     }
+  };
+
+  // board tracker
+  var board = {
+    init: null          // initialize board
+  };
+
+  board.init = function(){
+
+    var boardId = Ed.$.editor.data('board-id');
+
+    board.id = boardId ? boardId : null;
   };
 
   // make any Geotrigger API request
@@ -78,6 +90,7 @@
   // initialize the editor
   Ed.init = function(){
 
+    Ed.$.editor = $('#editor');
     Ed.$.tools = $('.edit-tools .btn.tool');
     Ed.$.line = Ed.$.tools.filter('.line');
     Ed.$.point = Ed.$.tools.filter('.point');
@@ -87,9 +100,12 @@
 
     Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
 
-    L.tileLayer('http://{s}.mapgopher.appspot.com/{z}/{y}/{x}', {
-      maxZoom: 18
-    }).addTo(Ed.map);
+    L.esri.basemapLayer('Streets').addTo(Ed.map);
+
+    // not ready yet
+    // L.tileLayer('http://mapattack-tiles-0.pdx.esri.com/dark/{z}/{y}/{x}', {
+    //   maxZoom: 18
+    // }).addTo(Ed.map);
 
     // init draw
     // ---------
@@ -124,6 +140,11 @@
 
       Ed.drawnItems.addLayer(layer);
     });
+
+    // init board
+
+    board.init();
+
   };
 
   // init editor when DOM is ready
@@ -133,30 +154,33 @@
     // add coins
     // ---------
 
-    Ed.addCoin([45.50845, -122.64935], 10);
-    Ed.addCoin([45.50845, -122.64835], 20);
-    Ed.addCoin([45.50845, -122.64735], 30);
-    Ed.addCoin([45.50845, -122.64635], 40);
-    Ed.addCoin([45.50845, -122.64535], 50);
+    if (board.id) {
+      // add pretend coins
+      Ed.addCoin([45.50845, -122.64935], 10);
+      Ed.addCoin([45.50845, -122.64835], 20);
+      Ed.addCoin([45.50845, -122.64735], 30);
+      Ed.addCoin([45.50845, -122.64635], 40);
+      Ed.addCoin([45.50845, -122.64535], 50);
 
-    Ed.addCoin([45.50745, -122.64935], 10, 'red');
-    Ed.addCoin([45.50745, -122.64835], 20, 'red');
-    Ed.addCoin([45.50745, -122.64735], 30, 'red');
-    Ed.addCoin([45.50745, -122.64635], 40, 'red');
-    Ed.addCoin([45.50745, -122.64535], 50, 'red');
+      // Ed.addCoin([45.50745, -122.64935], 10, 'red');
+      // Ed.addCoin([45.50745, -122.64835], 20, 'red');
+      // Ed.addCoin([45.50745, -122.64735], 30, 'red');
+      // Ed.addCoin([45.50745, -122.64635], 40, 'red');
+      // Ed.addCoin([45.50745, -122.64535], 50, 'red');
 
-    Ed.addCoin([45.50945, -122.64935], 10, 'blue');
-    Ed.addCoin([45.50945, -122.64835], 20, 'blue');
-    Ed.addCoin([45.50945, -122.64735], 30, 'blue');
-    Ed.addCoin([45.50945, -122.64635], 40, 'blue');
-    Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+      // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
+      // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
+      // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
+      // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
+      // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+    }
 
-    // make an api call
-    // ----------------
+    // // make an api call
+    // // ----------------
 
-    Ed.request('trigger/list', function(response, message){
-      console.log('You\'ve got ' + response.triggers.length + ' triggers!');
-    });
+    // Ed.request('trigger/list', function(response){
+    //   console.log('You\'ve got ' + response.triggers.length + ' triggers!');
+    // });
   });
 
 })(window,$,L);

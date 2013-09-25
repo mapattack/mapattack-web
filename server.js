@@ -14,11 +14,11 @@ var TWITTER_CONSUMER_SECRET = 'CnMscq17Btt8cMuOTm7NQd72DYDoo676YUxm7L3fA';
 
 // geotriggers!
 var Geotriggers = require('./lib/geotriggers');
-var AGO_CLIENT_ID ='CtdWgRicIZLzI9xJ';
-var AGO_CLIENT_SECRET = '3fbef6f9a02441efaaea5519ed9afac3';
+var APP_CLIENT_ID ='CtdWgRicIZLzI9xJ';
+var APP_CLIENT_SECRET = '3fbef6f9a02441efaaea5519ed9afac3';
 var api = new Geotriggers.Session({
-  clientId: AGO_CLIENT_ID,
-  clientSecret: AGO_CLIENT_SECRET
+  clientId: APP_CLIENT_ID,
+  clientSecret: APP_CLIENT_SECRET
 });
 
 // misc
@@ -78,7 +78,8 @@ passport.use(new TwitterStrategy({
   }
 ));
 
-// drop-in function to ensure user is authenticated
+// drop-in functions for routes, mostly self-explanatory
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
@@ -88,22 +89,33 @@ function loadAuthentication(req, res, next) {
   res.locals({
     user: req.user ? req.user : null,
     authenticated: req.isAuthenticated()
-  })
+  });
   next();
 }
 
 // routes
+// ------
+
+// things to load for every route
+
 app.get('*', loadAuthentication);
 
 // root
+// ----
+
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
   if (req.user) {
+    // temp board fakery
+    res.locals.boards = boards;
     res.render('home');
   } else {
     res.render('index');
   }
 });
+
+// authentication
+// --------------
 
 // twitter auth endpoint
 // sends user to twitter API to authenticate
@@ -126,10 +138,102 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/editor', function(req, res){
+// board routes
+// ------------
+
+// reference
+// ---------
+// The board is represented as a large polygon trigger.
+
+// Tags:
+
+// board - indicates that this trigger is a board, used to search for "board" triggers
+// board:XXXXXX - specifies the board_id of this trigger
+// board:username:XXXXXX - the Twitter username of the person who created the board, for access control
+// game:XXXXXX - when a game is started from a board, this specifies the game_id of the active game
+
+// fake boards
+var boards = {
+  1: {
+    title: 'Ladd\'s Subtraction',
+    city: 'Portland, OR'
+  },
+  2: {
+    title: 'Bilbo\'s Surprise',
+    city: 'The Shire, Middle Earth'
+  },
+  3: {
+    title: 'Mothership Down',
+    city: 'Redlands, CA'
+  },
+  4: {
+    title: 'The Unicorndoggle',
+    city: 'Portland, OR'
+  }
+};
+
+// list all boards
+app.get('/boards/', function(req, res){
+  res.locals.boards = boards;
   res.render('editor', { layout: false });
 });
 
+// new board
+app.get('/boards/new', function(req, res){
+  res.render('editor', { layout: false });
+});
+
+app.post('/boards/new', function(req, res){
+  // create new board
+});
+
+// show existing board
+app.get('/boards/:id', function(req, res){
+  res.locals.board = boards[req.params.id];
+  res.json(res.locals.board);
+});
+
+// edit existing board
+app.get('/boards/:id/edit', function(req, res){
+  res.locals.board = {
+    id: req.params.id,
+    title: 'Ladd\'s Subtraction',
+    city: 'Portland, OR'
+  };
+  res.render('editor', { layout: false });
+});
+
+app.post('/boards/:id/edit', function(req, res){
+  // update existing board
+});
+
+// coin routes
+// -----------
+
+// reference
+// ---------
+// Coin Triggers
+
+// Each coin is a point+distance trigger.
+
+// Tags:
+
+// coin - indicates that this trigger is a coin
+// coin:board:XXXXXX - the board_id this coin belongs to
+// coin:game:XXXXXX - the game_id this coin belongs to (activates this trigger for the game)
+// Properties:
+
+// value: 10 (10, 20, 50)
+// team: red (red, blue, [none])
+
+// get all coins for a board?
+app.get('/board/:id/coins', function(req, res){
+  // ?
+});
+
+// Geotrigger API route
+// --------------------
+// passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
 app.post('/api/*', function(req, res){
   api.request(req.params[0], req.body, function(error, response){
     res.json(error || response);

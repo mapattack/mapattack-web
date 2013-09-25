@@ -224,8 +224,5 @@ module.exports = function (grunt) {
     'usemin'
   ]);
 
-  grunt.registerTask('default', [
-    'jshint',
-    'server'
-  ]);
+  grunt.registerTask('default', ['server']);
 };

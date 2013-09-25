@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/bower_components/leaflet.draw/dist/leaflet.draw.ie.css">
   <![endif]-->
   <!-- Base Styles -->
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="/css/main.css">
   <!-- Theme Styles-->
   <!--[if lte IE 8]>
     <script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
@@ -31,7 +31,7 @@
   <%- partial('partials/_nav') %>
 
   <div class="wrapper">
-    <div id="editor"></div>
+    <div id="editor"<% if (typeof board !== 'undefined') { %> data-board-id="<%- board.id %>"<% } %>></div>
     <%- partial('partials/_edit_ui') %>
   </div>
 
