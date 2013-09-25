@@ -1,6 +1,12 @@
 <div class="edit-tools">
-  <input class="title" type="text" placeholder="Board Title"></input>
-  <input class="city" type="text" placeholder="City"></input>
+  <% if (locals.board) { %>
+  <input name="title" class="title" type="text" placeholder="Board Title" value="<%= board.title %>">
+  <input name="city" class="city" type="text" placeholder="City" value="<%= board.city %>">
+  <input type="hidden" name="id" value="<%= board.id %>">
+  <% } else { %>
+  <input name="title" class="title" type="text" placeholder="Board Title">
+  <input name="city" class="city" type="text" placeholder="City">
+  <% } %>
   <a class="btn tool point">New Point</a>
   <a class="btn tool line">New Line</a>
   <a class="btn done">Done Editing</a>
