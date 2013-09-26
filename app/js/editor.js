@@ -174,6 +174,36 @@
     }
   };
 
+  Ed.activatePoint = function () {
+    if (Ed.$.point[0].classList.contains('active')){
+      Ed.$.point[0].className = 'btn tool point';
+      Ed.tools.point.disable();
+    } else {
+      Ed.$.point[0].className = 'btn tool point active';
+      Ed.$.line[0].className = 'btn tool line';
+      Ed.tools.point.enable();
+    }
+  };
+
+  Ed.pointListen = function() {
+    if (Ed.$.point[0].classList.contains('active')){
+      console.log('ping');
+      Ed.tools.point.enable();
+    }
+  };
+
+  Ed.activateLine = function () {
+    if (Ed.$.line[0].classList.contains('active')){
+      Ed.$.line[0].className = 'btn tool line';
+      Ed.tools.line.disable();
+    } else {
+      Ed.$.line[0].className = 'btn tool line active';
+      Ed.$.point[0].className = 'btn tool point';
+      Ed.tools.point.disable();
+      Ed.tools.line.enable();
+    }
+  };
+
   // initialize the editor
   Ed.init = function(callback){
 
@@ -203,28 +233,33 @@
     Ed.tools.line = new L.Draw.Polyline(Ed.map, {
       shapeOptions: lineStyle
     });
+
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
-      icon: new Ed.CoinIcon()
+      icon: new Ed.CoinIcon(),
+      repeatMode: true
     });
 
     Ed.$.line.click(function(e){
       e.preventDefault();
-      Ed.tools.line.enable();
+      Ed.activateLine();
     });
 
     Ed.$.point.click(function(e){
       e.preventDefault();
-      Ed.tools.point.enable();
+      Ed.activatePoint();
     });
 
     Ed.map.on('draw:created', function(e) {
       var type = e.layerType;
       var layer = e.layer;
+      Ed.pointListen();
 
       if (type === 'marker') {
         Ed.addCoin(layer.getLatLng(), 10);
+        Ed.activatePoint();
       } else {
         Ed.parseLine(layer.getLatLngs());
+        Ed.activateLine();
       }
     });
 
@@ -243,9 +278,7 @@
       } else {
         console.log('board is new!');
       }
-
     });
-
     // add coins
     // ---------
 
