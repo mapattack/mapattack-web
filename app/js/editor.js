@@ -87,6 +87,49 @@
     return marker;
   };
 
+  // convert points on a line to multiple coins
+  Ed.parseLine = function(points){
+
+    for (var i = 0; i < points.length - 1; i++){
+      var p1 = points[i];
+      var p2 = points[i + 1];
+      var corner = new L.LatLng(p1.lat, p2.lng);
+      var changeLng = Math.abs( Math.abs(p1.lng) - Math.abs(corner.lng) );
+      var changeLat = Math.abs( Math.abs(p2.lat) - Math.abs(corner.lat) );
+
+      var spacing = 60;
+      var segmentLength = p1.distanceTo(p2);
+      var coins = Math.floor(segmentLength / spacing);
+
+      var lat = p1.lat;
+      var lng = p1.lng;
+
+      for (var j = 0; j < coins; j++) {
+
+        var latLng = new L.LatLng(lat, lng);
+        L.circle(latLng, 30).addTo(Ed.map);
+
+        if (i === points.length - 2 && j === coins - 1){
+          var lastPoint = points[points.length - 1];
+          L.circle(lastPoint, 30).addTo(Ed.map);
+        }
+
+        if (p1.lng > p2.lng){
+          lng = lng - (changeLng / coins);
+        } else {
+          lng = lng + (changeLng / coins);
+        }
+
+        if (p1.lat > p2.lat){
+          lat = lat - (changeLat / coins);
+        } else {
+          lat = lat + (changeLat / coins);
+        }
+
+      }
+    }
+  };
+
   // initialize the editor
   Ed.init = function(){
 
@@ -126,14 +169,13 @@
       Ed.tools.point.enable();
     });
 
-    Ed.map.on('draw:created', function (e) {
+    Ed.map.on('draw:created', function(e) {
       var type = e.layerType,
         layer = e.layer;
-
       if (type === 'marker') {
         // point
       } else {
-        // line
+        Ed.parseLine(e.layer._latlngs);
       }
 
       Ed.drawnItems.addLayer(layer);
@@ -180,6 +222,8 @@
     //   console.log('You\'ve got ' + response.triggers.length + ' triggers!');
     // });
   });
+
+  window.Ed = Ed;
 
 })(window,$,L);
 
