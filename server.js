@@ -233,6 +233,11 @@ app.get('/board/:id/coins', function(req, res){
   // ?
 });
 
+app.get('/games/:id', function(req, res){
+  var board = findBoardById(req.params.id);
+  res.json(board);
+});
+
 // Geotrigger API route
 // --------------------
 // passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
