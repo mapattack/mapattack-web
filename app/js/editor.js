@@ -13,10 +13,10 @@
     request: null,      // make requests to the API
     Coin: null,         // coin class
     addCoin: null,      // add a coin to the map
-    coins: [],          // array of all coins
+    coins: null,        // array of all coins
     init: null,         // initialize the editor
     map: null,          // map instance
-    drawnItems: null,   // feature group of drawn items
+    triggers: null,     // feature group of drawn items
     drawControl: null,  // draw controls
     tools: {
       line: null,       // line tool
@@ -27,6 +27,17 @@
   // board tracker
   var board = {
     init: null          // initialize board
+  };
+
+  // styles
+
+  var lineStyle = {
+    color: '#ffffff',
+    opacity: 0.9,
+    dashArray: '0.1, 30',
+    weight: 15,
+    fill: false,
+    fillOpacity: 0
   };
 
   board.init = function(callback){
@@ -62,12 +73,29 @@
   };
 
   // coin class
-  Ed.Coin = L.Icon.extend({
+  Ed.Coin = L.Marker.extend({
+    options: {
+      triggerId: null
+    }
+  });
+
+  Ed.CoinIcon = L.Icon.extend({
     options: {
       iconUrl:       '/img/coin10.png',
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       popupAnchor:   [0, -10]
+    }
+  });
+
+  Ed.Trigger = L.Circle.extend({
+    options: {
+      color: '#FF9843',
+      opacity: 0.2,
+      weight: 1,
+      fill: true,
+      fillOpacity: 0.1,
+      triggerId: null
     }
   });
 
@@ -83,27 +111,28 @@
     }
     path += pts + '.png';
 
-    var coin = new Ed.Coin({iconUrl: path});
+    var triggerId = 'magic';
+    var icon = new Ed.CoinIcon({iconUrl: path});
+    var coin = new Ed.Coin(latLng, {
+      icon: icon,
+      triggerId: triggerId
+    });
+    var trigger = new Ed.Trigger(latLng, 30, {
+      triggerId: triggerId
+    });
 
-    var marker = L.marker(latLng, {icon: coin});
+    // Ed.request('trigger/create', {}, function(response){
+    //   // marker.triggerId = response.something;
+    //   marker.addTo(Ed.coins).bindPopup(msg);
+    // });
 
-    marker.addTo(Ed.map).bindPopup(msg);
-
-    Ed.coins.push(marker);
-
-    return marker;
+    // use for creating the trigger
+    trigger.addTo(Ed.triggers);
+    coin.addTo(Ed.coins).bindPopup(msg);
   };
 
   // convert points on a line to multiple coins
   Ed.parseLine = function(points){
-
-    var radiusStyle = {
-      color: '#FF9843',
-      opacity: 0.2,
-      weight: 1,
-      fill: true,
-      fillOpacity: 0.1
-    };
 
     for (var i = 0; i < points.length - 1; i++){ // iterate over all of the points in the line
       var p1 = points[i];  // the first point on the line
@@ -122,12 +151,10 @@
       for (var j = 0; j < coins; j++) { // make all the coins
 
         var latLng = new L.LatLng(lat, lng);
-        L.circle(latLng, 30, radiusStyle).addTo(Ed.map); // use for creating the trigger
         Ed.addCoin(latLng, 10);
 
         if (i === points.length - 2 && j === coins - 1){ //draw a coin if it's the very last point
           var lastPoint = points[points.length - 1];
-          L.circle(lastPoint, 30, radiusStyle).addTo(Ed.map);
           Ed.addCoin(lastPoint, 10);
         }
 
@@ -167,31 +194,17 @@
 
     // init draw
     // ---------
-    var lineStyle = {
-      color: '#ffffff',
-      opacity: 0.9,
-      dashArray: '0.1, 30',
-      weight: 15,
-      fill: false,
-      fillOpacity: 0
-    };
 
-    var radiusStyle = {
-      color: '#FF9843',
-      opacity: 0.5,
-      weight: 1,
-      fill: true,
-      fillOpacity: 0.3
-    };
-
-    Ed.drawnItems = new L.FeatureGroup();
-    Ed.map.addLayer(Ed.drawnItems);
+    Ed.coins = new L.FeatureGroup();
+    Ed.triggers = new L.FeatureGroup();
+    Ed.map.addLayer(Ed.coins);
+    Ed.map.addLayer(Ed.triggers);
 
     Ed.tools.line = new L.Draw.Polyline(Ed.map, {
       shapeOptions: lineStyle
     });
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
-      icon: new Ed.Coin()
+      icon: new Ed.CoinIcon()
     });
 
     Ed.$.line.click(function(e){
@@ -209,7 +222,7 @@
       var layer = e.layer;
 
       if (type === 'marker') {
-        Ed.drawnItems.addLayer(layer);
+        Ed.addCoin(layer.getLatLng(), 10);
       } else {
         Ed.parseLine(layer.getLatLngs());
       }
