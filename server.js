@@ -1,4 +1,5 @@
 var pkg = require('./package.json');
+var config = require('./config.json');
 
 // server dependencies
 var express = require('express');
@@ -9,17 +10,17 @@ var port = process.env.PORT || 3000;
 // passport dependencies
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
-var TWITTER_CONSUMER_KEY = 'VSCJzgLBienoPOs45tgYRQ';
-var TWITTER_CONSUMER_SECRET = 'CnMscq17Btt8cMuOTm7NQd72DYDoo676YUxm7L3fA';
 
 // geotriggers!
 var Geotriggers = require('./lib/geotriggers');
-var APP_CLIENT_ID ='CtdWgRicIZLzI9xJ';
-var APP_CLIENT_SECRET = '3fbef6f9a02441efaaea5519ed9afac3';
+
 var api = new Geotriggers.Session({
-  clientId: APP_CLIENT_ID,
-  clientSecret: APP_CLIENT_SECRET
+  clientId: config.ago.client_id,
+  clientSecret: config.ago.client_secret
 });
+
+// global to store boards and share between routes and methods and such
+var boards = {};
 
 // misc
 var hour = 3600000;
@@ -65,8 +66,8 @@ passport.deserializeUser(function(obj, done) {
 
 // passport twitter setup
 passport.use(new TwitterStrategy({
-    consumerKey: TWITTER_CONSUMER_KEY,
-    consumerSecret: TWITTER_CONSUMER_SECRET,
+    consumerKey: config.twitter.consumer_key,
+    consumerSecret: config.twitter.consumer_secret,
     callbackURL: '/auth/twitter/callback'
   },
   function(token, tokenSecret, profile, done) {
@@ -82,6 +83,7 @@ passport.use(new TwitterStrategy({
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
+  console.log('y\'all ain\'t authenticatered');
   res.redirect('/');
 }
 
@@ -93,25 +95,50 @@ function loadAuthentication(req, res, next) {
   next();
 }
 
+function getBoards(req, res, next) {
+  api.request('trigger/list', { tags: 'board' }, function(error, response){
+    if (error) {
+      console.log(error);
+    } else {
+      boards = response.triggers;
+    }
+    res.locals({
+      boards: boards
+    });
+    next();
+  });
+}
+
+// util
+
+function findBoardById(id) {
+  return boards.filter(function(obj){
+    return obj.triggerId === id;
+  })[0];
+}
+
 // routes
 // ------
 
 // things to load for every route
 
-app.get('*', loadAuthentication);
+// app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
+// app.get('/', loadAuthentication, getBoards);
+// just do it up for debug for now for the win
+app.get('*', loadAuthentication, getBoards);
 
 // root
 // ----
 
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
-  if (req.user) {
-    // temp board fakery
-    res.locals.boards = boards;
-    res.render('home');
-  } else {
-    res.render('index');
-  }
+  res.render('home');
+
+  // if (req.user) {
+  //   res.render('home');
+  // } else {
+  //   res.render('index');
+  // }
 });
 
 // authentication
@@ -152,30 +179,9 @@ app.get('/logout', function(req, res){
 // board:username:XXXXXX - the Twitter username of the person who created the board, for access control
 // game:XXXXXX - when a game is started from a board, this specifies the game_id of the active game
 
-// fake boards
-var boards = {
-  1: {
-    title: 'Ladd\'s Subtraction',
-    city: 'Portland, OR'
-  },
-  2: {
-    title: 'Bilbo\'s Surprise',
-    city: 'The Shire, Middle Earth'
-  },
-  3: {
-    title: 'Mothership Down',
-    city: 'Redlands, CA'
-  },
-  4: {
-    title: 'The Unicorndoggle',
-    city: 'Portland, OR'
-  }
-};
-
 // list all boards
-app.get('/boards/', function(req, res){
-  res.locals.boards = boards;
-  res.render('editor', { layout: false });
+app.get('/boards', function(req, res){
+  res.json(res.locals.boards);
 });
 
 // new board
@@ -189,17 +195,13 @@ app.post('/boards/new', function(req, res){
 
 // show existing board
 app.get('/boards/:id', function(req, res){
-  res.locals.board = boards[req.params.id];
-  res.json(res.locals.board);
+  var board = findBoardById(req.params.id);
+  res.json(board);
 });
 
 // edit existing board
 app.get('/boards/:id/edit', function(req, res){
-  res.locals.board = {
-    id: req.params.id,
-    title: 'Ladd\'s Subtraction',
-    city: 'Portland, OR'
-  };
+  res.locals.board = findBoardById(req.params.id);
   res.render('editor', { layout: false });
 });
 
