@@ -5,8 +5,8 @@
       <a href="/boards/new" class="btn cream">New Board</a>
     </header>
     <ul class="boards">
-      <% Object.keys(boards).forEach(function(key){ %>
-        <li><a href="/boards/<%= key %>/edit"><%= boards[key].title %></a></li>
+      <% boards.forEach(function(board){ %>
+        <li><a href="/boards/<%= board.triggerId %>/edit"><%= board.triggerId %></a></li>
       <% }) %>
     </ul>
   </section>
@@ -19,8 +19,8 @@
       <input class="col col1of3" placeholder="Portland"></input>
     </header>
     <ul class="boards red">
-      <% Object.keys(boards).forEach(function(key){ %>
-        <li><a href="/boards/<%= key %>"><%= boards[key].title %></a></li>
+      <% boards.forEach(function(board){ %>
+        <li><a href="/boards/<%= board.triggerId %>"><%= board.triggerId %></a></li>
       <% }) %>
     </ul>
   </section>

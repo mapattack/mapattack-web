@@ -154,11 +154,12 @@
 
     if (board.id) {
       // add pretend coins
-      Ed.addCoin([45.50845, -122.64935], 10);
-      Ed.addCoin([45.50845, -122.64835], 20);
-      Ed.addCoin([45.50845, -122.64735], 30);
-      Ed.addCoin([45.50845, -122.64635], 40);
-      Ed.addCoin([45.50845, -122.64535], 50);
+
+      // Ed.addCoin([45.50845, -122.64935], 10);
+      // Ed.addCoin([45.50845, -122.64835], 20);
+      // Ed.addCoin([45.50845, -122.64735], 30);
+      // Ed.addCoin([45.50845, -122.64635], 40);
+      // Ed.addCoin([45.50845, -122.64535], 50);
 
       // Ed.addCoin([45.50745, -122.64935], 10, 'red');
       // Ed.addCoin([45.50745, -122.64835], 20, 'red');
@@ -171,14 +172,15 @@
       // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
       // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
       // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+
+      Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
+        console.log('You\'ve got ' + response.triggers.length + ' coins!');
+        console.log(response);
+      });
     }
 
-    // // make an api call
-    // // ----------------
-
-    // Ed.request('trigger/list', function(response){
-    //   console.log('You\'ve got ' + response.triggers.length + ' triggers!');
-    // });
+    // expose Ed for debugs
+    window.Ed = Ed;
   });
 
 })(window,$,L);
