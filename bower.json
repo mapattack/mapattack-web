@@ -7,7 +7,7 @@
     "esri-leaflet": "https://github.com/Esri/esri-leaflet.git#~0.0.1-rc1",
     "leaflet": "https://github.com/vperron/leaflet-dist.git#~0.6.4",
     "html5shiv": "~3.6.2",
-    "leaflet.draw": "~0.2.1"
+    "Leaflet.draw": "https://github.com/Leaflet/Leaflet.draw.git#faf3ef2a9d6498159840ca442c73431d068ea4d7"
   },
   "devDependencies": {}
 }
