@@ -29,11 +29,18 @@
     init: null          // initialize board
   };
 
-  board.init = function(){
-
+  board.init = function(callback){
     var boardId = Ed.$.editor.data('board-id');
 
-    board.id = boardId ? boardId : null;
+    Ed.request('trigger/list', { tags: ['trigger:' + boardId] }, function(response){
+      var self = response.triggers[0];
+      for (var key in self) {
+        if (self.hasOwnProperty(key)) {
+          board[key] = self[key];
+        }
+      }
+      callback();
+    });
   };
 
   // make any Geotrigger API request
@@ -141,7 +148,7 @@
   };
 
   // initialize the editor
-  Ed.init = function(){
+  Ed.init = function(callback){
 
     Ed.$.editor = $('#editor');
     Ed.$.tools = $('.edit-tools .btn.tool');
@@ -161,21 +168,21 @@
     // init draw
     // ---------
     var lineStyle = {
-        color: '#ffffff',
-        opacity: 0.9,
-        dashArray: '0.1, 30',
-        weight: 15,
-        fill: false,
-        fillOpacity: 0
-      };
+      color: '#ffffff',
+      opacity: 0.9,
+      dashArray: '0.1, 30',
+      weight: 15,
+      fill: false,
+      fillOpacity: 0
+    };
 
     var radiusStyle = {
-        color: '#FF9843',
-        opacity: 0.5,
-        weight: 1,
-        fill: true,
-        fillOpacity: 0.3
-      };
+      color: '#FF9843',
+      opacity: 0.5,
+      weight: 1,
+      fill: true,
+      fillOpacity: 0.3
+    };
 
     Ed.drawnItems = new L.FeatureGroup();
     Ed.map.addLayer(Ed.drawnItems);
@@ -204,54 +211,59 @@
       if (type === 'marker') {
         Ed.drawnItems.addLayer(layer);
       } else {
-        Ed.parseLine(e.layer._latlngs);
+        Ed.parseLine(layer.getLatLngs());
       }
     });
 
     // init board
 
-    board.init();
+    board.init(callback);
 
   };
 
   // init editor when DOM is ready
   $(function(){
-    Ed.init();
+    Ed.init(function(){
+
+      if (board.triggerId) {
+        console.log('board exists!');
+      } else {
+        console.log('board is new!');
+      }
+
+    });
 
     // add coins
     // ---------
 
-    if (board.id) {
-      // add pretend coins
+    // add pretend coins
 
-      // Ed.addCoin([45.50845, -122.64935], 10);
-      // Ed.addCoin([45.50845, -122.64835], 20);
-      // Ed.addCoin([45.50845, -122.64735], 30);
-      // Ed.addCoin([45.50845, -122.64635], 40);
-      // Ed.addCoin([45.50845, -122.64535], 50);
+    // Ed.addCoin([45.50845, -122.64935], 10);
+    // Ed.addCoin([45.50845, -122.64835], 20);
+    // Ed.addCoin([45.50845, -122.64735], 30);
+    // Ed.addCoin([45.50845, -122.64635], 40);
+    // Ed.addCoin([45.50845, -122.64535], 50);
 
-      // Ed.addCoin([45.50745, -122.64935], 10, 'red');
-      // Ed.addCoin([45.50745, -122.64835], 20, 'red');
-      // Ed.addCoin([45.50745, -122.64735], 30, 'red');
-      // Ed.addCoin([45.50745, -122.64635], 40, 'red');
-      // Ed.addCoin([45.50745, -122.64535], 50, 'red');
+    // Ed.addCoin([45.50745, -122.64935], 10, 'red');
+    // Ed.addCoin([45.50745, -122.64835], 20, 'red');
+    // Ed.addCoin([45.50745, -122.64735], 30, 'red');
+    // Ed.addCoin([45.50745, -122.64635], 40, 'red');
+    // Ed.addCoin([45.50745, -122.64535], 50, 'red');
 
-      // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
-      // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
-      // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
-      // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
-      // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+    // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
+    // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
+    // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
+    // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
+    // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
 
-      Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
-        console.log('You\'ve got ' + response.triggers.length + ' coins!');
-        console.log(response);
-      });
-    }
+    // Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
+    //   console.log('You\'ve got ' + response.triggers.length + ' coins!');
+    //   console.log(response);
+    // });
 
-    // expose Ed for debugs
-    window.Ed = Ed;
   });
 
+  // expose Ed for debugs
   window.Ed = Ed;
 
 })(window,$,L);
