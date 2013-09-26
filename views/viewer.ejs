@@ -1,0 +1,67 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Map Attack | Viewer</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="stylesheet" href="/bower_components/leaflet/leaflet.css">
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/bower_components/leaflet/leaflet.ie.css">
+  <![endif]-->
+  <!-- Base Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <!-- Theme Styles-->
+  <!--[if lte IE 8]>
+    <script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <%- partial('partials/_short_nav') %>
+
+  <div class="wrapper short">
+    <section class="scoreboard">
+      <header class="title">Board Title<span class="total-players">23 players</span></header>
+      <div class="col-group">
+        <div class="score blue col col1of2 on-blue"><span class="color">Blue</span><span class="number">237</span></div>
+        <div class="score red col col1of2 on-red"><span class="number">163</span><span class="color">Red</span></div>
+    </section>
+    <div class="chord blue"></div>
+    <section class="leaderboard blue">
+      <ul class="players">
+        <li class="player">PCP<span class="points right">27</span></li>
+        <li class="player">PCP<span class="points right">23</span></li>
+        <li class="player">PCP<span class="points right">19</span></li>
+        <li class="player">PCP<span class="points right">3</span></li>
+      </ul>
+    </section>
+    <div class="chord red"></div>
+    <section class="leaderboard red">
+      <ul class="players">
+        <li class="player">PCP<span class="points right">27</span></li>
+        <li class="player">PCP<span class="points right">23</span></li>
+        <li class="player">PCP<span class="points right">19</span></li>
+        <li class="player">PCP<span class="points right">3</span></li>
+      </ul>
+    </section>
+    <div id="viewer"></div>
+  </div>
+
+  <script src="/bower_components/jquery/jquery.js"></script>
+  <script src="/bower_components/leaflet/leaflet-src.js"></script>
+  <script src="/bower_components/esri-leaflet/dist/esri-leaflet-src.js"></script>
+
+  <%- partial('partials/_ga') %>
+
+  <script src="/js/viewer.js"></script>
+</body>
+</html>

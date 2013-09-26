@@ -163,3 +163,21 @@
     }
   }
 }
+
+.on-red {
+  background-color: $red;
+  color: $white;
+}
+
+.on-blue {
+  background-color: $blue;
+  color: $white;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
