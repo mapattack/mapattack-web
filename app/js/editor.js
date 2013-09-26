@@ -107,11 +107,13 @@
       for (var j = 0; j < coins; j++) { // make all the coins
 
         var latLng = new L.LatLng(lat, lng);
-        L.circle(latLng, 30).addTo(Ed.map);
+        L.circle(latLng, 30).addTo(Ed.map); // use for creating the trigger
+        Ed.addCoin(latLng, 10);
 
         if (i === points.length - 2 && j === coins - 1){ //draw a coin if it's the very last point
           var lastPoint = points[points.length - 1];
           L.circle(lastPoint, 30).addTo(Ed.map);
+          Ed.addCoin(lastPoint, 10);
         }
 
         if (p1.lng > p2.lng){ // increment longitude in the correct direction
@@ -150,11 +152,21 @@
 
     // init draw
     // ---------
+    var lineStyle = {
+        color: '#ffffff',
+        opacity: 0.9,
+        dashArray: '0.1, 30',
+        weight: 15,
+        fill: false,
+        fillOpacity: 0
+      };
 
     Ed.drawnItems = new L.FeatureGroup();
     Ed.map.addLayer(Ed.drawnItems);
 
-    Ed.tools.line = new L.Draw.Polyline(Ed.map);
+    Ed.tools.line = new L.Draw.Polyline(Ed.map, {
+      shapeOptions: lineStyle
+    });
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
       icon: new Ed.Coin()
     });
@@ -170,15 +182,14 @@
     });
 
     Ed.map.on('draw:created', function(e) {
-      var type = e.layerType,
-        layer = e.layer;
+      var type = e.layerType;
+      var layer = e.layer;
+
       if (type === 'marker') {
-        // point
+        Ed.drawnItems.addLayer(layer);
       } else {
         Ed.parseLine(e.layer._latlngs);
       }
-
-      Ed.drawnItems.addLayer(layer);
     });
 
     // init board
