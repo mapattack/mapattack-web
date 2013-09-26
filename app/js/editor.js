@@ -90,10 +90,10 @@
   // convert points on a line to multiple coins
   Ed.parseLine = function(points){
 
-    for (var i = 0; i < points.length - 1; i++){
-      var p1 = points[i];
-      var p2 = points[i + 1];
-      var corner = new L.LatLng(p1.lat, p2.lng);
+    for (var i = 0; i < points.length - 1; i++){ // iterate over all of the points in the line
+      var p1 = points[i];  // the first point on the line
+      var p2 = points[i + 1]; // the second point on the line
+      var corner = new L.LatLng(p1.lat, p2.lng); // a point due east or west of point1, and due north or south of point2
       var changeLng = Math.abs( Math.abs(p1.lng) - Math.abs(corner.lng) );
       var changeLat = Math.abs( Math.abs(p2.lat) - Math.abs(corner.lat) );
 
@@ -104,7 +104,7 @@
       var lat = p1.lat;
       var lng = p1.lng;
 
-      for (var j = 0; j < coins; j++) {
+      for (var j = 0; j < coins; j++) { // make all the coins
 
         var latLng = new L.LatLng(lat, lng);
         L.circle(latLng, 30).addTo(Ed.map);
