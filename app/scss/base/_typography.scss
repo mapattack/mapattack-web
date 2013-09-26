@@ -85,4 +85,7 @@ span {
 a {
   text-decoration: none;
   color: $red;
+  &.blue-link {
+    color: $blue;
+  }
 }
