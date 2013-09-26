@@ -122,19 +122,23 @@ function findBoardById(id) {
 
 // things to load for every route
 
-app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
-app.get('/', loadAuthentication, getBoards);
+// app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
+// app.get('/', loadAuthentication, getBoards);
+// just do it up for debug for now for the win
+app.get('*', loadAuthentication, getBoards);
 
 // root
 // ----
 
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
-  if (req.user) {
-    res.render('home');
-  } else {
-    res.render('index');
-  }
+  res.render('home');
+
+  // if (req.user) {
+  //   res.render('home');
+  // } else {
+  //   res.render('index');
+  // }
 });
 
 // authentication
