@@ -64,6 +64,7 @@
               var latLng = new L.LatLng(geo.latitude, geo.longitude);
               var value = triggers[i].properties.value;
               Ed.drawCoin(latLng, value, triggers[i].triggerId);
+              Ed.drawTrigger(latLng, geo.distance, triggers[i].triggerId);
             }
             callback();
           });
@@ -176,6 +177,8 @@
   Ed.addCoin = function(latLng, pts, color){
     var distance = 30;
 
+    var coin = Ed.drawCoin(latLng, pts);
+
     function create() {
       Ed.request('trigger/create', {
         'setTags': ['coin', 'coin:board:' + board.id],
@@ -196,8 +199,10 @@
           'value': pts
         }
       }, function(response){
-        console.log('created coin tagged "coin:board:' + board.id + '"', response);
-        Ed.drawCoin(latLng, pts, color);
+        console.log('created trigger tagged "coin:board:' + board.id + '"', response);
+        var triggerId = response.triggerId;
+        coin.options.triggerId = triggerId;
+        Ed.drawTrigger(latLng, distance, triggerId);
       });
     }
 
@@ -228,12 +233,17 @@
       triggerId: triggerId
     });
 
+    coin.addTo(Ed.coins).bindPopup(msg);
+
+    return coin;
+  };
+
+  Ed.drawTrigger = function(latLng, distance, triggerId){
     var trigger = new Ed.Trigger(latLng, distance, {
       triggerId: triggerId
     });
 
     trigger.addTo(Ed.triggers);
-    coin.addTo(Ed.coins).bindPopup(msg);
   };
 
   // convert points on a line to multiple coins
