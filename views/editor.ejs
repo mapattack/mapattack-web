@@ -31,7 +31,7 @@
   <%- partial('partials/_nav') %>
 
   <div class="wrapper">
-    <div id="editor"<% if (typeof board !== 'undefined') { %> data-board-id="<%- board.id %>"<% } %>></div>
+    <div id="editor"<% if (typeof board !== 'undefined') { %> data-board-id="<%- board.triggerId %>"<% } %>></div>
     <%- partial('partials/_edit_ui') %>
   </div>
 
