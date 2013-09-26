@@ -6,7 +6,15 @@
     </header>
     <ul class="boards">
       <% boards.forEach(function(board){ %>
-        <li><a href="/boards/<%= board.triggerId %>/edit"><%= board.triggerId %></a></li>
+        <li>
+          <a href="/boards/<%= findIdInTags(board.tags, 'board') %>/edit">
+            <% if (board.properties && board.properties.title) { %>
+              <%= board.properties.title %>
+            <% } else { %>
+              Untitled Board
+            <% } %>
+          </a>
+        </li>
       <% }) %>
     </ul>
   </section>
@@ -20,7 +28,15 @@
     </header>
     <ul class="boards red">
       <% boards.forEach(function(board){ %>
-        <li><a href="/boards/<%= board.triggerId %>"><%= board.triggerId %></a></li>
+        <li>
+          <a href="/boards/<%= findIdInTags(board.tags) %>">
+            <% if (board.properties && board.properties.title) { %>
+              <%= board.properties.title %>
+            <% } else { %>
+              Untitled Board
+            <% } %>
+          </a>
+        </li>
       <% }) %>
     </ul>
   </section>
