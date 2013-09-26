@@ -90,6 +90,14 @@
   // convert points on a line to multiple coins
   Ed.parseLine = function(points){
 
+    var radiusStyle = {
+      color: '#FF9843',
+      opacity: 0.2,
+      weight: 1,
+      fill: true,
+      fillOpacity: 0.1
+    };
+
     for (var i = 0; i < points.length - 1; i++){ // iterate over all of the points in the line
       var p1 = points[i];  // the first point on the line
       var p2 = points[i + 1]; // the second point on the line
@@ -107,12 +115,12 @@
       for (var j = 0; j < coins; j++) { // make all the coins
 
         var latLng = new L.LatLng(lat, lng);
-        L.circle(latLng, 30).addTo(Ed.map); // use for creating the trigger
+        L.circle(latLng, 30, radiusStyle).addTo(Ed.map); // use for creating the trigger
         Ed.addCoin(latLng, 10);
 
         if (i === points.length - 2 && j === coins - 1){ //draw a coin if it's the very last point
           var lastPoint = points[points.length - 1];
-          L.circle(lastPoint, 30).addTo(Ed.map);
+          L.circle(lastPoint, 30, radiusStyle).addTo(Ed.map);
           Ed.addCoin(lastPoint, 10);
         }
 
@@ -159,6 +167,14 @@
         weight: 15,
         fill: false,
         fillOpacity: 0
+      };
+
+    var radiusStyle = {
+        color: '#FF9843',
+        opacity: 0.5,
+        weight: 1,
+        fill: true,
+        fillOpacity: 0.3
       };
 
     Ed.drawnItems = new L.FeatureGroup();
