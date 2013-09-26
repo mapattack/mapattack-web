@@ -371,7 +371,6 @@
 
       if (type === 'marker') {
         Ed.addCoin(layer.getLatLng(), 10);
-        Ed.activatePoint();
       } else {
         Ed.parseLine(layer.getLatLngs());
         Ed.activateLine();
