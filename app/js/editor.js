@@ -280,30 +280,24 @@
   };
 
   Ed.activatePoint = function () {
-    if (Ed.$.point[0].classList.contains('active')){
-      Ed.$.point[0].className = 'btn tool point';
+    if (Ed.$.point.hasClass('active')){
+      Ed.$.point.removeClass('active');
       Ed.tools.point.disable();
     } else {
-      Ed.$.point[0].className = 'btn tool point active';
-      Ed.$.line[0].className = 'btn tool line';
-      Ed.tools.point.enable();
-    }
-  };
-
-  Ed.pointListen = function() {
-    if (Ed.$.point[0].classList.contains('active')){
-      console.log('ping');
+      Ed.$.point.addClass('active');
+      Ed.$.line.removeClass('active');
+      Ed.tools.line.disable();
       Ed.tools.point.enable();
     }
   };
 
   Ed.activateLine = function () {
-    if (Ed.$.line[0].classList.contains('active')){
-      Ed.$.line[0].className = 'btn tool line';
+    if (Ed.$.line.hasClass('active')){
+      Ed.$.line.removeClass('active');
       Ed.tools.line.disable();
     } else {
-      Ed.$.line[0].className = 'btn tool line active';
-      Ed.$.point[0].className = 'btn tool point';
+      Ed.$.line.addClass('active');
+      Ed.$.point.removeClass('active');
       Ed.tools.point.disable();
       Ed.tools.line.enable();
     }
@@ -367,7 +361,6 @@
     Ed.map.on('draw:created', function(e) {
       var type = e.layerType;
       var layer = e.layer;
-      Ed.pointListen();
 
       if (type === 'marker') {
         Ed.addCoin(layer.getLatLng(), 10);
