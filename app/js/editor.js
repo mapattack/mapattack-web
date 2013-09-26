@@ -109,18 +109,18 @@
         var latLng = new L.LatLng(lat, lng);
         L.circle(latLng, 30).addTo(Ed.map);
 
-        if (i === points.length - 2 && j === coins - 1){
+        if (i === points.length - 2 && j === coins - 1){ //draw a coin if it's the very last point
           var lastPoint = points[points.length - 1];
           L.circle(lastPoint, 30).addTo(Ed.map);
         }
 
-        if (p1.lng > p2.lng){
+        if (p1.lng > p2.lng){ // increment longitude in the correct direction
           lng = lng - (changeLng / coins);
         } else {
           lng = lng + (changeLng / coins);
         }
 
-        if (p1.lat > p2.lat){
+        if (p1.lat > p2.lat){ //increment latitude in the correct direction
           lat = lat - (changeLat / coins);
         } else {
           lat = lat + (changeLat / coins);
