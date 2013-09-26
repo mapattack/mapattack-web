@@ -118,6 +118,28 @@
   }
 }
 
+.coin {
+  width: 20px;
+  height: 17px;
+  font-family: $body-font;
+  font-size: 10px;
+  padding-left: 1px;
+  color: $dark-gray;
+  text-align: center;
+  vertical-align: center;
+  background-color: $white;
+  border: 1px solid $light-gray;
+  @include border-radius(11px);
+  &.red {
+    background-color: $red;
+    color: $white;
+  }
+  &.blue {
+    background-color: $blue;
+    color: $white;
+  }
+}
+
 .leaflet-popup-content-wrapper {
   @include border-radius(0);
   font-family: $body-font;

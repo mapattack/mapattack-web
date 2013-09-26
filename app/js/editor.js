@@ -102,11 +102,13 @@
     }
   });
 
-  Ed.CoinIcon = L.Icon.extend({
+  Ed.CoinIcon = L.DivIcon.extend({
     options: {
-      iconUrl:       '/img/coin10.png',
-      iconSize:      [20, 20],
+      // iconUrl:       '/img/coin10.png',
+      iconSize:      [14, 15],
       iconAnchor:    [10, 10],
+      html:          '10',
+      className:     'coin',
       popupAnchor:   [0, -10]
     }
   });
