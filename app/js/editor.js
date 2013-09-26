@@ -279,6 +279,30 @@
     }
   };
 
+  Ed.activatePoint = function () {
+    if (Ed.$.point.hasClass('active')){
+      Ed.$.point.removeClass('active');
+      Ed.tools.point.disable();
+    } else {
+      Ed.$.point.addClass('active');
+      Ed.$.line.removeClass('active');
+      Ed.tools.line.disable();
+      Ed.tools.point.enable();
+    }
+  };
+
+  Ed.activateLine = function () {
+    if (Ed.$.line.hasClass('active')){
+      Ed.$.line.removeClass('active');
+      Ed.tools.line.disable();
+    } else {
+      Ed.$.line.addClass('active');
+      Ed.$.point.removeClass('active');
+      Ed.tools.point.disable();
+      Ed.tools.line.enable();
+    }
+  };
+
   // initialize the editor
   Ed.init = function(callback){
 
@@ -311,18 +335,20 @@
     Ed.tools.line = new L.Draw.Polyline(Ed.map, {
       shapeOptions: lineStyle
     });
+
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
-      icon: new Ed.CoinIcon()
+      icon: new Ed.CoinIcon(),
+      repeatMode: true
     });
 
     Ed.$.line.click(function(e){
       e.preventDefault();
-      Ed.tools.line.enable();
+      Ed.activateLine();
     });
 
     Ed.$.point.click(function(e){
       e.preventDefault();
-      Ed.tools.point.enable();
+      Ed.activatePoint();
     });
 
     Ed.$.publish.click(function(e){
@@ -340,6 +366,7 @@
         Ed.addCoin(layer.getLatLng(), 10);
       } else {
         Ed.parseLine(layer.getLatLngs());
+        Ed.activateLine();
       }
     });
 
@@ -358,9 +385,7 @@
       } else {
         console.log('board is new!');
       }
-
     });
-
     // add coins
     // ---------
 
