@@ -169,11 +169,6 @@ app.get('/', function(req, res){
   // }
 });
 
-// render home if user is logged in, otherwise render index
-app.get('/viewer', function(req, res){
-  res.render('viewer',{layout: false});
-});
-
 // authentication
 // --------------
 
@@ -225,10 +220,6 @@ app.get('/boards/new', function(req, res){
   });
 });
 
-app.post('/boards/new', function(req, res){
-  // create new board
-});
-
 // show existing board
 app.get('/boards/:id', function(req, res){
   var board = findBoardById(req.params.id);
@@ -238,13 +229,9 @@ app.get('/boards/:id', function(req, res){
 // edit existing board
 app.get('/boards/:id/edit', function(req, res){
   var board = findBoardById(req.params.id);
-  console.log(board);
+  console.log('editing board: ' + board.properties.title + ' (boardId: ' + req.params.id + ', triggerId: ' + board.triggerId + ')');
   res.locals.board = board;
   res.render('editor', { layout: false });
-});
-
-app.post('/boards/:id/edit', function(req, res){
-  // update existing board
 });
 
 // coin routes
@@ -271,9 +258,11 @@ app.get('/board/:id/coins', function(req, res){
   // ?
 });
 
+// viewer routes
+// -------------
+
 app.get('/games/:id', function(req, res){
-  var board = findBoardById(req.params.id);
-  res.json(board);
+  res.render('viewer', { layout: false });
 });
 
 // Geotrigger API route
