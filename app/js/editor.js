@@ -51,6 +51,7 @@
     }
   };
 
+
   board.init = function(callback){
 
     var boardId = Ed.$.editor.data('board-id');
@@ -248,23 +249,33 @@
     var triggerId = options.triggerId;
     var latLng = options.latLng;
     var distance = options.distance || 30;
-    var points = options.points || 10;
+    var points = options.points;
 
-    Ed.request('trigger/update', {
-      'triggerIds': triggerId,
-      'condition': {
-        'geo': {
-          'latitude': latLng.lat,
-          'longitude': latLng.lng,
-          'distance': distance
-        }
-      },
-      'properties': {
+    var params = {};
+
+    if (triggerId) {
+      params.triggerIds = triggerId;
+    }
+
+    if (latLng) {
+      params.condition = {};
+      params.condition.geo = {
+        'latitude': latLng.lat,
+        'longitude': latLng.lng,
+        'distance': distance
+      }
+    }
+
+    if (points) {
+      params.properties = {
         'value': points
       }
-    }, function(response){
-      console.log(response);
-      Ed.drawTrigger(latLng, distance, response.triggers[0].triggerId);
+    }
+
+    Ed.request('trigger/update', params, function(response){
+      if (options.redraw !== false) {
+        Ed.drawTrigger(latLng, distance, response.triggers[0].triggerId);
+      }
 
       if (options.success) {
         options.success(response);
@@ -272,17 +283,23 @@
     });
   };
 
-  Ed.drawCoin = function(latLng, pts, triggerId) {
-    var msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
+  Ed.drawCoin = function(latLng, points, triggerId) {
+    var msg = '<div class="coin-pop">';
+    msg += '<button data-value="10" class="point-value ten"></button>';
+    msg += '<button data-value="20" class="point-value twenty"></button>';
+    msg += '<button data-value="30" class="point-value thirty"></button>';
+    msg += '<button data-value="50" class="point-value fifty"></button>';
+    msg += '<button class="delete-coin">X</button>';
+    msg += '</div>';
 
-    var icon = new Ed.CoinIcon();
+    var icon = new Ed.CoinIcon({
+      html: points
+    });
 
     var coin = new Ed.Coin(latLng, {
       icon: icon,
       triggerId: triggerId
     });
-
-    coin.addTo(Ed.coins).bindPopup(msg);
 
     coin.on('dragstart', function(e){
       var target = e.target;
@@ -303,6 +320,41 @@
       });
     });
 
+    var popup = $(msg);
+
+    // bind delete
+    popup.find('.delete-coin').click(function(e){
+      e.preventDefault();
+      var triggerId = coin.options.triggerId;
+      Ed.deleteTrigger(triggerId);
+    });
+
+    var $pts = popup.find('.point-value');
+
+    // add active class to button with point value of coin
+    $pts.filter(function(){
+      return $(this).data('value') === Number(points);
+    }).addClass('active');
+
+    // bind point value switchery
+    $pts.click(function(e){
+      e.preventDefault();
+      $pts.removeClass('active');
+      var $this = $(this);
+      var val = $this.data('value');
+
+      Ed.updateTrigger({
+        triggerId: triggerId,
+        points: val,
+        redraw: false,
+        success: function(response){
+          $this.addClass('active');
+        }
+      });
+    });
+
+    coin.addTo(Ed.coins).bindPopup(popup[0]);
+
     return coin;
   };
 
@@ -312,6 +364,28 @@
     });
 
     trigger.addTo(Ed.triggers);
+  };
+
+  Ed.deleteTrigger = function(triggerId){
+    Ed.request('trigger/delete', {
+      triggerIds: triggerId
+    }, function(response){
+      var i;
+      var triggers = Ed.triggers.getLayers();
+      var coins = Ed.coins.getLayers();
+
+      for (i = 0; i < triggers.length; i++) {
+        if (triggers[i].options.triggerId === triggerId) {
+          Ed.triggers.removeLayer(triggers[i]);
+        }
+      }
+
+      for (i = 0; i < coins.length; i++) {
+        if (coins[i].options.triggerId === triggerId) {
+          Ed.coins.removeLayer(coins[i]);
+        }
+      }
+    });
   };
 
   // convert points on a line to multiple coins
@@ -409,6 +483,10 @@
       maxZoom: 18,
       subdomains: '0123'
     }).addTo(Ed.map);
+
+    // Ed.map.on('popupopen', function(e) {
+    //   window.popup = this;
+    // });
 
     // init draw
     // ---------
