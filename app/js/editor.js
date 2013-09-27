@@ -119,7 +119,6 @@
 
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
-      draggable:     true,
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
@@ -396,11 +395,6 @@
     // init map
     // --------
 
-    // Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
-
-    // new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
-
-    // init map
     Ed.map = L.map('editor', {
       center: [45.50845, -122.64935],
       zoom: 16,
@@ -478,33 +472,6 @@
         console.log('board is new!');
       }
     });
-    // add coins
-    // ---------
-
-    // add pretend coins
-
-    // Ed.addCoin([45.50845, -122.64935], 10);
-    // Ed.addCoin([45.50845, -122.64835], 20);
-    // Ed.addCoin([45.50845, -122.64735], 30);
-    // Ed.addCoin([45.50845, -122.64635], 40);
-    // Ed.addCoin([45.50845, -122.64535], 50);
-
-    // Ed.addCoin([45.50745, -122.64935], 10, 'red');
-    // Ed.addCoin([45.50745, -122.64835], 20, 'red');
-    // Ed.addCoin([45.50745, -122.64735], 30, 'red');
-    // Ed.addCoin([45.50745, -122.64635], 40, 'red');
-    // Ed.addCoin([45.50745, -122.64535], 50, 'red');
-
-    // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
-    // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
-    // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
-    // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
-    // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
-
-    // Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
-    //   console.log('You\'ve got ' + response.triggers.length + ' coins!');
-    //   console.log(response);
-    // });
 
   });
 
