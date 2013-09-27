@@ -118,7 +118,7 @@
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
       // iconUrl:       '/img/coin10.png',
-      iconSize:      [14, 15],
+      iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
       className:     'coin',
@@ -235,7 +235,7 @@
       iconPath += color;
       msg = color.capitalize() + ' team got ' + pts + ' points';
     } else {
-      msg = 'Worth ' + pts + ' points.';
+      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
     }
     iconPath += pts + '.png';
 
@@ -443,4 +443,3 @@
   window.Ed = Ed;
 
 })(window,$,L);
-
