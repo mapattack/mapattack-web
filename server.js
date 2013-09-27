@@ -23,6 +23,7 @@ var api = new Geotriggers.Session({
 var boards = {};
 
 // misc
+var needle = require('needle');
 var hour = 3600000;
 
 // server config superchain
@@ -109,13 +110,40 @@ function getBoards(req, res, next) {
   });
 }
 
+function getNewBoardId(callback) {
+  needle.post('http://api.mapattack.org/board/new', {
+    access_token: api.token
+  }, function(error, response, body) {
+    if (!error && response.statusCode == 200 && body.board_id) {
+      callback(body.board_id);
+    } else {
+      callback(false);
+    }
+  });
+}
+
 // util
 
 function findBoardById(id) {
   return boards.filter(function(obj){
-    return obj.triggerId === id;
+    return findIdInTags(obj.tags, 'board') === id;
   })[0];
 }
+
+function findIdInTags(input_tags, prefix) {
+  // Given a list of tags like "board","board:10","game","game:20","game:21" and a prefix "board", return "10"
+  var result = null;
+  input_tags.forEach(function(t){
+    var match = t.match(new RegExp('^'+prefix+':([^:]+)$'));
+    if (match) {
+      result = match[1];
+    }
+  });
+  return result;
+}
+
+// add as view helper
+app.locals.findIdInTags = findIdInTags;
 
 // routes
 // ------
@@ -191,7 +219,10 @@ app.get('/boards', function(req, res){
 
 // new board
 app.get('/boards/new', function(req, res){
-  res.render('editor', { layout: false });
+  getNewBoardId(function(boardId){
+    res.locals.boardId = boardId;
+    res.render('editor', { layout: false });
+  });
 });
 
 app.post('/boards/new', function(req, res){
@@ -206,7 +237,9 @@ app.get('/boards/:id', function(req, res){
 
 // edit existing board
 app.get('/boards/:id/edit', function(req, res){
-  res.locals.board = findBoardById(req.params.id);
+  var board = findBoardById(req.params.id);
+  console.log(board);
+  res.locals.board = board;
   res.render('editor', { layout: false });
 });
 
@@ -236,6 +269,11 @@ app.post('/boards/:id/edit', function(req, res){
 // get all coins for a board?
 app.get('/board/:id/coins', function(req, res){
   // ?
+});
+
+app.get('/games/:id', function(req, res){
+  var board = findBoardById(req.params.id);
+  res.json(board);
 });
 
 // Geotrigger API route

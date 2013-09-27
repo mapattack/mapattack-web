@@ -13,10 +13,10 @@
     request: null,      // make requests to the API
     Coin: null,         // coin class
     addCoin: null,      // add a coin to the map
-    coins: [],          // array of all coins
+    coins: null,        // array of all coins
     init: null,         // initialize the editor
     map: null,          // map instance
-    drawnItems: null,   // feature group of drawn items
+    triggers: null,     // feature group of drawn items
     drawControl: null,  // draw controls
     tools: {
       line: null,       // line tool
@@ -26,14 +26,68 @@
 
   // board tracker
   var board = {
-    init: null          // initialize board
+    init: null,         // initialize board
+    merge: null         // merge response into board
   };
 
-  board.init = function(){
+  Ed.board = board;
 
+  // styles
+
+  var lineStyle = {
+    color: '#ffffff',
+    opacity: 0.9,
+    dashArray: '0.1, 30',
+    weight: 15,
+    fill: false,
+    fillOpacity: 0
+  };
+
+  board.merge = function(obj){
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        board[key] = obj[key];
+      }
+    }
+  };
+
+  board.init = function(callback){
     var boardId = Ed.$.editor.data('board-id');
+    board.id = boardId || null;
 
-    board.id = boardId ? boardId : null;
+    if (board.id) {
+      Ed.request('trigger/list', { tags: ['board:' + boardId] }, function(response){
+        if (response.triggers.length !== 0) {
+          board.merge(response.triggers[0]);
+
+          Ed.request('trigger/list', { tags: ['coin:board:' + boardId] }, function(response){
+            var triggers = response.triggers;
+            var bounds = new L.LatLngBounds();
+
+            for (var i = 0; i < triggers.length; i++) {
+              var geo = triggers[i].condition.geo;
+              var latLng = new L.LatLng(geo.latitude, geo.longitude);
+              var value = triggers[i].properties.value;
+
+              Ed.drawCoin(latLng, value, triggers[i].triggerId);
+              Ed.drawTrigger(latLng, geo.distance, triggers[i].triggerId);
+              bounds.extend(latLng);
+            }
+
+            Ed.map.fitBounds(bounds, {
+              padding: [50, 50]
+            });
+
+            callback();
+          });
+        } else {
+          board.isNew = true;
+          callback();
+        }
+      });
+    } else {
+      throw new Error('Missing Board ID!');
+    }
   };
 
   // make any Geotrigger API request
@@ -46,57 +100,168 @@
     }
 
     if (typeof params === 'object') {
-      post = $.post('/api/' + method, params);
+      post = $.post('/api/' + method, params, 'json');
     } else {
-      post = $.post('/api/' + method);
+      post = $.post('/api/' + method, 'json');
     }
 
     post.done(callback);
   };
 
   // coin class
-  Ed.Coin = L.Icon.extend({
+  Ed.Coin = L.Marker.extend({
     options: {
-      iconUrl:       '/img/coin10.png',
-      iconSize:      [20, 20],
+      triggerId: null
+    }
+  });
+
+  Ed.CoinIcon = L.DivIcon.extend({
+    options: {
+      // iconUrl:       '/img/coin10.png',
+      iconSize:      [14, 15],
       iconAnchor:    [10, 10],
+      html:          '10',
+      className:     'coin',
       popupAnchor:   [0, -10]
     }
   });
 
-  // add a new coin to the map
-  Ed.addCoin = function(latLng, pts, color){
-    var path = '/img/coin';
-    var msg;
-    if (color) {
-      path += color;
-      msg = color.capitalize() + ' team got ' + pts + ' points';
-    } else {
-      msg = 'Worth ' + pts + ' points.';
-    }
-    path += pts + '.png';
-
-    var coin = new Ed.Coin({iconUrl: path});
-
-    var marker = L.marker(latLng, {icon: coin});
-
-    marker.addTo(Ed.map).bindPopup(msg);
-
-    Ed.coins.push(marker);
-
-    return marker;
-  };
-
-  // convert points on a line to multiple coins
-  Ed.parseLine = function(points){
-
-    var radiusStyle = {
+  Ed.Trigger = L.Circle.extend({
+    options: {
       color: '#FF9843',
       opacity: 0.2,
       weight: 1,
       fill: true,
-      fillOpacity: 0.1
-    };
+      fillOpacity: 0.1,
+      triggerId: null
+    }
+  });
+
+  Ed.createBoard = function(latLng, callback) {
+    Ed.request('trigger/create', {
+      'setTags': ['board', 'board:' + board.id],
+      'condition': {
+        'direction': 'enter',
+        'geo': {
+          'latitude': latLng.lat,
+          'longitude': latLng.lng,
+          'distance': 200
+        }
+      },
+      'action': {
+        'notification': {
+          'text': 'You done made a board!'
+        }
+      },
+      'properties': {
+        'title': Ed.$.title.val(),
+        'city': Ed.$.city.val()
+      }
+    }, function(response){
+      board.merge(response);
+
+      if (callback) {
+        callback();
+      }
+    });
+  };
+
+  Ed.publishBoard = function(callback) {
+    Ed.request('trigger/update', {
+      'tags': ['board:' + board.id],
+      'action': {
+        'notification': {
+          'text': 'You done updated a board!'
+        }
+      },
+      'properties': {
+        'title': Ed.$.title.val(),
+        'city': Ed.$.city.val()
+      }
+    }, function(response){
+      board.merge(response.triggers[0]);
+
+      if (callback) {
+        callback();
+      }
+    });
+  };
+
+  // add a new coin to the map
+  Ed.addCoin = function(latLng, pts, color){
+    var distance = 30;
+
+    var coin = Ed.drawCoin(latLng, pts);
+
+    function create() {
+      Ed.request('trigger/create', {
+        'setTags': ['coin', 'coin:board:' + board.id],
+        'condition': {
+          'direction': 'enter',
+          'geo': {
+            'latitude': latLng.lat,
+            'longitude': latLng.lng,
+            'distance': distance
+          }
+        },
+        'action': {
+          'notification': {
+            'text': 'You done got a point!'
+          }
+        },
+        'properties': {
+          'value': pts
+        }
+      }, function(response){
+        console.log('created trigger tagged "coin:board:' + board.id + '"', response);
+        var triggerId = response.triggerId;
+        coin.options.triggerId = triggerId;
+        Ed.drawTrigger(latLng, distance, triggerId);
+      });
+    }
+
+    if (board.isNew) {
+      Ed.createBoard(latLng, create);
+    } else {
+      create();
+    }
+  };
+
+  Ed.drawCoin = function(latLng, pts, triggerId, color) {
+    var msg;
+    var distance = 30;
+    var iconPath = '/img/coin';
+
+    if (color) {
+      iconPath += color;
+      msg = color.capitalize() + ' team got ' + pts + ' points';
+    } else {
+      msg = 'Worth ' + pts + ' points.';
+    }
+    iconPath += pts + '.png';
+
+    var icon = new Ed.CoinIcon({iconUrl: iconPath});
+
+    var coin = new Ed.Coin(latLng, {
+      icon: icon,
+      triggerId: triggerId
+    });
+
+    coin.addTo(Ed.coins).bindPopup(msg);
+
+    return coin;
+  };
+
+  Ed.drawTrigger = function(latLng, distance, triggerId){
+    var trigger = new Ed.Trigger(latLng, distance, {
+      triggerId: triggerId
+    });
+
+    trigger.addTo(Ed.triggers);
+  };
+
+  // convert points on a line to multiple coins
+  Ed.parseLine = function(points){
 
     for (var i = 0; i < points.length - 1; i++){ // iterate over all of the points in the line
       var p1 = points[i];  // the first point on the line
@@ -115,12 +280,10 @@
       for (var j = 0; j < coins; j++) { // make all the coins
 
         var latLng = new L.LatLng(lat, lng);
-        L.circle(latLng, 30, radiusStyle).addTo(Ed.map); // use for creating the trigger
         Ed.addCoin(latLng, 10);
 
         if (i === points.length - 2 && j === coins - 1){ //draw a coin if it's the very last point
           var lastPoint = points[points.length - 1];
-          L.circle(lastPoint, 30, radiusStyle).addTo(Ed.map);
           Ed.addCoin(lastPoint, 10);
         }
 
@@ -140,13 +303,40 @@
     }
   };
 
+  Ed.activatePoint = function () {
+    if (Ed.$.point.hasClass('active')){
+      Ed.$.point.removeClass('active');
+      Ed.tools.point.disable();
+    } else {
+      Ed.$.point.addClass('active');
+      Ed.$.line.removeClass('active');
+      Ed.tools.line.disable();
+      Ed.tools.point.enable();
+    }
+  };
+
+  Ed.activateLine = function () {
+    if (Ed.$.line.hasClass('active')){
+      Ed.$.line.removeClass('active');
+      Ed.tools.line.disable();
+    } else {
+      Ed.$.line.addClass('active');
+      Ed.$.point.removeClass('active');
+      Ed.tools.point.disable();
+      Ed.tools.line.enable();
+    }
+  };
+
   // initialize the editor
-  Ed.init = function(){
+  Ed.init = function(callback){
 
     Ed.$.editor = $('#editor');
-    Ed.$.tools = $('.edit-tools .btn.tool');
-    Ed.$.line = Ed.$.tools.filter('.line');
-    Ed.$.point = Ed.$.tools.filter('.point');
+    Ed.$.tools = $('.edit-tools');
+    Ed.$.line = Ed.$.tools.find('.btn.tool.line');
+    Ed.$.point = Ed.$.tools.find('.btn.tool.point');
+    Ed.$.publish = Ed.$.tools.find('.btn.publish');
+    Ed.$.title = Ed.$.tools.find('input.title');
+    Ed.$.city = Ed.$.tools.find('input.city');
 
     // init map
     // --------
@@ -160,41 +350,36 @@
 
     // init draw
     // ---------
-    var lineStyle = {
-        color: '#ffffff',
-        opacity: 0.9,
-        dashArray: '0.1, 30',
-        weight: 15,
-        fill: false,
-        fillOpacity: 0
-      };
 
-    var radiusStyle = {
-        color: '#FF9843',
-        opacity: 0.5,
-        weight: 1,
-        fill: true,
-        fillOpacity: 0.3
-      };
-
-    Ed.drawnItems = new L.FeatureGroup();
-    Ed.map.addLayer(Ed.drawnItems);
+    Ed.coins = new L.FeatureGroup();
+    Ed.triggers = new L.FeatureGroup();
+    Ed.map.addLayer(Ed.coins);
+    Ed.map.addLayer(Ed.triggers);
 
     Ed.tools.line = new L.Draw.Polyline(Ed.map, {
       shapeOptions: lineStyle
     });
+
     Ed.tools.point = new L.Draw.Marker(Ed.map, {
-      icon: new Ed.Coin()
+      icon: new Ed.CoinIcon(),
+      repeatMode: true
     });
 
     Ed.$.line.click(function(e){
       e.preventDefault();
-      Ed.tools.line.enable();
+      Ed.activateLine();
     });
 
     Ed.$.point.click(function(e){
       e.preventDefault();
-      Ed.tools.point.enable();
+      Ed.activatePoint();
+    });
+
+    Ed.$.publish.click(function(e){
+      e.preventDefault();
+      Ed.publishBoard(function(){
+        console.log('published!');
+      });
     });
 
     Ed.map.on('draw:created', function(e) {
@@ -202,56 +387,60 @@
       var layer = e.layer;
 
       if (type === 'marker') {
-        Ed.drawnItems.addLayer(layer);
+        Ed.addCoin(layer.getLatLng(), 10);
       } else {
-        Ed.parseLine(e.layer._latlngs);
+        Ed.parseLine(layer.getLatLngs());
+        Ed.activateLine();
       }
     });
 
     // init board
 
-    board.init();
+    board.init(callback);
 
   };
 
   // init editor when DOM is ready
   $(function(){
-    Ed.init();
+    Ed.init(function(){
 
+      if (board.triggerId) {
+        console.log('board exists!');
+      } else {
+        console.log('board is new!');
+      }
+    });
     // add coins
     // ---------
 
-    if (board.id) {
-      // add pretend coins
+    // add pretend coins
 
-      // Ed.addCoin([45.50845, -122.64935], 10);
-      // Ed.addCoin([45.50845, -122.64835], 20);
-      // Ed.addCoin([45.50845, -122.64735], 30);
-      // Ed.addCoin([45.50845, -122.64635], 40);
-      // Ed.addCoin([45.50845, -122.64535], 50);
+    // Ed.addCoin([45.50845, -122.64935], 10);
+    // Ed.addCoin([45.50845, -122.64835], 20);
+    // Ed.addCoin([45.50845, -122.64735], 30);
+    // Ed.addCoin([45.50845, -122.64635], 40);
+    // Ed.addCoin([45.50845, -122.64535], 50);
 
-      // Ed.addCoin([45.50745, -122.64935], 10, 'red');
-      // Ed.addCoin([45.50745, -122.64835], 20, 'red');
-      // Ed.addCoin([45.50745, -122.64735], 30, 'red');
-      // Ed.addCoin([45.50745, -122.64635], 40, 'red');
-      // Ed.addCoin([45.50745, -122.64535], 50, 'red');
+    // Ed.addCoin([45.50745, -122.64935], 10, 'red');
+    // Ed.addCoin([45.50745, -122.64835], 20, 'red');
+    // Ed.addCoin([45.50745, -122.64735], 30, 'red');
+    // Ed.addCoin([45.50745, -122.64635], 40, 'red');
+    // Ed.addCoin([45.50745, -122.64535], 50, 'red');
 
-      // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
-      // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
-      // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
-      // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
-      // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
+    // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
+    // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
+    // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
+    // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
+    // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
 
-      Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
-        console.log('You\'ve got ' + response.triggers.length + ' coins!');
-        console.log(response);
-      });
-    }
+    // Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
+    //   console.log('You\'ve got ' + response.triggers.length + ' coins!');
+    //   console.log(response);
+    // });
 
-    // expose Ed for debugs
-    window.Ed = Ed;
   });
 
+  // expose Ed for debugs
   window.Ed = Ed;
 
 })(window,$,L);
