@@ -213,14 +213,6 @@
     }
   };
 
-<<<<<<< HEAD
-  Ed.drawCoin = function(latLng, pts, color, triggerId) {
-    var msg;
-    var iconPath = '/img/coin';
-    msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin"></a></div>';
-
-    iconPath += pts + '.png';
-=======
   Ed.createTrigger = function(options) {
     var latLng = options.latLng;
     var distance = options.distance || 30;
@@ -246,7 +238,6 @@
       }
     }, function(response){
       Ed.drawTrigger(latLng, distance, response.triggerId);
->>>>>>> e58ec6779c14117ea6e4110d3b532a70166282be
 
       if (options.success) {
         options.success(response);
