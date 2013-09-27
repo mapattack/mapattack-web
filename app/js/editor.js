@@ -232,13 +232,8 @@
   Ed.drawCoin = function(latLng, pts, color, triggerId) {
     var msg;
     var iconPath = '/img/coin';
+    msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin"></a></div>';
 
-    if (color) {
-      iconPath += color;
-      msg = color.capitalize() + ' team got ' + pts + ' points';
-    } else {
-      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin"></a></div>';
-    }
     iconPath += pts + '.png';
 
     var icon = new Ed.CoinIcon({iconUrl: iconPath});
