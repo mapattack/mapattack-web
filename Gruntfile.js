@@ -22,6 +22,22 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: yeomanConfig,
+    shell: {
+      install: {
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        },
+        command: [
+          'hash bower 2>/dev/null || { echo >&2 "bower required but not found. installing..."; npm install -g bower; }',
+          'npm install',
+          'echo >&2 "√ server dependencies installed"',
+          'bower install',
+          'echo >&2 "√ browser dependencies installed"'
+        ].join('&&')
+      }
+    },
     watch: {
       compass: {
         files: ['<%= yeoman.app %>/scss/{,*/}*.{scss,sass}'],
@@ -209,6 +225,8 @@ module.exports = function (grunt) {
       }
     }
   });
+
+  grunt.registerTask('install', ['shell:install']);
 
   grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
 
