@@ -161,6 +161,9 @@
       }
     }, function(response){
       board.merge(response);
+      if (window.history && window.history.replaceState) {
+        window.history.pushState({}, '', '/boards/' + board.id + '/edit');
+      }
 
       if (callback) {
         callback();
@@ -517,9 +520,15 @@
 
     Ed.$.publish.click(function(e){
       e.preventDefault();
-      Ed.publishBoard(function(){
-        console.log('published!');
-      });
+      if (board.triggerId) {
+        Ed.publishBoard(function(){
+          console.log('board published!');
+        });
+      } else {
+        Ed.createBoard(Ed.map.getCenter(), function(){
+          console.log('board created!');
+        });
+      }
     });
 
     Ed.map.on('draw:created', function(e) {
