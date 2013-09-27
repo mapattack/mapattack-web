@@ -5,6 +5,15 @@
   right: 0;
   bottom: 0;
   left: 0;
+  &.transparent {
+    top: 0;
+    .leaflet-left {
+      left: 12px;
+    }
+    .leaflet-bottom {
+      bottom: 12px;
+    }
+  }
 }
 
 .leaflet-container {
@@ -14,7 +23,7 @@
 #editor {
   min-height: 320px;
   position: fixed;
-  top: 0;
+  top: 72px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -30,7 +39,6 @@
   padding: 1em;
   margin: 2em;
   background-color: $cream;
-  // border: 2px solid $light-gray;
 
   input[type='text']{
     width: 100%;
@@ -38,7 +46,7 @@
     color: $blue;
     background-color: $cream;
     border: 2px solid $blue;
-    &:first-child{
+    &:first-child {
       border-bottom: none;
     }
     &:hover {

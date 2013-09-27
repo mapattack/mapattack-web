@@ -134,7 +134,8 @@ function findIdInTags(input_tags, prefix) {
   // Given a list of tags like "board","board:10","game","game:20","game:21" and a prefix "board", return "10"
   var result = null;
   input_tags.forEach(function(t){
-    if(match=t.match(new RegExp('^'+prefix+':([^:]+)$'))) {
+    var match = t.match(new RegExp('^'+prefix+':([^:]+)$'));
+    if (match) {
       result = match[1];
     }
   });
@@ -166,6 +167,11 @@ app.get('/', function(req, res){
   // } else {
   //   res.render('index');
   // }
+});
+
+// render home if user is logged in, otherwise render index
+app.get('/viewer', function(req, res){
+  res.render('viewer',{layout: false});
 });
 
 // authentication
