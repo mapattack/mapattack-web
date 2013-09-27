@@ -29,7 +29,7 @@
     <ul class="boards red">
       <% boards.forEach(function(board){ %>
         <li>
-          <a href="/boards/<%= findIdInTags(board.tags) %>">
+          <a href="/boards/<%= findIdInTags(board.tags, 'board') %>">
             <% if (board.properties && board.properties.title) { %>
               <%= board.properties.title %>
             <% } else { %>
@@ -59,17 +59,26 @@
           <span class="plain">Players</span>
         </div>
       </div>
-      <div class="game col-group no-padding">
-        <div class="col col1of2">
-          <a class="title" href="/games/:id">Board Title</a>
+
+      <% games.forEach(function(board){ %>
+        <div class="game col-group no-padding">
+          <div class="col col1of2">
+            <a class="title" href="/games/<%= findIdInTags(board.tags, 'game') %>">
+              <% if (board.properties && board.properties.title) { %>
+                <%= board.properties.title %>
+              <% } else { %>
+                Untitled Board
+              <% } %>
+            </a>
+          </div>
+          <div class="col col1of4">
+            <span class="hours">?</span>
+          </div>
+          <div class="col col1of4">
+            <span class="hours">?</span>
+          </div>
         </div>
-        <div class="col col1of4">
-          <span class="hours">4:30pm</span>
-        </div>
-        <div class="col col1of4">
-          <span class="hours">12</span>
-        </div>
-      </div>
+      <% }) %>
     </div>
   </section>
 </div>

@@ -1,3 +1,6 @@
+// declare ye vars
+// ---------------
+
 var pkg = require('./package.json');
 var config = require('./config.json');
 
@@ -19,14 +22,16 @@ var api = new Geotriggers.Session({
   clientSecret: config.ago.client_secret
 });
 
-// global to store boards and share between routes and methods and such
+// globals to store boards and games and share between routes and methods and such
 var boards = {};
+var games = {};
 
 // misc
 var needle = require('needle');
 var hour = 3600000;
 
-// server config superchain
+// config superchain
+// -----------------
 
 app
   .set('port', port)
@@ -54,6 +59,7 @@ app
   .use(app.router);
 
 // twitter auth
+// ------------
 
 // serialize the user into the database (noop)
 passport.serializeUser(function(user, done) {
@@ -79,6 +85,9 @@ passport.use(new TwitterStrategy({
     });
   }
 ));
+
+// helper functions
+// ----------------
 
 // drop-in functions for routes, mostly self-explanatory
 
@@ -110,6 +119,20 @@ function getBoards(req, res, next) {
   });
 }
 
+function getGames(req, res, next) {
+  api.request('trigger/list', { tags: 'game' }, function(error, response){
+    if (error) {
+      console.log(error);
+    } else {
+      games = response.triggers;
+    }
+    res.locals({
+      games: games
+    });
+    next();
+  });
+}
+
 function getNewBoardId(callback) {
   needle.post('http://api.mapattack.org/board/new', {
     access_token: api.token
@@ -127,6 +150,12 @@ function getNewBoardId(callback) {
 function findBoardById(id) {
   return boards.filter(function(obj){
     return findIdInTags(obj.tags, 'board') === id;
+  })[0];
+}
+
+function findGameById(id) {
+  return boards.filter(function(obj){
+    return findIdInTags(obj.tags, 'game') === id;
   })[0];
 }
 
@@ -150,28 +179,22 @@ app.locals.findIdInTags = findIdInTags;
 
 // things to load for every route
 
-// app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
-// app.get('/', loadAuthentication, getBoards);
+app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
+app.get('/games*', loadAuthentication, getGames);
+app.get('/', loadAuthentication, getBoards, getGames);
 // just do it up for debug for now for the win
-app.get('*', loadAuthentication, getBoards);
+// app.get('*', loadAuthentication, getBoards);
 
 // root
 // ----
 
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
-  res.render('home');
-
-  // if (req.user) {
-  //   res.render('home');
-  // } else {
-  //   res.render('index');
-  // }
-});
-
-// render home if user is logged in, otherwise render index
-app.get('/viewer', function(req, res){
-  res.render('viewer',{layout: false});
+  if (req.user) {
+    res.render('home');
+  } else {
+    res.render('index');
+  }
 });
 
 // authentication
@@ -225,10 +248,6 @@ app.get('/boards/new', function(req, res){
   });
 });
 
-app.post('/boards/new', function(req, res){
-  // create new board
-});
-
 // show existing board
 app.get('/boards/:id', function(req, res){
   var board = findBoardById(req.params.id);
@@ -238,13 +257,9 @@ app.get('/boards/:id', function(req, res){
 // edit existing board
 app.get('/boards/:id/edit', function(req, res){
   var board = findBoardById(req.params.id);
-  console.log(board);
+  console.log('editing board: ' + board.properties.title + ' (boardId: ' + req.params.id + ', triggerId: ' + board.triggerId + ')');
   res.locals.board = board;
   res.render('editor', { layout: false });
-});
-
-app.post('/boards/:id/edit', function(req, res){
-  // update existing board
 });
 
 // coin routes
@@ -271,9 +286,13 @@ app.get('/board/:id/coins', function(req, res){
   // ?
 });
 
+// viewer routes
+// -------------
+
 app.get('/games/:id', function(req, res){
-  var board = findBoardById(req.params.id);
-  res.json(board);
+  var game = findGameById(req.params.id);
+  res.locals.game = game;
+  res.render('viewer', { layout: false });
 });
 
 // Geotrigger API route
@@ -285,7 +304,10 @@ app.post('/api/*', function(req, res){
   });
 });
 
-// start server
+// start the server
+// ----------------
+
+// choo choo
 app.listen(app.get('port'), function(){
   var started = [
     pkg.name,

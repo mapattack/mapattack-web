@@ -51,6 +51,7 @@
     }
   };
 
+
   board.init = function(callback){
 
     var boardId = Ed.$.editor.data('board-id');
@@ -119,7 +120,6 @@
 
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
-      draggable:     true,
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
@@ -161,6 +161,9 @@
       }
     }, function(response){
       board.merge(response);
+      if (window.history && window.history.replaceState) {
+        window.history.pushState({}, '', '/boards/' + board.id + '/edit');
+      }
 
       if (callback) {
         callback();
@@ -249,23 +252,33 @@
     var triggerId = options.triggerId;
     var latLng = options.latLng;
     var distance = options.distance || 30;
-    var points = options.points || 10;
+    var points = options.points;
 
-    Ed.request('trigger/update', {
-      'triggerIds': triggerId,
-      'condition': {
-        'geo': {
-          'latitude': latLng.lat,
-          'longitude': latLng.lng,
-          'distance': distance
-        }
-      },
-      'properties': {
+    var params = {};
+
+    if (triggerId) {
+      params.triggerIds = triggerId;
+    }
+
+    if (latLng) {
+      params.condition = {};
+      params.condition.geo = {
+        'latitude': latLng.lat,
+        'longitude': latLng.lng,
+        'distance': distance
+      }
+    }
+
+    if (points) {
+      params.properties = {
         'value': points
       }
-    }, function(response){
-      console.log(response);
-      Ed.drawTrigger(latLng, distance, response.triggers[0].triggerId);
+    }
+
+    Ed.request('trigger/update', params, function(response){
+      if (options.redraw !== false) {
+        Ed.drawTrigger(latLng, distance, response.triggers[0].triggerId);
+      }
 
       if (options.success) {
         options.success(response);
@@ -273,17 +286,23 @@
     });
   };
 
-  Ed.drawCoin = function(latLng, pts, triggerId) {
-    var msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
+  Ed.drawCoin = function(latLng, points, triggerId) {
+    var msg = '<div class="coin-pop">';
+    msg += '<button data-value="10" class="point-value ten"></button>';
+    msg += '<button data-value="20" class="point-value twenty"></button>';
+    msg += '<button data-value="30" class="point-value thirty"></button>';
+    msg += '<button data-value="50" class="point-value fifty"></button>';
+    msg += '<button class="delete-coin">X</button>';
+    msg += '</div>';
 
-    var icon = new Ed.CoinIcon();
+    var icon = new Ed.CoinIcon({
+      html: points
+    });
 
     var coin = new Ed.Coin(latLng, {
       icon: icon,
       triggerId: triggerId
     });
-
-    coin.addTo(Ed.coins).bindPopup(msg);
 
     coin.on('dragstart', function(e){
       var target = e.target;
@@ -304,6 +323,41 @@
       });
     });
 
+    var popup = $(msg);
+
+    // bind delete
+    popup.find('.delete-coin').click(function(e){
+      e.preventDefault();
+      var triggerId = coin.options.triggerId;
+      Ed.deleteTrigger(triggerId);
+    });
+
+    var $pts = popup.find('.point-value');
+
+    // add active class to button with point value of coin
+    $pts.filter(function(){
+      return $(this).data('value') === Number(points);
+    }).addClass('active');
+
+    // bind point value switchery
+    $pts.click(function(e){
+      e.preventDefault();
+      $pts.removeClass('active');
+      var $this = $(this);
+      var val = $this.data('value');
+
+      Ed.updateTrigger({
+        triggerId: triggerId,
+        points: val,
+        redraw: false,
+        success: function(response){
+          $this.addClass('active');
+        }
+      });
+    });
+
+    coin.addTo(Ed.coins).bindPopup(popup[0]);
+
     return coin;
   };
 
@@ -313,6 +367,28 @@
     });
 
     trigger.addTo(Ed.triggers);
+  };
+
+  Ed.deleteTrigger = function(triggerId){
+    Ed.request('trigger/delete', {
+      triggerIds: triggerId
+    }, function(response){
+      var i;
+      var triggers = Ed.triggers.getLayers();
+      var coins = Ed.coins.getLayers();
+
+      for (i = 0; i < triggers.length; i++) {
+        if (triggers[i].options.triggerId === triggerId) {
+          Ed.triggers.removeLayer(triggers[i]);
+        }
+      }
+
+      for (i = 0; i < coins.length; i++) {
+        if (coins[i].options.triggerId === triggerId) {
+          Ed.coins.removeLayer(coins[i]);
+        }
+      }
+    });
   };
 
   // convert points on a line to multiple coins
@@ -396,11 +472,6 @@
     // init map
     // --------
 
-    // Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
-
-    // new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
-
-    // init map
     Ed.map = L.map('editor', {
       center: [45.50845, -122.64935],
       zoom: 16,
@@ -415,6 +486,10 @@
       maxZoom: 18,
       subdomains: '0123'
     }).addTo(Ed.map);
+
+    // Ed.map.on('popupopen', function(e) {
+    //   window.popup = this;
+    // });
 
     // init draw
     // ---------
@@ -445,9 +520,15 @@
 
     Ed.$.publish.click(function(e){
       e.preventDefault();
-      Ed.publishBoard(function(){
-        console.log('published!');
-      });
+      if (board.triggerId) {
+        Ed.publishBoard(function(){
+          console.log('board published!');
+        });
+      } else {
+        Ed.createBoard(Ed.map.getCenter(), function(){
+          console.log('board created!');
+        });
+      }
     });
 
     Ed.map.on('draw:created', function(e) {
@@ -478,33 +559,6 @@
         console.log('board is new!');
       }
     });
-    // add coins
-    // ---------
-
-    // add pretend coins
-
-    // Ed.addCoin([45.50845, -122.64935], 10);
-    // Ed.addCoin([45.50845, -122.64835], 20);
-    // Ed.addCoin([45.50845, -122.64735], 30);
-    // Ed.addCoin([45.50845, -122.64635], 40);
-    // Ed.addCoin([45.50845, -122.64535], 50);
-
-    // Ed.addCoin([45.50745, -122.64935], 10, 'red');
-    // Ed.addCoin([45.50745, -122.64835], 20, 'red');
-    // Ed.addCoin([45.50745, -122.64735], 30, 'red');
-    // Ed.addCoin([45.50745, -122.64635], 40, 'red');
-    // Ed.addCoin([45.50745, -122.64535], 50, 'red');
-
-    // Ed.addCoin([45.50945, -122.64935], 10, 'blue');
-    // Ed.addCoin([45.50945, -122.64835], 20, 'blue');
-    // Ed.addCoin([45.50945, -122.64735], 30, 'blue');
-    // Ed.addCoin([45.50945, -122.64635], 40, 'blue');
-    // Ed.addCoin([45.50945, -122.64535], 50, 'blue');
-
-    // Ed.request('trigger/list', { tags: ['coin', 'coin:board:' + board.id] }, function(response){
-    //   console.log('You\'ve got ' + response.triggers.length + ' coins!');
-    //   console.log(response);
-    // });
 
   });
 
