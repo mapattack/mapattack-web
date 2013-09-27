@@ -32,6 +32,13 @@
 
   Ed.board = board;
 
+  // user tracker
+  var user = {
+    id: null            // user id
+  };
+
+  Ed.user = user;
+
   // styles
 
   var lineStyle = {
@@ -43,6 +50,8 @@
     fillOpacity: 0
   };
 
+  // board methods
+
   board.merge = function(obj){
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -50,7 +59,6 @@
       }
     }
   };
-
 
   board.init = function(callback){
 
@@ -76,9 +84,11 @@
               bounds.extend(latLng);
             }
 
-            Ed.map.fitBounds(bounds, {
-              padding: [50, 50]
-            });
+            if (bounds.isValid()) {
+              Ed.map.fitBounds(bounds, {
+                padding: [50, 50]
+              });
+            }
 
             callback();
           });
@@ -91,6 +101,14 @@
       throw new Error('Missing Board ID!');
     }
   };
+
+  // user methods
+
+  user.init = function() {
+    user.id = Ed.$.user.data('id');
+  };
+
+  // Ed methods
 
   // make any Geotrigger API request
   Ed.request = function(method, params, callback){
@@ -139,8 +157,9 @@
   });
 
   Ed.createBoard = function(latLng, callback) {
+    board.isNew = false;
     Ed.request('trigger/create', {
-      'setTags': ['board', 'board:' + board.id],
+      'setTags': ['board', 'board:' + board.id, 'board:twitter_id:' + user.id],
       'condition': {
         'direction': 'enter',
         'geo': {
@@ -209,7 +228,6 @@
 
     if (board.isNew) {
       Ed.createBoard(latLng, create);
-      board.isNew = false;
     } else {
       create();
     }
@@ -344,6 +362,7 @@
       $pts.removeClass('active');
       var $this = $(this);
       var val = $this.data('value');
+      var triggerId = coin.options.triggerId;
 
       Ed.updateTrigger({
         triggerId: triggerId,
@@ -470,6 +489,7 @@
   Ed.init = function(callback){
 
     Ed.$.editor = $('#editor');
+    Ed.$.user = $('#user-data');
     Ed.$.tools = $('.edit-tools');
     Ed.$.line = Ed.$.tools.find('.btn.tool.line');
     Ed.$.point = Ed.$.tools.find('.btn.tool.point');
@@ -551,7 +571,11 @@
       }
     });
 
-    // init board
+    // init user
+
+    user.init();
+
+    // init board (async)
 
     board.init(callback);
 
