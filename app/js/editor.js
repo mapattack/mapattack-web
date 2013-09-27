@@ -222,6 +222,7 @@
 
     if (board.isNew) {
       Ed.createBoard(latLng, create);
+      board.isNew = false;
     } else {
       create();
     }
