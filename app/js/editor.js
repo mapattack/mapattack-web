@@ -191,7 +191,7 @@
   Ed.addCoin = function(latLng, pts, color){
     var distance = 30;
 
-    var coin = Ed.drawCoin(latLng, pts);
+    var coin = Ed.drawCoin(latLng, pts, color);
 
     function create() {
       Ed.request('trigger/create', {
@@ -227,9 +227,8 @@
     }
   };
 
-  Ed.drawCoin = function(latLng, pts, triggerId, color) {
+  Ed.drawCoin = function(latLng, pts, color, triggerId) {
     var msg;
-    var distance = 30;
     var iconPath = '/img/coin';
 
     if (color) {
