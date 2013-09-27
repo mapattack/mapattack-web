@@ -118,7 +118,7 @@
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
       // iconUrl:       '/img/coin10.png',
-      iconSize:      [14, 15],
+      iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
       className:     'coin',
@@ -191,7 +191,7 @@
   Ed.addCoin = function(latLng, pts, color){
     var distance = 30;
 
-    var coin = Ed.drawCoin(latLng, pts);
+    var coin = Ed.drawCoin(latLng, pts, color);
 
     function create() {
       Ed.request('trigger/create', {
@@ -222,21 +222,21 @@
 
     if (board.isNew) {
       Ed.createBoard(latLng, create);
+      board.isNew = false;
     } else {
       create();
     }
   };
 
-  Ed.drawCoin = function(latLng, pts, triggerId, color) {
+  Ed.drawCoin = function(latLng, pts, color, triggerId) {
     var msg;
-    var distance = 30;
     var iconPath = '/img/coin';
 
     if (color) {
       iconPath += color;
       msg = color.capitalize() + ' team got ' + pts + ' points';
     } else {
-      msg = 'Worth ' + pts + ' points.';
+      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
     }
     iconPath += pts + '.png';
 
@@ -444,4 +444,3 @@
   window.Ed = Ed;
 
 })(window,$,L);
-

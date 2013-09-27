@@ -126,12 +126,14 @@
   }
 }
 
+
+
 .coin {
   width: 20px;
   height: 17px;
   font-family: $body-font;
-  font-size: 10px;
-  padding-left: 1px;
+  font-size: 13px;
+  // padding-left: 1px;
   color: $dark-gray;
   text-align: center;
   vertical-align: center;
@@ -148,11 +150,63 @@
   }
 }
 
+.coin-pop {
+    a {
+    padding: 0 3px;
+    margin: 0 3px 0px 3px;
+    color: $dark-gray;
+    border: 1px solid $light-gray;
+    &.active {
+      background-color: $dark-gray;
+      color: $off-white;
+      &:hover {
+        background-color: $dark-gray;
+        color: $off-white;
+      }
+    }
+    &:hover {
+      background-color: $light-gray;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+    &.delete-coin {
+      margin-left: 9px;
+      margin-right: 0px;
+      color: $red;
+      border: 1px solid $red;
+      &:hover {
+        background-color: $red;
+        color: $off-white;
+      }
+    }
+  }
+  .ten:after {
+    content: "10";
+  }
+  .twenty:after {
+    content: "20";
+  }
+  .thirty:after {
+    content: "30";
+  }
+  .fourty:after {
+    content: "40";
+  }
+  .fifty:after {
+    content: "50";
+  }
+}
+
 .leaflet-popup-content-wrapper {
   @include border-radius(0);
   font-family: $body-font;
   color: $dark-gray;
   font-size: 12px;
+}
+
+.leaflet-popup-content {
+  margin: 12px;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
