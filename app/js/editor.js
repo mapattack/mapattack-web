@@ -30,6 +30,8 @@
     merge: null         // merge response into board
   };
 
+  Ed.board = board;
+
   // styles
 
   var lineStyle = {
@@ -57,15 +59,25 @@
       Ed.request('trigger/list', { tags: ['board:' + boardId] }, function(response){
         if (response.triggers.length !== 0) {
           board.merge(response.triggers[0]);
+
           Ed.request('trigger/list', { tags: ['coin:board:' + boardId] }, function(response){
             var triggers = response.triggers;
+            var bounds = new L.LatLngBounds();
+
             for (var i = 0; i < triggers.length; i++) {
               var geo = triggers[i].condition.geo;
               var latLng = new L.LatLng(geo.latitude, geo.longitude);
               var value = triggers[i].properties.value;
+
               Ed.drawCoin(latLng, value, triggers[i].triggerId);
               Ed.drawTrigger(latLng, geo.distance, triggers[i].triggerId);
+              bounds.extend(latLng);
             }
+
+            Ed.map.fitBounds(bounds, {
+              padding: [50, 50]
+            });
+
             callback();
           });
         } else {
