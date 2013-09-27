@@ -52,6 +52,7 @@
   };
 
   board.init = function(callback){
+
     var boardId = Ed.$.editor.data('board-id');
     board.id = boardId || null;
 
@@ -117,7 +118,7 @@
 
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
-      // iconUrl:       '/img/coin10.png',
+      draggable:     true,
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
@@ -236,7 +237,7 @@
       iconPath += color;
       msg = color.capitalize() + ' team got ' + pts + ' points';
     } else {
-      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
+      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin"></a></div>';
     }
     iconPath += pts + '.png';
 
@@ -341,7 +342,20 @@
     // init map
     // --------
 
-    Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
+    // Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
+
+    // new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
+
+    // init map
+    Ed.map = L.map('editor', {
+      center: [45.50845, -122.64935],
+      zoom: 16,
+      scrollWheelZoom: true,
+      attributionControl: false,
+      zoomControl: false
+    });
+
+    new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
 
     L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
       maxZoom: 18,
