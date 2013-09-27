@@ -122,7 +122,6 @@
     options: {
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
-      html:          '10',
       className:     'coin',
       popupAnchor:   [0, -10]
     }
@@ -263,13 +262,13 @@
         'latitude': latLng.lat,
         'longitude': latLng.lng,
         'distance': distance
-      }
+      };
     }
 
     if (points) {
       params.properties = {
         'value': points
-      }
+      };
     }
 
     Ed.request('trigger/update', params, function(response){
@@ -289,11 +288,11 @@
     msg += '<button data-value="20" class="point-value twenty"></button>';
     msg += '<button data-value="30" class="point-value thirty"></button>';
     msg += '<button data-value="50" class="point-value fifty"></button>';
-    msg += '<button class="delete-coin">X</button>';
+    msg += '<button class="delete-coin"></button>';
     msg += '</div>';
 
     var icon = new Ed.CoinIcon({
-      html: points
+      className: 'coin p' + points
     });
 
     var coin = new Ed.Coin(latLng, {
@@ -349,8 +348,17 @@
         redraw: false,
         success: function(response){
           $this.addClass('active');
+          console.log(coin.options.icon.options.className);
+          $(coin._icon).removeClass('p50 p30 p20 p10');
+          $(coin._icon).addClass('p' + val);
+
         }
       });
+
+      coin.update({
+        className: 'coin p' + val
+      });
+
     });
 
     coin.addTo(Ed.coins).bindPopup(popup[0]);
