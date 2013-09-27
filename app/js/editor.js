@@ -52,6 +52,7 @@
   };
 
   board.init = function(callback){
+
     var boardId = Ed.$.editor.data('board-id');
     board.id = boardId || null;
 
@@ -111,13 +112,14 @@
   // coin class
   Ed.Coin = L.Marker.extend({
     options: {
+      draggable: true,
       triggerId: null
     }
   });
 
   Ed.CoinIcon = L.DivIcon.extend({
     options: {
-      // iconUrl:       '/img/coin10.png',
+      draggable:     true,
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       html:          '10',
@@ -188,35 +190,18 @@
   };
 
   // add a new coin to the map
-  Ed.addCoin = function(latLng, pts, color){
+  Ed.addCoin = function(latLng, points){
     var distance = 30;
 
-    var coin = Ed.drawCoin(latLng, pts, color);
+    var coin = Ed.drawCoin(latLng, points);
 
     function create() {
-      Ed.request('trigger/create', {
-        'setTags': ['coin', 'coin:board:' + board.id],
-        'condition': {
-          'direction': 'enter',
-          'geo': {
-            'latitude': latLng.lat,
-            'longitude': latLng.lng,
-            'distance': distance
-          }
-        },
-        'action': {
-          'notification': {
-            'text': 'You done got a point!'
-          }
-        },
-        'properties': {
-          'value': pts
+      Ed.createTrigger({
+        latLng: latLng,
+        points: points,
+        success: function(response) {
+          coin.options.triggerId = response.triggerId;
         }
-      }, function(response){
-        console.log('created trigger tagged "coin:board:' + board.id + '"', response);
-        var triggerId = response.triggerId;
-        coin.options.triggerId = triggerId;
-        Ed.drawTrigger(latLng, distance, triggerId);
       });
     }
 
@@ -228,19 +213,70 @@
     }
   };
 
-  Ed.drawCoin = function(latLng, pts, color, triggerId) {
-    var msg;
-    var iconPath = '/img/coin';
+  Ed.createTrigger = function(options) {
+    var latLng = options.latLng;
+    var distance = options.distance || 30;
+    var points = options.points || 10;
 
-    if (color) {
-      iconPath += color;
-      msg = color.capitalize() + ' team got ' + pts + ' points';
-    } else {
-      msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
-    }
-    iconPath += pts + '.png';
+    Ed.request('trigger/create', {
+      'setTags': ['coin', 'coin:board:' + board.id],
+      'condition': {
+        'direction': 'enter',
+        'geo': {
+          'latitude': latLng.lat,
+          'longitude': latLng.lng,
+          'distance': distance
+        }
+      },
+      'action': {
+        'notification': {
+          'text': 'You done got a point!'
+        }
+      },
+      'properties': {
+        'value': points
+      }
+    }, function(response){
+      Ed.drawTrigger(latLng, distance, response.triggerId);
 
-    var icon = new Ed.CoinIcon({iconUrl: iconPath});
+      if (options.success) {
+        options.success(response);
+      }
+    });
+  };
+
+  Ed.updateTrigger = function(options) {
+    var triggerId = options.triggerId;
+    var latLng = options.latLng;
+    var distance = options.distance || 30;
+    var points = options.points || 10;
+
+    Ed.request('trigger/update', {
+      'triggerIds': triggerId,
+      'condition': {
+        'geo': {
+          'latitude': latLng.lat,
+          'longitude': latLng.lng,
+          'distance': distance
+        }
+      },
+      'properties': {
+        'value': points
+      }
+    }, function(response){
+      console.log(response);
+      Ed.drawTrigger(latLng, distance, response.triggers[0].triggerId);
+
+      if (options.success) {
+        options.success(response);
+      }
+    });
+  };
+
+  Ed.drawCoin = function(latLng, pts, triggerId) {
+    var msg = '<div class="coin-pop"><a href="" class="ten active"></a><a href="" class="twenty"></a><a href="" class="thirty"></a><a href="" class="fourty"></a><a href="" class="fifty"></a><a href="" class="delete-coin">X</a></div>';
+
+    var icon = new Ed.CoinIcon();
 
     var coin = new Ed.Coin(latLng, {
       icon: icon,
@@ -248,6 +284,25 @@
     });
 
     coin.addTo(Ed.coins).bindPopup(msg);
+
+    coin.on('dragstart', function(e){
+      var target = e.target;
+      var triggers = Ed.triggers.getLayers();
+      for (var i = 0; i < triggers.length; i++) {
+        if (triggers[i].options.triggerId === target.options.triggerId) {
+          Ed.triggers.removeLayer(triggers[i]);
+        }
+      }
+    });
+
+    coin.on('dragend', function(e){
+      var target = e.target;
+      var latLng = target.getLatLng();
+      Ed.updateTrigger({
+        triggerId: target.options.triggerId,
+        latLng: latLng
+      });
+    });
 
     return coin;
   };
@@ -341,7 +396,20 @@
     // init map
     // --------
 
-    Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
+    // Ed.map = L.map('editor').setView([45.50845, -122.64935], 16);
+
+    // new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
+
+    // init map
+    Ed.map = L.map('editor', {
+      center: [45.50845, -122.64935],
+      zoom: 16,
+      scrollWheelZoom: true,
+      attributionControl: false,
+      zoomControl: false
+    });
+
+    new L.Control.Zoom({ position: 'bottomleft' }).addTo(Ed.map);
 
     L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
       maxZoom: 18,
