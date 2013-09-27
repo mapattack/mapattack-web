@@ -169,6 +169,11 @@ app.get('/', function(req, res){
   // }
 });
 
+// render home if user is logged in, otherwise render index
+app.get('/viewer', function(req, res){
+  res.render('viewer',{layout: false});
+});
+
 // authentication
 // --------------
 

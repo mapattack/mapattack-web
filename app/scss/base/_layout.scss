@@ -2,6 +2,10 @@
   background-color: $white;
   padding-top: 72px;
   width: 100%;
+  &.transparent {
+    background-color: transparent;
+    padding-top: 0;
+  }
 }
 
 .top-nav {
@@ -9,7 +13,7 @@
   padding: 1em 32px 0.5em;
   margin: 0 auto;
   position: fixed;
-  background: white;
+  background-color: white;
   top: 0;
   right: 0;
   left: 0;
@@ -40,14 +44,6 @@
     display: inline-block;
     float:right;
     width: auto;
-
-    &.left {
-      float: left;
-    }
-    &.right {
-      float: right;
-    }
-
     img {
       @include border-radius(26px, 26px);
       border: 4px solid $blue;
@@ -55,12 +51,34 @@
       float: left;
       margin-top: -4px;
     }
-
     a {
       margin-left: 18px;
     }
   }
   @include clearfix;
+  &.transparent {
+    padding: 1em 1.5em 0.5em;
+    background-color: transparent;
+    .brand {
+      color: white;
+    }
+    .white-link {
+      color: white;
+      border: 2px solid white;
+      padding: 0.5em;
+      &:hover {
+        color: $blue;
+        background-color: white;
+      }
+    }
+    nav {
+      margin-top: 12px;
+      img {
+        border-color: white;
+        margin-top:-14px;
+      }
+    }
+  }
 }
 
 .panel {
@@ -144,4 +162,22 @@
       margin-top: 2em;
     }
   }
+}
+
+.on-red {
+  background-color: $red;
+  color: $white;
+}
+
+.on-blue {
+  background-color: $blue;
+  color: $white;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
 }
