@@ -2,8 +2,9 @@
   background-color: $white;
   padding-top: 72px;
   width: 100%;
-  &.short {
-    padding-top: 48px;
+  &.transparent {
+    background-color: transparent;
+    padding-top: 0;
   }
 }
 
@@ -43,14 +44,6 @@
     display: inline-block;
     float:right;
     width: auto;
-
-    &.left {
-      float: left;
-    }
-    &.right {
-      float: right;
-    }
-
     img {
       @include border-radius(26px, 26px);
       border: 4px solid $blue;
@@ -58,24 +51,31 @@
       float: left;
       margin-top: -4px;
     }
-
     a {
       margin-left: 18px;
     }
   }
   @include clearfix;
-  &.short {
-    padding: 0 32px;
-    .blue-link {
-      line-height:3em;
-    }
+  &.transparent {
+    padding: 1em 1.5em 0.5em;
+    background-color: transparent;
     .brand {
-      font-size: 1.2em;
-      line-height: 2.5em;
-      &:before {
-        height: 30px;
-        width: 30px;
-        vertical-align: -8px;
+      color: white;
+    }
+    .white-link {
+      color: white;
+      border: 2px solid white;
+      padding: 0.5em;
+      &:hover {
+        color: $blue;
+        background-color: white;
+      }
+    }
+    nav {
+      margin-top: 12px;
+      img {
+        border-color: white;
+        margin-top:-14px;
       }
     }
   }

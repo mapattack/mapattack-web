@@ -5,8 +5,14 @@
   right: 0;
   bottom: 0;
   left: 0;
-  &.short {
-    top: 48px;
+  &.transparent {
+    top: 0;
+    .leaflet-left {
+      left: 12px;
+    }
+    .leaflet-bottom {
+      bottom: 12px;
+    }
   }
 }
 

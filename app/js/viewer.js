@@ -17,7 +17,15 @@
     Viewer.$.viewer = $('#viewer');
 
     // init map
-    Viewer.map = L.map('viewer').setView([45.50845, -122.64935], 16);
+    Viewer.map = L.map('viewer', {
+      center: [45.50845, -122.64935],
+      zoom: 16,
+      scrollWheelZoom: false,
+      attributionControl: false,
+      zoomControl: false
+    });
+
+    new L.Control.Zoom({ position: 'bottomleft' }).addTo(Viewer.map);
 
     L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
       maxZoom: 18,
