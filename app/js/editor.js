@@ -112,7 +112,12 @@
 
   // make any Geotrigger API request
   Ed.request = function(method, params, callback){
-    var post;
+    var options = {
+      type: 'POST',
+      url: '/api/' + method,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json'
+    };
 
     if (typeof callback === 'undefined' &&
         typeof params === 'function') {
@@ -120,12 +125,14 @@
     }
 
     if (typeof params === 'object') {
-      post = $.post('/api/' + method, params, 'json');
-    } else {
-      post = $.post('/api/' + method, 'json');
+      options.data = JSON.stringify(params);
     }
 
-    post.done(callback);
+    $.ajax(options)
+      .done(callback)
+      .fail(function(jqXHR, textStatus, errorThrown){
+        console.log('API call failed', jqXHR, textStatus, errorThrown);
+      });
   };
 
   // coin class
