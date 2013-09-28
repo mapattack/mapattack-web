@@ -300,7 +300,12 @@ app.get('/games/:id', function(req, res){
 // --------------------
 // passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
 app.post('/api/*', function(req, res){
+  console.log('API REQUEST: ', req.params, req.body);
+  if (req.body.condition && req.body.condition.geo && req.body.condition.geo.geojson) {
+    console.log('geojson: ', req.body.condition.geo.geojson, req.body.condition.geo.geojson.geometry.coordinates);
+  }
   api.request(req.params[0], req.body, function(error, response){
+    console.log('API RESPONSE: ', error, response);
     res.json(error || response);
   });
 });
