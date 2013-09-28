@@ -11,8 +11,9 @@
   var Viewer = {
     $: {},              // dom cache
     game: null,         // game meta
-    Coin: null,         // Coin class
+    Coin: null,         // Coin marker class
     coins: null,        // coins
+    Player: null,       // Player marker class
     players: null,      // players
     blueTeam: null,     // blue team sorted via points
     redTeam: null,      // red team sorted via points
@@ -32,6 +33,22 @@
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
       className:     'coin',
+      popupAnchor:   [0, -10]
+    }
+  });
+
+  // person class
+  Viewer.Player = L.Marker.extend({
+    options: {
+      draggable: false
+    }
+  });
+
+  Viewer.PlayerIcon = L.DivIcon.extend({
+    options: {
+      iconSize:      [30, 50],
+      iconAnchor:    [15, 50],
+      className:     'playerIcon',
       popupAnchor:   [0, -10]
     }
   });
@@ -58,6 +75,7 @@
     }).addTo(Viewer.map);
 
     Viewer.layerGroup = new L.LayerGroup();
+    Viewer.layerGroup.addTo(Viewer.map);
 
   };
 
@@ -115,8 +133,22 @@
 
   };
 
+  Viewer.drawPlayer = function(lat, lng, initials, team) {
+
+    var icon = new Viewer.PlayerIcon({
+      className: 'plyr ' + team,
+      html: initials
+    });
+
+    var latLng = new L.LatLng(lat, lng);
+    var playerMarker = new Viewer.Player(latLng, { icon: icon });
+    Viewer.layerGroup.addLayer(playerMarker);
+  };
+
   Viewer.addPlayers = function(){
-    console.log('players on the map');
+    $.each(Viewer.players, function(index, player){
+      Viewer.drawPlayer(player.latitude, player.longitude, player.initials, player.team);
+    });
   };
 
   Viewer.drawCoin = function(lat, lng, points, team) {
@@ -131,8 +163,6 @@
     $.each(Viewer.coins, function(index, coin){
       Viewer.drawCoin(coin.latitude, coin.longitude, coin.value, coin.team);
     });
-
-    Viewer.layerGroup.addTo(Viewer.map);
   };
 
   Viewer.refresh = function(){
