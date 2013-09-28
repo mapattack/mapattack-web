@@ -22,22 +22,6 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     yeoman: yeomanConfig,
-    shell: {
-      install: {
-        options: {
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        },
-        command: [
-          'hash bower 2>/dev/null || { echo >&2 "bower required but not found. installing..."; npm install -g bower; }',
-          'npm install',
-          'echo >&2 "√ server dependencies installed"',
-          'bower install',
-          'echo >&2 "√ browser dependencies installed"'
-        ].join('&&')
-      }
-    },
     watch: {
       compass: {
         files: ['<%= yeoman.app %>/scss/{,*/}*.{scss,sass}'],
@@ -77,7 +61,6 @@ module.exports = function (grunt) {
         imagesDir: '<%= yeoman.app %>/images',
         javascriptsDir: '<%= yeoman.app %>/js',
         fontsDir: '<%= yeoman.app %>/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/fonts',
@@ -186,10 +169,11 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.{ico,png,txt}',
-            'img/{,*/}*.*',
-            'fonts/{,*/}*.*',
-            'css/{,*/}*.css',
-            'js/{,*/}*.js'
+            'img/**/*.*',
+            'fonts/**/*.*',
+            'css/**/*.css',
+            'js/**/*.js',
+            'lib/**/*.*'
           ]
         }]
       }
@@ -227,20 +211,19 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('install', ['shell:install']);
-
   grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
 
   grunt.registerTask('build', [
-    'clean',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'cssmin',
-    'uglify',
-    'copy',
-    'rev',
-    'usemin'
+    'clean:dist',
+    // 'useminPrepare',
+    // 'concurrent:dist',
+    // 'concat',
+    // 'cssmin',
+    // 'uglify',
+    'compass:server',
+    'copy:dist'
+    // 'rev',
+    // 'usemin'
   ]);
 
   grunt.registerTask('default', ['server']);

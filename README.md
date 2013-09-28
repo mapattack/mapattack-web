@@ -15,17 +15,14 @@ These instructions assume you have [node](http://nodejs.org/) installed.
 To run the MapAttack web client locally, you will need the following node modules installed globally:
 
 1. [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
-1. [Bower](http://bower.io/): `npm install -g bower`
 
 ### Installing locally
 
-Run `npm install` to install server-side dependencies and `bower install` to install front-end dependencies.
-
-`grunt install` has been added as a convenience task to install bower globally if it's missing then run `npm install` and `bower install`.
+Run `npm install` to install server-side dependencies.
 
 ### Working locally
 
-`grunt server` will start the server at `http://localhost:3000/`.
+`grunt server` will clean the CSS directory, compile SASS, start the server at `http://localhost:3000/`, and restart the server when any watched files have changed.
 
 ### Testing locally
 

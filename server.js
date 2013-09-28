@@ -47,14 +47,15 @@ app
   .configure('development', function(){
     app
       .use(express.logger('dev'))
-      .use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+      .use(express.errorHandler({ dumpExceptions: true, showStack: true }))
+      .use(express.static(__dirname + '/app'));
   })
   .configure('production', function(){
     app
       .use(express.logger())
-      .use(express.errorHandler());
+      .use(express.errorHandler())
+      .use(express.static(__dirname + '/public'));
   })
-  .use(express.static(__dirname + '/app'))
   .use(partials())
   .use(app.router);
 
