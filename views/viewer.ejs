@@ -9,17 +9,12 @@
   <title>Map Attack | Viewer</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <link rel="stylesheet" href="/bower_components/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/lib/leaflet.css">
   <!--[if lte IE 8]>
-    <link rel="stylesheet" href="/bower_components/leaflet/leaflet.ie.css">
+    <link rel="stylesheet" href="/lib/leaflet.ie.css">
   <![endif]-->
-  <!-- Base Styles -->
   <link rel="stylesheet" href="/css/main.css">
-  <!-- Theme Styles-->
-  <!--[if lte IE 8]>
-    <script src="/bower_components/html5shiv/dist/html5shiv.js"></script>
-  <![endif]-->
+  <%- partial('partials/_html5shiv') %>
 </head>
 <body>
   <%- partial('partials/_ie') %>
@@ -56,12 +51,9 @@
     <div id="viewer"></div>
   </div>
 
-  <script src="/bower_components/jquery/jquery.js"></script>
-  <script src="/bower_components/leaflet/leaflet-src.js"></script>
-  <script src="/bower_components/esri-leaflet/dist/esri-leaflet-src.js"></script>
-
+  <script src="/lib/jquery.min.js"></script>
+  <script src="/lib/leaflet.js"></script>
   <%- partial('partials/_ga') %>
-
   <script src="/js/viewer.js"></script>
 </body>
 </html>
