@@ -22,28 +22,31 @@
 
   <div class="wrapper transparent">
     <section class="scoreboard">
-      <header class="title">Board Title<span class="total-players">23 players</span></header>
+      <header class="title">
+      <% if (locals.game) { %>
+        <span class="board-title"><%= game.properties.title %></span>
+      <% } else {%>
+        <span class="board-title">Awesome Board</span>
+      <% } %>
+        <span class="total-players">23 players</span>
+      </header>
       <div class="col-group">
-        <div class="score blue col col1of2 on-blue"><span class="color">Blue</span><span class="number">237</span></div>
-        <div class="score red col col1of2 on-red"><span class="number">163</span><span class="color">Red</span></div>
+        <div class="score blue col col1of2 on-blue">
+          <span class="color">Blue</span>
+          <span class="number">237</span>
+        </div>
+        <div class="score red col col1of2 on-red">
+          <span class="number">163</span>
+          <span class="color">Red</span>
+        </div>
     </section>
     <div class="chord blue"></div>
     <section class="leaderboard blue">
-      <ul class="players">
-        <li class="player">PCP<span class="points right">27</span></li>
-        <li class="player">PCP<span class="points right">23</span></li>
-        <li class="player">PCP<span class="points right">19</span></li>
-        <li class="player">PCP<span class="points right">3</span></li>
-      </ul>
+      <ul class="players"></ul>
     </section>
     <div class="chord red"></div>
     <section class="leaderboard red">
-      <ul class="players">
-        <li class="player">PCP<span class="points right">27</span></li>
-        <li class="player">PCP<span class="points right">23</span></li>
-        <li class="player">PCP<span class="points right">19</span></li>
-        <li class="player">PCP<span class="points right">3</span></li>
-      </ul>
+      <ul class="players"></ul>
     </section>
     <div id="viewer"></div>
   </div>

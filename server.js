@@ -155,7 +155,7 @@ function findBoardById(id) {
 }
 
 function findGameById(id) {
-  return boards.filter(function(obj){
+  return games.filter(function(obj){
     return findIdInTags(obj.tags, 'game') === id;
   })[0];
 }
