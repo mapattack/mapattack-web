@@ -10,7 +10,11 @@
   // the viewer
   var Viewer = {
     $: {},              // dom cache
-    game: null,         // game response
+    game: null,         // game meta
+    coins: null,        // coins
+    players: null,      // players
+    blueTeam: null,     // blue team sorted via points
+    redTeam: null,      // red team sorted via points
     map: null           // map instance
   };
 
@@ -38,10 +42,11 @@
   };
 
   Viewer.update = function(){
-    Viewer.clearMap();
     Viewer.updateScore();
-    Viewer.updatePlayers();
-    Viewer.updateCoins();
+    Viewer.updateLeaderBoards();
+    Viewer.clearMap();
+    Viewer.addPlayers();
+    Viewer.addCoins();
   };
 
   Viewer.clearMap = function(){
@@ -49,21 +54,63 @@
   };
 
   Viewer.updateScore = function(){
-    console.log('score updated');
+    Viewer.$.blueScore.html(Viewer.game.teams.blue.score);
+    Viewer.$.redScore.html(Viewer.game.teams.red.score);
+    var players = Viewer.game.teams.red.size + Viewer.game.teams.blue.size + ' players';
+    Viewer.$.totalPlayers.html(players);
   };
 
-  Viewer.updatePlayers = function(){
-    console.log('players updated');
+  Viewer.updateLeaderBoards = function(){
+
+    Viewer.blueTeam = [];
+    Viewer.redTeam = [];
+
+    for (var i = 0; i < Viewer.players.length; i ++){
+      var p = Viewer.players[i];
+      if (p.team === 'blue'){
+        Viewer.blueTeam.push(p);
+      } else {
+        Viewer.redTeam.push(p);
+      }
+    }
+
+    function rank(a,b){
+      if (a.score < b.score){ return 1; }
+      if (a.score > b.score){ return -1; }
+      return 0;
+    }
+
+    Viewer.blueTeam.sort(rank);
+    Viewer.redTeam.sort(rank);
+
+    $.each(Viewer.blueTeam, function(index, player){
+      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.initials + '</span><span class="points right">' + player.score + '</span></li>';
+      Viewer.$.leaderBoardBlue.append(li);
+    });
+
+    $.each(Viewer.redTeam, function(index, player){
+      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.initials + '</span><span class="points right">' + player.score + '</span></li>';
+      Viewer.$.leaderBoardRed.append(li);
+    });
+
   };
 
-  Viewer.updateCoins = function(){
-    console.log('coins updated');
+  Viewer.addPlayers = function(){
+    console.log('players on map');
+  };
+
+  Viewer.addCoins = function(){
+    console.log('coins on map');
   };
 
   Viewer.refresh = function(){
     // replace this with call to game state route
     $.getJSON('/js/response.json', function(data){
-      Viewer.game = data;
+      // Set Data to response
+      Viewer.game = data.game;
+      Viewer.coins = data.coins;
+      Viewer.players = data.players;
+
       Viewer.update();
     }).error(function(errorThrown){
       console.log(errorThrown);
@@ -74,7 +121,13 @@
   $(function(){
     Viewer.init();
     Viewer.refresh();
+
     Viewer.$.title = $('.board-title');
+    Viewer.$.totalPlayers = $('.total-players');
+    Viewer.$.blueScore = $('.score.blue .number');
+    Viewer.$.redScore = $('.score.red .number');
+    Viewer.$.leaderBoardRed = $('.leaderboard.red .players');
+    Viewer.$.leaderBoardBlue = $('.leaderboard.blue .players');
 
   });
 

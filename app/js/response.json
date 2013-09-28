@@ -121,8 +121,10 @@
       "speed": 10,
       "bearing": 180,
       "accuracy": 30,
-      "avatar": "http:\/\/api.mapattack.org\/user\/XXXXXX.jpg",
-      "score": 190
+      "avatar": "/img/logo.png",
+      "score": 190,
+      "team": "blue",
+      "initials": "PCP"
     },
     {
       "device_id": "XXXXX1",
@@ -132,8 +134,88 @@
       "speed": 10,
       "bearing": 180,
       "accuracy": 30,
-      "avatar": "http:\/\/api.mapattack.org\/user\/XXXXXX.jpg",
-      "score": 170
+      "avatar": "/img/logo.png",
+      "score": 170,
+      "team": "red",
+      "initials": "WTF"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.5175,
+      "longitude": -122.6764,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 20,
+      "team": "blue",
+      "initials": "JIC"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.5235,
+      "longitude": -122.6784,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 40,
+      "team": "red",
+      "initials": "BRB"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.5167,
+      "longitude": -122.6764,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 190,
+      "team": "blue",
+      "initials": "ABC"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.5263,
+      "longitude": -122.6714,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 200,
+      "team": "red",
+      "initials": "123"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.5175,
+      "longitude": -122.6734,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 0,
+      "team": "blue",
+      "initials": "UNE"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.5235,
+      "longitude": -122.6724,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 20,
+      "team": "red",
+      "initials": "GRL"
     }
   ]
 }
