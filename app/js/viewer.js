@@ -15,7 +15,8 @@
     players: null,      // players
     blueTeam: null,     // blue team sorted via points
     redTeam: null,      // red team sorted via points
-    map: null           // map instance
+    map: null,          // map instance
+    layerGroup: null    // layer group with all the map stuff
   };
 
   // initialize the viewer
@@ -96,7 +97,7 @@
   };
 
   Viewer.addPlayers = function(){
-    console.log('players on map');
+    console.log('players on the map');
   };
 
   Viewer.addCoins = function(){

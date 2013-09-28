@@ -10,11 +10,11 @@
     ],
     "teams": {
       "blue": {
-        "size": 12,
+        "size": 4,
         "score": 200
       },
       "red": {
-        "size": 11,
+        "size": 4,
         "score": 180
       }
     }
