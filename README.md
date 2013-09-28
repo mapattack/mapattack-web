@@ -26,7 +26,12 @@ Run `npm install` to install server-side dependencies.
 
 ### Testing locally
 
-* `grunt jshint` will lint javascript files.
+Use `grunt jshint` to lint javascript files.
+
+
+### Building for production
+
+Use `grunt build` to build all necessary files to the `public` directory. The site should be ready to be deployed to production after this step.
 
 ## Issues
 
