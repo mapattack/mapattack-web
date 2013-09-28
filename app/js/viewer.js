@@ -11,6 +11,7 @@
   var Viewer = {
     $: {},              // dom cache
     game: null,         // game meta
+    Coin: null,         // Coin class
     coins: null,        // coins
     players: null,      // players
     blueTeam: null,     // blue team sorted via points
@@ -18,6 +19,22 @@
     map: null,          // map instance
     layerGroup: null    // layer group with all the map stuff
   };
+
+  // coin class
+  Viewer.Coin = L.Marker.extend({
+    options: {
+      draggable: false
+    }
+  });
+
+  Viewer.CoinIcon = L.DivIcon.extend({
+    options: {
+      iconSize:      [20, 20],
+      iconAnchor:    [10, 10],
+      className:     'coin',
+      popupAnchor:   [0, -10]
+    }
+  });
 
   // initialize the viewer
   Viewer.init = function(){
@@ -40,6 +57,8 @@
       subdomains: '0123'
     }).addTo(Viewer.map);
 
+    Viewer.layerGroup = new L.LayerGroup();
+
   };
 
   Viewer.update = function(){
@@ -51,7 +70,7 @@
   };
 
   Viewer.clearMap = function(){
-    console.log('map cleared');
+    Viewer.layerGroup.clearLayers();
   };
 
   Viewer.updateScore = function(){
@@ -100,8 +119,20 @@
     console.log('players on the map');
   };
 
+  Viewer.drawCoin = function(lat, lng, points, team) {
+    var icon = new Viewer.CoinIcon({ className: 'coin p' + points + ' ' + team});
+    var latLng = new L.LatLng(lat, lng);
+    var coin = new Viewer.Coin(latLng, { icon: icon });
+
+    Viewer.layerGroup.addLayer(coin);
+  };
+
   Viewer.addCoins = function(){
-    console.log('coins on map');
+    $.each(Viewer.coins, function(index, coin){
+      Viewer.drawCoin(coin.latitude, coin.longitude, coin.value, coin.team);
+    });
+
+    Viewer.layerGroup.addTo(Viewer.map);
   };
 
   Viewer.refresh = function(){

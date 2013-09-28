@@ -66,42 +66,42 @@
       "coin_id": "41b2a3183b391aa80be1e16022490f4c",
       "latitude": 45.51100102715,
       "longitude": -122.65369534492,
-      "value": 10,
-      "team": "red"
+      "value": 20,
+      "team": "blue"
     },
     {
       "coin_id": "45356ea425944ce3025ce0196400f2ad",
       "latitude": 45.50852739578,
       "longitude": -122.65152812004,
-      "value": 10,
-      "team": "red"
+      "value": 20,
+      "team": "none"
     },
     {
       "coin_id": "6503906a46b2414a137414c99902fb78",
       "latitude": 45.506960429198,
       "longitude": -122.65369749069,
-      "value": 10,
-      "team": "red"
+      "value": 20,
+      "team": "blue"
     },
     {
       "coin_id": "79653befec1d71e1462b41f7f5fbdd47",
       "latitude": 45.508112294524,
       "longitude": -122.65370178223,
-      "value": 10,
-      "team": "red"
+      "value": 30,
+      "team": "none"
     },
     {
       "coin_id": "8f824cb6b40c35caf6a179610973fc2b",
       "latitude": 45.510416025176,
       "longitude": -122.6537103653,
       "value": 10,
-      "team": "red"
+      "team": "blue"
     },
     {
       "coin_id": "bcf6c5f0aeabb6b6d1916a0710283c84",
       "latitude": 45.50926415985,
       "longitude": -122.65370607376,
-      "value": 10,
+      "value": 50,
       "team": "red"
     },
     {
@@ -109,7 +109,7 @@
       "latitude": 45.508557470978,
       "longitude": -122.64731168747,
       "value": 10,
-      "team": "red"
+      "team": "none"
     }
   ],
   "players": [
