@@ -790,27 +790,31 @@ input[type="submit"] {
 .boards li a:hover:after {
   color: #5498e8;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000331}}
+.boards li a small {
+  font-size: .7em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000338}}
 .boards.red li a {
   color: #f54130;
   background-color: #fffbf2;
   border: 2px solid #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000339}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000342}}
 .boards.red li a:after {
   color: #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000345}}
 .boards.red li a:hover {
   color: #fffbf2;
   background-color: #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000348}}
 .boards.red li a:hover:after {
   color: #fffbf2;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000357}}
 .games-link, .game .title, .game .hours, .game.label .plain {
   font-size: 1em;
   border: 2px solid #5498e8;
@@ -818,31 +822,31 @@ input[type="submit"] {
   background-color: white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000366}}
 .game .title {
   color: #3988e4;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000371}}
 .game .title:after {
   content: ">";
   float: right;
   color: white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000376}}
 .game .title:hover {
   background-color: #5498e8;
   color: white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000376}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000379}}
 .game .title:hover:after {
   color: #5498e8;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000384}}
 .game .hours {
   border-left: none;
   color: #3988e4;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000387}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_boards\.scss}line{font-family:\0000390}}
 .game.label .plain {
   border-color: transparent;
   color: #3988e4;

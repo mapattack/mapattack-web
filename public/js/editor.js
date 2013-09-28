@@ -159,18 +159,44 @@
       weight: 1,
       fill: true,
       fillOpacity: 0.1,
-      triggerId: null
+      triggerId: null,
+      clickable: false
+    }
+  });
+
+  Ed.Board = L.Polygon.extend({
+    options: {
+      color: '#2EBF30',
+      weight: 2,
+      opacity: 0.2,
+      fill: true,
+      fillOpacity: 0,
+      triggerId: null,
+      clickable: false
+    }
+  });
+
+  Ed.GeoJSON = L.GeoJSON.extend({
+    style: function (feature) {
+      return {
+        color: '#2EBF30',
+        weight: 2,
+        opacity: 0.2,
+        fill: true,
+        fillOpacity: 0,
+        triggerId: null,
+        clickable: false
+      };
     }
   });
 
   Ed.createBoard = function(callback) {
     board.isNew = false;
     var bounds = Ed.triggers.getBounds();
-    var polygon = L.polygon([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
+    var polygon = new Ed.Board([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
 
-    Ed.map.addLayer(polygon);
-
-    console.log(polygon.toGeoJSON());
+    // Ed.extra.clearLayers();
+    // polygon.addTo(Ed.extra);
 
     Ed.request('trigger/create', {
       'setTags': ['board', 'board:' + board.id, 'board:twitter_id:' + user.id],
@@ -192,6 +218,8 @@
     }, function(response){
       board.merge(response);
 
+      Ed.drawBoard();
+
       if (window.history && window.history.replaceState) {
         window.history.pushState({}, '', '/boards/' + board.id + '/edit');
       }
@@ -206,9 +234,10 @@
 
   Ed.publishBoard = function(callback) {
     var bounds = Ed.triggers.getBounds();
-    var polygon = L.polygon([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
+    var polygon = new Ed.Board([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
 
-    Ed.map.addLayer(polygon);
+    // Ed.extra.clearLayers();
+    // polygon.addTo(Ed.extra);
 
     Ed.request('trigger/update', {
       'tags': ['board:' + board.id],
@@ -224,12 +253,32 @@
     }, function(response){
       board.merge(response.triggers[0]);
 
+      Ed.drawBoard();
+
       console.log('board published!');
 
       if (callback) {
         callback();
       }
     });
+  };
+
+  Ed.drawBoard = function(){
+    Ed.extra.clearLayers();
+
+    if (board.condition.geo.geojson) {
+      var shape = L.geoJson(board.condition.geo.geojson);
+      shape.setStyle({
+        color: '#2EBF30',
+        weight: 2,
+        opacity: 0.2,
+        fill: true,
+        fillOpacity: 0,
+        triggerId: null,
+        clickable: false
+      });
+      shape.addTo(Ed.extra);
+    }
   };
 
   // add a new coin to the map
@@ -540,8 +589,10 @@
 
     Ed.coins = new L.FeatureGroup();
     Ed.triggers = new L.FeatureGroup();
+    Ed.extra = new L.FeatureGroup();
     Ed.map.addLayer(Ed.coins);
     Ed.map.addLayer(Ed.triggers);
+    Ed.map.addLayer(Ed.extra);
 
     Ed.tools.line = new L.Draw.Polyline(Ed.map, {
       shapeOptions: lineStyle
