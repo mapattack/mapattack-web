@@ -32,6 +32,13 @@
 
   Ed.board = board;
 
+  // user tracker
+  var user = {
+    id: null            // user id
+  };
+
+  Ed.user = user;
+
   // styles
 
   var lineStyle = {
@@ -43,6 +50,8 @@
     fillOpacity: 0
   };
 
+  // board methods
+
   board.merge = function(obj){
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -50,7 +59,6 @@
       }
     }
   };
-
 
   board.init = function(callback){
 
@@ -76,9 +84,11 @@
               bounds.extend(latLng);
             }
 
-            Ed.map.fitBounds(bounds, {
-              padding: [50, 50]
-            });
+            if (bounds.isValid()) {
+              Ed.map.fitBounds(bounds, {
+                padding: [50, 50]
+              });
+            }
 
             callback();
           });
@@ -91,6 +101,14 @@
       throw new Error('Missing Board ID!');
     }
   };
+
+  // user methods
+
+  user.init = function() {
+    user.id = Ed.$.user.data('id');
+  };
+
+  // Ed methods
 
   // make any Geotrigger API request
   Ed.request = function(method, params, callback){
@@ -122,7 +140,6 @@
     options: {
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
-      html:          '10',
       className:     'coin',
       popupAnchor:   [0, -10]
     }
@@ -140,8 +157,9 @@
   });
 
   Ed.createBoard = function(latLng, callback) {
+    board.isNew = false;
     Ed.request('trigger/create', {
-      'setTags': ['board', 'board:' + board.id],
+      'setTags': ['board', 'board:' + board.id, 'board:twitter_id:' + user.id],
       'condition': {
         'direction': 'enter',
         'geo': {
@@ -210,7 +228,6 @@
 
     if (board.isNew) {
       Ed.createBoard(latLng, create);
-      board.isNew = false;
     } else {
       create();
     }
@@ -266,13 +283,13 @@
         'latitude': latLng.lat,
         'longitude': latLng.lng,
         'distance': distance
-      }
+      };
     }
 
     if (points) {
       params.properties = {
         'value': points
-      }
+      };
     }
 
     Ed.request('trigger/update', params, function(response){
@@ -292,11 +309,11 @@
     msg += '<button data-value="20" class="point-value twenty"></button>';
     msg += '<button data-value="30" class="point-value thirty"></button>';
     msg += '<button data-value="50" class="point-value fifty"></button>';
-    msg += '<button class="delete-coin">X</button>';
+    msg += '<button class="delete-coin"></button>';
     msg += '</div>';
 
     var icon = new Ed.CoinIcon({
-      html: points
+      className: 'coin p' + points
     });
 
     var coin = new Ed.Coin(latLng, {
@@ -345,6 +362,7 @@
       $pts.removeClass('active');
       var $this = $(this);
       var val = $this.data('value');
+      var triggerId = coin.options.triggerId;
 
       Ed.updateTrigger({
         triggerId: triggerId,
@@ -352,8 +370,17 @@
         redraw: false,
         success: function(response){
           $this.addClass('active');
+          console.log(coin.options.icon.options.className);
+          $(coin._icon).removeClass('p50 p30 p20 p10');
+          $(coin._icon).addClass('p' + val);
+
         }
       });
+
+      coin.update({
+        className: 'coin p' + val
+      });
+
     });
 
     coin.addTo(Ed.coins).bindPopup(popup[0]);
@@ -462,6 +489,7 @@
   Ed.init = function(callback){
 
     Ed.$.editor = $('#editor');
+    Ed.$.user = $('#user-data');
     Ed.$.tools = $('.edit-tools');
     Ed.$.line = Ed.$.tools.find('.btn.tool.line');
     Ed.$.point = Ed.$.tools.find('.btn.tool.point');
@@ -543,7 +571,11 @@
       }
     });
 
-    // init board
+    // init user
+
+    user.init();
+
+    // init board (async)
 
     board.init(callback);
 
