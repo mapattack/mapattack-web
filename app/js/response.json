@@ -1,0 +1,221 @@
+{
+  "game": {
+    "game_id": "pj9Zb8okVfqEHUCt",
+    "name": "Aaron Test Board 10",
+    "bbox": [
+      -122.68870353699,
+      45.511970901574,
+      -122.66964912415,
+      45.523127014609
+    ],
+    "teams": {
+      "blue": {
+        "size": 4,
+        "score": 200
+      },
+      "red": {
+        "size": 4,
+        "score": 180
+      }
+    }
+  },
+  "coins": [
+    {
+      "coin_id": "09da94b6131fc6fff226872a25b52880",
+      "latitude": 45.507536361861,
+      "longitude": -122.65369963646,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "0eb52233d3e85a18c08588663b16aeaf",
+      "latitude": 45.508688227187,
+      "longitude": -122.65370392799,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "2810c68c9118730248bca8d62344037f",
+      "latitude": 45.509840092513,
+      "longitude": -122.65370821953,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "2e6a59efc563fcbcf475920c2b9fd6f1",
+      "latitude": 45.512143823165,
+      "longitude": -122.6537168026,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "30f3e26f315909a69ddf7b16686af978",
+      "latitude": 45.511567890502,
+      "longitude": -122.65371465683,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "39975f7c6d43da7b94149794f18e45de",
+      "latitude": 45.506384496535,
+      "longitude": -122.65369534492,
+      "value": 10,
+      "team": "red"
+    },
+    {
+      "coin_id": "41b2a3183b391aa80be1e16022490f4c",
+      "latitude": 45.51100102715,
+      "longitude": -122.65369534492,
+      "value": 20,
+      "team": "blue"
+    },
+    {
+      "coin_id": "45356ea425944ce3025ce0196400f2ad",
+      "latitude": 45.50852739578,
+      "longitude": -122.65152812004,
+      "value": 20,
+      "team": "none"
+    },
+    {
+      "coin_id": "6503906a46b2414a137414c99902fb78",
+      "latitude": 45.506960429198,
+      "longitude": -122.65369749069,
+      "value": 20,
+      "team": "blue"
+    },
+    {
+      "coin_id": "79653befec1d71e1462b41f7f5fbdd47",
+      "latitude": 45.508112294524,
+      "longitude": -122.65370178223,
+      "value": 30,
+      "team": "none"
+    },
+    {
+      "coin_id": "8f824cb6b40c35caf6a179610973fc2b",
+      "latitude": 45.510416025176,
+      "longitude": -122.6537103653,
+      "value": 10,
+      "team": "blue"
+    },
+    {
+      "coin_id": "bcf6c5f0aeabb6b6d1916a0710283c84",
+      "latitude": 45.50926415985,
+      "longitude": -122.65370607376,
+      "value": 50,
+      "team": "red"
+    },
+    {
+      "coin_id": "f619f9256b5cc385c558426ee9412c24",
+      "latitude": 45.508557470978,
+      "longitude": -122.64731168747,
+      "value": 10,
+      "team": "none"
+    }
+  ],
+  "players": [
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.508536361861,
+      "longitude": -122.65269963646,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 190,
+      "team": "blue",
+      "initials": "PCP"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.508536361861,
+      "longitude": -122.65369963646,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 170,
+      "team": "red",
+      "initials": "WTF"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.508536361861,
+      "longitude": -122.65169963646,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 20,
+      "team": "blue",
+      "initials": "JIC"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.508536361861,
+      "longitude": -122.65069963646,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 40,
+      "team": "red",
+      "initials": "BRB"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.508536361861,
+      "longitude": -122.65049963646,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 190,
+      "team": "blue",
+      "initials": "ABC"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.508536361861,
+      "longitude": -122.65079963646,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 200,
+      "team": "red",
+      "initials": "123"
+    },
+    {
+      "device_id": "XXXXX0",
+      "latitude": 45.508536361861,
+      "longitude": -122.65019963646,
+      "timestamp": 1380320211,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 0,
+      "team": "blue",
+      "initials": "UNE"
+    },
+    {
+      "device_id": "XXXXX1",
+      "latitude": 45.508536361861,
+      "longitude": -122.65549963646,
+      "timestamp": 1380320214,
+      "speed": 10,
+      "bearing": 180,
+      "accuracy": 30,
+      "avatar": "/img/logo.png",
+      "score": 20,
+      "team": "red",
+      "initials": "GRL"
+    }
+  ]
+}

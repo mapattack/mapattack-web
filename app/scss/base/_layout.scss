@@ -5,6 +5,7 @@
   &.transparent {
     background-color: transparent;
     padding-top: 0;
+    pointer-events: none;
   }
 }
 
@@ -62,6 +63,7 @@
     border-bottom: none;
     .brand {
       color: white;
+      pointer-events: auto;
     }
     .white-link {
       color: white;
@@ -74,6 +76,7 @@
     }
     nav {
       margin-top: 12px;
+      pointer-events: auto;
       img {
         border-color: white;
         margin-top:-14px;
