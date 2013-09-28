@@ -112,7 +112,12 @@
 
   // make any Geotrigger API request
   Ed.request = function(method, params, callback){
-    var post;
+    var options = {
+      type: 'POST',
+      url: '/api/' + method,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json'
+    };
 
     if (typeof callback === 'undefined' &&
         typeof params === 'function') {
@@ -120,12 +125,14 @@
     }
 
     if (typeof params === 'object') {
-      post = $.post('/api/' + method, params, 'json');
-    } else {
-      post = $.post('/api/' + method, 'json');
+      options.data = JSON.stringify(params);
     }
 
-    post.done(callback);
+    $.ajax(options)
+      .done(callback)
+      .fail(function(jqXHR, textStatus, errorThrown){
+        console.log('API call failed', jqXHR, textStatus, errorThrown);
+      });
   };
 
   // coin class
@@ -156,21 +163,26 @@
     }
   });
 
-  Ed.createBoard = function(latLng, callback) {
+  Ed.createBoard = function(callback) {
     board.isNew = false;
+    var bounds = Ed.triggers.getBounds();
+    var polygon = L.polygon([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
+
+    Ed.map.addLayer(polygon);
+
+    console.log(polygon.toGeoJSON());
+
     Ed.request('trigger/create', {
       'setTags': ['board', 'board:' + board.id, 'board:twitter_id:' + user.id],
       'condition': {
         'direction': 'enter',
         'geo': {
-          'latitude': latLng.lat,
-          'longitude': latLng.lng,
-          'distance': 200
+          'geojson': polygon.toGeoJSON()
         }
       },
       'action': {
         'notification': {
-          'text': 'You done made a board!'
+          'text': 'You done entered a board!'
         }
       },
       'properties': {
@@ -179,9 +191,12 @@
       }
     }, function(response){
       board.merge(response);
+
       if (window.history && window.history.replaceState) {
         window.history.pushState({}, '', '/boards/' + board.id + '/edit');
       }
+
+      console.log('board created!');
 
       if (callback) {
         callback();
@@ -190,11 +205,16 @@
   };
 
   Ed.publishBoard = function(callback) {
+    var bounds = Ed.triggers.getBounds();
+    var polygon = L.polygon([bounds.getNorthWest(), bounds.getNorthEast(), bounds.getSouthEast(), bounds.getSouthWest(), bounds.getNorthWest()]);
+
+    Ed.map.addLayer(polygon);
+
     Ed.request('trigger/update', {
       'tags': ['board:' + board.id],
-      'action': {
-        'notification': {
-          'text': 'You done updated a board!'
+      'condition': {
+        'geo': {
+          'geojson': polygon.toGeoJSON()
         }
       },
       'properties': {
@@ -203,6 +223,8 @@
       }
     }, function(response){
       board.merge(response.triggers[0]);
+
+      console.log('board published!');
 
       if (callback) {
         callback();
@@ -216,21 +238,16 @@
 
     var coin = Ed.drawCoin(latLng, points);
 
-    function create() {
-      Ed.createTrigger({
-        latLng: latLng,
-        points: points,
-        success: function(response) {
-          coin.options.triggerId = response.triggerId;
+    Ed.createTrigger({
+      latLng: latLng,
+      points: points,
+      success: function(response) {
+        coin.options.triggerId = response.triggerId;
+        if (board.isNew) {
+          Ed.createBoard();
         }
-      });
-    }
-
-    if (board.isNew) {
-      Ed.createBoard(latLng, create);
-    } else {
-      create();
-    }
+      }
+    });
   };
 
   Ed.createTrigger = function(options) {
@@ -250,7 +267,7 @@
       },
       'action': {
         'notification': {
-          'text': 'You done got a point!'
+          'text': 'You done got ' + points + ' points!'
         }
       },
       'properties': {
@@ -549,13 +566,9 @@
     Ed.$.publish.click(function(e){
       e.preventDefault();
       if (board.triggerId) {
-        Ed.publishBoard(function(){
-          console.log('board published!');
-        });
+        Ed.publishBoard();
       } else {
-        Ed.createBoard(Ed.map.getCenter(), function(){
-          console.log('board created!');
-        });
+        Ed.createBoard();
       }
     });
 
