@@ -387,7 +387,6 @@
         redraw: false,
         success: function(response){
           $this.addClass('active');
-          console.log(coin.options.icon.options.className);
           $(coin._icon).removeClass('p50 p30 p20 p10');
           $(coin._icon).addClass('p' + val);
 
