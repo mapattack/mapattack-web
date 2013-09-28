@@ -95,7 +95,8 @@ passport.use(new TwitterStrategy({
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   console.log('y\'all ain\'t authenticatered');
-  res.redirect('/');
+  req.session.redirectUrl = req.url;
+  res.redirect('/auth/twitter');
 }
 
 function loadAuthentication(req, res, next) {
@@ -211,7 +212,13 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
-    res.redirect('/');
+    if (req.session.redirectUrl) {
+      var redirectUrl = req.session.redirectUrl;
+      req.session.redirectUrl = null;
+      res.redirect(redirectUrl);
+    } else {
+      res.redirect('/');
+    }
   }
 );
 
