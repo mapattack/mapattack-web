@@ -85,6 +85,10 @@
         color: $white;
       }
     }
+    &[disabled] {
+      border: 2px solid #777;
+      color: #777;
+    }
   }
 
   .point {
@@ -179,6 +183,19 @@
     background-color: $blue;
     color: $white;
     border-color: $blue;
+  }
+}
+
+.step {
+  width: 2px;
+  height: 2px;
+  border-radius: 5px;
+  background-color: $light-gray;
+  &.red {
+    background-color: $red;
+  }
+  &.blue {
+    background-color: $blue;
   }
 }
 
