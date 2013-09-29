@@ -177,7 +177,8 @@ module.exports = function (grunt) {
             'img/**/*.*',
             'fonts/**/*.*',
             'js/**/*.js',
-            'lib/**/*.*'
+            'lib/**/*.*',
+            'iphone/*'
           ]
         }]
       }

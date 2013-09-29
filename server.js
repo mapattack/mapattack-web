@@ -190,6 +190,7 @@ app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
 app.get('/faker*', loadAuthentication, getBoards);
 app.get('/games*', loadAuthentication, getGames);
 app.get('/home', ensureAuthenticated, loadAuthentication, getBoards, getGames);
+app.get('/iphone', loadAuthentication);
 app.get('/', loadAuthentication);
 
 // root
@@ -206,6 +207,10 @@ app.get('/', function(req, res){
 
 app.get('/home', function(req, res){
   res.render('home');
+});
+
+app.get('/iphone', function(req, res){
+  res.render('iphone');
 });
 
 // authentication
