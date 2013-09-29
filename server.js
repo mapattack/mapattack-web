@@ -127,14 +127,16 @@ function getBoards(req, res, next) {
 function getGames(req, res, next) {
   needle.get('http://api.mapattack.org/game/list', function(error, response, body){
     if (!error && response.statusCode == 200 && body.games) {
-      console.log(body.games);
       res.locals({
         games: body.games
       });
-      next();
     } else {
+      res.locals({
+        games: []
+      });
       console.log("Couldn't retrieve game list");
     }
+    next();
   });
 }
 

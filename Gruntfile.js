@@ -61,14 +61,19 @@ module.exports = function (grunt) {
         imagesDir: '<%= yeoman.app %>/images',
         javascriptsDir: '<%= yeoman.app %>/js',
         fontsDir: '<%= yeoman.app %>/fonts',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
+        httpImagesPath: '/img',
+        httpGeneratedImagesPath: '/img/generated',
         httpFontsPath: '/fonts',
         relativeAssets: false
       },
       dist: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+          cssDir: '<%= yeoman.dist %>/css',
+          imagesDir: '<%= yeoman.dist %>/images',
+          javascriptsDir: '<%= yeoman.dist %>/js',
+          fontsDir: '<%= yeoman.dist %>/fonts',
+          generatedImagesDir: '<%= yeoman.dist %>/img/generated',
+          outputStyle: 'compressed'
         }
       },
       server: {
@@ -220,7 +225,7 @@ module.exports = function (grunt) {
     // 'concat',
     // 'cssmin',
     // 'uglify',
-    'compass:server',
+    'compass:dist',
     'copy:dist'
     // 'rev',
     // 'usemin'
