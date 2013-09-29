@@ -4,7 +4,7 @@
       <h2>My Boards</h2>
       <a href="/boards/new" class="btn cream">New Board</a>
     </header>
-    <ul class="boards">
+    <ul class="boards mine">
       <% boards.forEach(function(board){ %>
         <% if (findIdInTags(board.tags, 'board:twitter_id') === user.id) { %>
           <li>
@@ -29,9 +29,9 @@
   <section>
     <header>
       <h2 class="red">All Boards</h2>
-      <input class="col col1of3" placeholder="Filter by Title/City"></input>
+      <input class="search col col1of3" placeholder="Filter by Title/City"></input>
     </header>
-    <ul class="boards red">
+    <ul class="boards all red">
       <% boards.forEach(function(board){ %>
         <li>
           <a href="/boards/<%= findIdInTags(board.tags, 'board') %>">
