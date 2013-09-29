@@ -40,8 +40,8 @@
 
   Viewer.PlayerIcon = L.DivIcon.extend({
     options: {
-      iconSize:      [30, 50],
-      iconAnchor:    [15, 50],
+      iconSize:      [26, 41],
+      iconAnchor:    [13, 41],
       className:     'playerIcon',
       popupAnchor:   [0, -10]
     }
@@ -138,13 +138,13 @@
 
   };
 
-  Viewer.drawPlayer = function(lat, lng, name, team) {
+  Viewer.drawPlayer = function(player) {
     var icon = new Viewer.PlayerIcon({
-      className: 'plyr ' + team,
-      html: name
+      className: 'plyr ' + player.team,
+      html: player.name + '<i class="player-avatar" style="background-image:url(' + player.avatar + ');">'
     });
 
-    var latLng = new L.LatLng(lat, lng);
+    var latLng = new L.LatLng(player.latitude, player.longitude);
     var playerMarker = new Viewer.Player(latLng, { icon: icon });
     Viewer.layerGroup.addLayer(playerMarker);
   };
@@ -152,7 +152,7 @@
   Viewer.addPlayers = function(){
     $.each(Viewer.players, function(index, player){
       if (player.latitude && player.longitude) {
-        Viewer.drawPlayer(player.latitude, player.longitude, player.name, player.team);
+        Viewer.drawPlayer(player);
       }
     });
   };
