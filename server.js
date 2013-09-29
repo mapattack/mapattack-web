@@ -274,7 +274,8 @@ app.get('/boards/new', function(req, res){
 app.get('/boards/:id', function(req, res){
   var board = findBoardById(req.params.id);
   if (board) {
-    res.json(board);
+    res.locals.board = board;
+    res.render('board', { layout: false });
   } else {
     res.send('Board not found');
   }

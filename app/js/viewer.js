@@ -186,7 +186,7 @@
 
   Viewer.refresh = function(){
     // replace this with call to game state route
-    $.getJSON('/games/' + game_data.game.game_id + '/state', function(data){ // '/games/' + Viewer.game_id + '/state'
+    $.getJSON('/games/' + game_data.game.game_id + '/state', function(data){
       // Set Data to response
       Viewer.game = data.game;
       Viewer.coins = data.coins;
@@ -194,7 +194,11 @@
 
       Viewer.clearMap();
       Viewer.update();
-      Viewer.zoomToBounds();
+      if (!Viewer.rendered) {
+        Viewer.zoomToBounds();
+      }
+      Viewer.rendered = true;
+
       setTimeout(Viewer.refresh, 10000);
     }).error(function(errorThrown){
       console.log(errorThrown);
