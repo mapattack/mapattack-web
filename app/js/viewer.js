@@ -122,23 +122,26 @@
     Viewer.blueTeam.sort(rank);
     Viewer.redTeam.sort(rank);
 
+    Viewer.$.leaderBoardBlue.empty();
+
     $.each(Viewer.blueTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.initials + '</span><span class="points right">' + player.score + '</span></li>';
+      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
       Viewer.$.leaderBoardBlue.append(li);
     });
 
+    Viewer.$.leaderBoardRed.empty();
+
     $.each(Viewer.redTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.initials + '</span><span class="points right">' + player.score + '</span></li>';
+      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
       Viewer.$.leaderBoardRed.append(li);
     });
 
   };
 
-  Viewer.drawPlayer = function(lat, lng, initials, team) {
-
+  Viewer.drawPlayer = function(lat, lng, name, team) {
     var icon = new Viewer.PlayerIcon({
       className: 'plyr ' + team,
-      html: initials
+      html: name
     });
 
     var latLng = new L.LatLng(lat, lng);
@@ -148,7 +151,9 @@
 
   Viewer.addPlayers = function(){
     $.each(Viewer.players, function(index, player){
-      Viewer.drawPlayer(player.latitude, player.longitude, player.initials, player.team);
+      if (player.latitude && player.longitude) {
+        Viewer.drawPlayer(player.latitude, player.longitude, player.name, player.team);
+      }
     });
   };
 
@@ -168,13 +173,15 @@
 
   Viewer.refresh = function(){
     // replace this with call to game state route
-    $.getJSON('/js/response.json', function(data){ // '/games/' + Viewer.game_id + '/state'
+    $.getJSON('/games/' + game_data.game.game_id + '/state', function(data){ // '/games/' + Viewer.game_id + '/state'
       // Set Data to response
       Viewer.game = data.game;
       Viewer.coins = data.coins;
       Viewer.players = data.players;
 
+      Viewer.clearMap();
       Viewer.update();
+      setTimeout(Viewer.refresh, 15000);
     }).error(function(errorThrown){
       console.log(errorThrown);
     });

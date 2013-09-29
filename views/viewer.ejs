@@ -24,7 +24,7 @@
     <section class="scoreboard">
       <header class="title">
       <% if (locals.game) { %>
-        <span class="board-title"><%= game.properties.title %></span>
+        <span class="board-title"><%= game.name %></span>
       <% } else {%>
         <span class="board-title">Awesome Board</span>
       <% } %>
@@ -54,6 +54,7 @@
   <script src="/lib/jquery.min.js"></script>
   <script src="/lib/leaflet.js"></script>
   <%- partial('partials/_ga') %>
+  <script type="text/javascript">var game_data = <%- JSON.stringify(locals.game) %>;</script>
   <script src="/js/viewer.js"></script>
 </body>
 </html>

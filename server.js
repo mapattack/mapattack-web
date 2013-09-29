@@ -23,8 +23,8 @@ var api = new Geotriggers.Session({
 });
 
 // globals to store boards and games and share between routes and methods and such
-var boards = {};
-var games = {};
+var boards = [];
+var games = [];
 
 // misc
 var needle = require('needle');
@@ -127,8 +127,10 @@ function getBoards(req, res, next) {
 function getGames(req, res, next) {
   needle.get('http://api.mapattack.org/game/list', function(error, response, body){
     if (!error && response.statusCode == 200 && body.games) {
+      games = body.games;
+      console.log(games);
       res.locals({
-        games: body.games
+        games: games
       });
     } else {
       res.locals({
@@ -162,7 +164,7 @@ function findBoardById(id) {
 
 function findGameById(id) {
   return games.filter(function(obj){
-    return findIdInTags(obj.tags, 'game') === id;
+    return obj.game && obj.game.game_id === id;
   })[0];
 }
 
@@ -330,17 +332,20 @@ app.get('/games/:id', function(req, res){
 });
 
 app.get('/games/:id/state', function(req, res){
-  var game = findGameById(req.params.id);
-  needle.post('http://api.mapattack.org/board/new', {
-    access_token: api.token
+  console.log({
+    access_token: api.token,
+    game_id: req.params.id
+  });
+  needle.post('http://api.mapattack.org/game/state', {
+    access_token: 'TTBv3vBEiCkn2wdhdxErRQNHvZiIKhYZNZrGSUnfsNp1Okvy',
+    game_id: req.params.id
   }, function(error, response, body) {
-    if (!error && response.statusCode == 200 && body.board_id) {
-      callback(body.board_id);
+    if (!error && response.statusCode == 200 && body) {
+      res.json(body);
     } else {
-      callback(false);
+      res.json({ 'error': error });
     }
   });
-  res.render('viewer', { layout: false });
 });
 
 // API routes
