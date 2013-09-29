@@ -180,7 +180,7 @@
     }
 
     Viewer.map.fitBounds(bounds, {
-      paddingTopLeft: [0, 100]
+      paddingTopLeft: [0, 130]
     });
   };
 
