@@ -2,12 +2,6 @@
 
 (function(window,$,L,undefined){
 
-  // let's capitalize!
-  String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-  };
-
-  // the viewer
   var Viewer = {
     $: {},              // dom cache
     game: null,         // game meta
@@ -57,11 +51,17 @@
   Viewer.init = function(){
 
     Viewer.$.viewer = $('#viewer');
+    Viewer.$.title = $('.board-title');
+    Viewer.$.totalPlayers = $('.total-players');
+    Viewer.$.blueScore = $('.score.blue .number');
+    Viewer.$.redScore = $('.score.red .number');
+    Viewer.$.leaderBoardRed = $('.leaderboard.red .players');
+    Viewer.$.leaderBoardBlue = $('.leaderboard.blue .players');
 
     // init map
     Viewer.map = L.map('viewer', {
-      center: [45.50845, -122.64935],
-      zoom: 16,
+      center: [45.522706,-122.669327],
+      zoom: 12,
       scrollWheelZoom: false,
       attributionControl: false,
       zoomControl: false
@@ -77,6 +77,7 @@
     Viewer.layerGroup = new L.LayerGroup();
     Viewer.layerGroup.addTo(Viewer.map);
 
+    Viewer.refresh();
   };
 
   Viewer.update = function(){
@@ -167,7 +168,7 @@
 
   Viewer.refresh = function(){
     // replace this with call to game state route
-    $.getJSON('/js/response.json', function(data){
+    $.getJSON('/js/response.json', function(data){ // '/games/' + Viewer.game_id + '/state'
       // Set Data to response
       Viewer.game = data.game;
       Viewer.coins = data.coins;
@@ -179,18 +180,33 @@
     });
   };
 
+  Viewer.api = function(method, params, callback){
+    var options = {
+      type: 'POST',
+      url: '/attack-api/' + method,
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json'
+    };
+
+    if (typeof callback === 'undefined' &&
+        typeof params === 'function') {
+      callback = params;
+    }
+
+    if (typeof params === 'object') {
+      options.data = JSON.stringify(params);
+    }
+
+    $.ajax(options)
+      .done(callback)
+      .fail(function(jqXHR, textStatus, errorThrown){
+        console.log('API call failed', jqXHR, textStatus, errorThrown);
+      });
+  };
+
   // init editor when DOM is ready
   $(function(){
     Viewer.init();
-    Viewer.refresh();
-
-    Viewer.$.title = $('.board-title');
-    Viewer.$.totalPlayers = $('.total-players');
-    Viewer.$.blueScore = $('.score.blue .number');
-    Viewer.$.redScore = $('.score.red .number');
-    Viewer.$.leaderBoardRed = $('.leaderboard.red .players');
-    Viewer.$.leaderBoardBlue = $('.leaderboard.blue .players');
-
   });
 
   window.Viewer = Viewer;

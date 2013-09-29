@@ -1,10 +1,9 @@
 <div class="nav-wrap">
   <header class="top-nav">
-    <a class="brand" href="/"><span class="blue">Map</span> <span class="red">Attack</span></a>
-    <% if (authenticated) { %>
-    <nav class="left">
-      <!-- <a href="/editor" class="btn blue">editor</a> -->
-    </nav>
+    <% if (authenticated && user) { %>
+      <a class="brand" href="/home"><span class="blue">Map</span> <span class="red">Attack</span></a>
+    <% } else { %>
+      <a class="brand" href="/"><span class="blue">Map</span> <span class="red">Attack</span></a>
     <% } %>
 
     <nav class="right">
