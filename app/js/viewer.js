@@ -171,6 +171,19 @@
     });
   };
 
+  Viewer.zoomToBounds = function() {
+    var layers = Viewer.layerGroup.getLayers()
+    var bounds = new L.LatLngBounds();
+
+    for (var i=0;i<layers.length;i++) {
+      bounds.extend(layers[i].getLatLng());
+    }
+
+    Viewer.map.fitBounds(bounds, {
+      paddingTopLeft: [0, 100]
+    });
+  };
+
   Viewer.refresh = function(){
     // replace this with call to game state route
     $.getJSON('/games/' + game_data.game.game_id + '/state', function(data){ // '/games/' + Viewer.game_id + '/state'
@@ -181,6 +194,7 @@
 
       Viewer.clearMap();
       Viewer.update();
+      Viewer.zoomToBounds();
       setTimeout(Viewer.refresh, 15000);
     }).error(function(errorThrown){
       console.log(errorThrown);
