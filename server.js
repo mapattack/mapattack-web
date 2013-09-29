@@ -125,16 +125,16 @@ function getBoards(req, res, next) {
 }
 
 function getGames(req, res, next) {
-  api.request('trigger/list', { tags: 'game' }, function(error, response){
-    if (error) {
-      console.log(error);
+  needle.get('http://api.mapattack.org/game/list', function(error, response, body){
+    if (!error && response.statusCode == 200 && body.games) {
+      console.log(body.games);
+      res.locals({
+        games: body.games
+      });
+      next();
     } else {
-      games = response.triggers;
+      console.log("Couldn't retrieve game list");
     }
-    res.locals({
-      games: games
-    });
-    next();
   });
 }
 
