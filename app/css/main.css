@@ -961,11 +961,16 @@ input[type="submit"] {
 .edit-tools .btn.red:hover {
   color: white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\0000388}}
+.edit-tools .btn[disabled] {
+  border: 2px solid #777;
+  color: #777;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\0000394}}
 .edit-tools .point {
   border-bottom: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\0000398}}
 .edit-tools .point:after {
   content: "";
   display: inline-block;
@@ -976,7 +981,7 @@ input[type="submit"] {
   margin-top: -3px;
   background-size: 28px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003104}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003108}}
 .edit-tools .line:after {
   content: "";
   display: inline-block;
@@ -987,25 +992,25 @@ input[type="submit"] {
   margin-top: -3px;
   background-size: 28px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003114}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003118}}
 .edit-tools .active {
   color: white;
   background-color: #5498e8;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003118}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003122}}
 .edit-tools .done {
   margin-top: 1.5em;
   text-align: center;
   border: 2px solid #f54130;
   color: #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003127}}
 .edit-tools .done:hover {
   background-color: #f54130;
   color: white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003130}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003134}}
 .coin {
   width: 20px;
   height: 17px;
@@ -1021,11 +1026,11 @@ input[type="submit"] {
   -o-border-radius: 11px;
   border-radius: 11px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003144}}
 .coin.p10:after {
   content: '10';
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003143}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003147}}
 .coin.p20 {
   position: absolute;
   left: -2px;
@@ -1037,11 +1042,11 @@ input[type="submit"] {
   -o-border-radius: 12px;
   border-radius: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003149}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003153}}
 .coin.p20:after {
   content: '20';
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003153}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003157}}
 .coin.p30 {
   position: absolute;
   left: -3px;
@@ -1053,11 +1058,11 @@ input[type="submit"] {
   -o-border-radius: 13px;
   border-radius: 13px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003159}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003163}}
 .coin.p30:after {
   content: '30';
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003163}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003167}}
 .coin.p50 {
   position: absolute;
   left: -4px;
@@ -1069,24 +1074,40 @@ input[type="submit"] {
   -o-border-radius: 14px;
   border-radius: 14px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003169}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003173}}
 .coin.p50:after {
   content: '50';
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003177}}
 .coin.red {
   background-color: #f54130;
   color: white;
   border-color: #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003178}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003182}}
 .coin.blue {
   background-color: #5498e8;
   color: white;
   border-color: #5498e8;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003185}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003189}}
+.step {
+  width: 2px;
+  height: 2px;
+  border-radius: 5px;
+  background-color: #dddddd;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003194}}
+.step.red {
+  background-color: #f54130;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003197}}
+.step.blue {
+  background-color: #5498e8;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003202}}
 .plyr {
   width: 30px;
   height: 50px;
@@ -1096,16 +1117,16 @@ input[type="submit"] {
   text-align: center;
   vertical-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003193}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003210}}
 .plyr.red {
   background-color: #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003196}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003213}}
 .plyr.blue {
   background-color: #5498e8;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003219}}
 .coin-pop button {
   padding: 0 3px;
   margin: 0 3px 0px 3px;
@@ -1113,62 +1134,62 @@ input[type="submit"] {
   color: #30302f;
   border: 1px solid #dddddd;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003208}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003225}}
 .coin-pop button.active {
   background-color: #30302f;
   color: #fefefe;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003211}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003228}}
 .coin-pop button.active:hover {
   background-color: #30302f;
   color: #fefefe;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003216}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003233}}
 .coin-pop button:hover {
   background-color: #dddddd;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003219}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003236}}
 .coin-pop button:first-child {
   margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003222}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003239}}
 .coin-pop button.delete-coin {
   margin-left: 9px;
   margin-right: 0px;
   color: #f54130;
   border: 1px solid #f54130;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003227}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003244}}
 .coin-pop button.delete-coin:hover {
   background-color: #f54130;
   color: #fefefe;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003231}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003248}}
 .coin-pop button.delete-coin:after {
   content: "delete";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003236}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003253}}
 .coin-pop .ten:after {
   content: "10";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003239}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003256}}
 .coin-pop .twenty:after {
   content: "20";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003242}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003259}}
 .coin-pop .thirty:after {
   content: "30";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003245}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003262}}
 .coin-pop .fourty:after {
   content: "40";
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003248}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003265}}
 .coin-pop .fifty:after {
   content: "50";
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003253}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003270}}
 .leaflet-popup-content-wrapper {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -1180,17 +1201,17 @@ input[type="submit"] {
   font-size: 12px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003260}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003277}}
 .leaflet-popup-content {
   margin: 12px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003264}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003281}}
 .leaflet-container a.leaflet-popup-close-button {
   display: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003268}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/nate\/dev\/mapattack-web\/app\/scss\/_editor\.scss}line{font-family:\00003285}}
 .leaflet-popup-tip {
   width: 12px;
   height: 12px;

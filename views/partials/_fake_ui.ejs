@@ -1,0 +1,11 @@
+<div class="edit-tools">
+  <% if (locals.board) { %>
+    <p>Board Title: <%= board.properties.title %></p>
+    <p>Board Location: <%= board.properties.city %></p>
+    <button class="btn register-device">Register Device</button>
+    <button class="btn join-game" disabled>Join Game</button>
+    <button class="btn tool line" disabled>Fake Movement</button>
+  <% } else { %>
+    <p>Can't Find Board</p>
+  <% } %>
+</div>

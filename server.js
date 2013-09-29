@@ -30,6 +30,9 @@ var games = {};
 var needle = require('needle');
 var hour = 3600000;
 
+// udp
+var client = require('dgram').createSocket('udp4');
+
 // config superchain
 // -----------------
 
@@ -182,6 +185,7 @@ app.locals.findIdInTags = findIdInTags;
 // things to load for every route
 
 app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
+app.get('/faker*', loadAuthentication, getBoards);
 app.get('/games*', loadAuthentication, getGames);
 app.get('/', loadAuthentication, getBoards, getGames);
 // just do it up for debug for now for the win
@@ -307,14 +311,35 @@ app.get('/games/:id', function(req, res){
 // --------------------
 // passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
 app.post('/api/*', function(req, res){
-  console.log('API REQUEST: ', req.params, req.body);
-  if (req.body.condition && req.body.condition.geo && req.body.condition.geo.geojson) {
-    console.log('geojson: ', req.body.condition.geo.geojson, req.body.condition.geo.geojson.geometry.coordinates);
-  }
   api.request(req.params[0], req.body, function(error, response){
-    console.log('API RESPONSE: ', error, response);
     res.json(error || response);
   });
+});
+
+// Fake routes
+// -----------
+
+app.get('/faker/:id', function(req, res){
+  var board = findBoardById(req.params.id);
+  res.locals.board = board;
+  res.render('faker', { layout: false });
+});
+
+app.post('/fakeapi/*', function(req, res){
+  needle.post('http://api.mapattack.org/' + req.params[0], req.body, function(error, response, body) {
+    res.json(error || body);
+  });
+});
+
+app.post('/faker/:id/update', function(req, res){
+  var message = JSON.stringify(req.body);
+
+  client.send(new Buffer(message), 0, message.length, 5309, 'api.mapattack.org', function(err, bytes) {
+    // forgotten
+  });
+
+  var arr = ['^_^','(゜o゜)','(^_^)/','(^O^)／','(^o^)／','(^^)/','(≧∇≦)/','(^o^)丿','∩( ・ω・)∩','( ・ω・)','^ω^'];
+  res.send(arr[Math.floor(Math.random() * arr.length)]);
 });
 
 // start the server

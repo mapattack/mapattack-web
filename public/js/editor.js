@@ -221,7 +221,7 @@
       Ed.drawBoard();
 
       if (window.history && window.history.replaceState) {
-        window.history.pushState({}, '', '/boards/' + board.id + '/edit');
+        window.history.replaceState({}, '', '/boards/' + board.id + '/edit');
       }
 
       console.log('board created!');
