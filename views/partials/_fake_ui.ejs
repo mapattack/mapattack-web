@@ -1,7 +1,7 @@
 <div class="edit-tools">
   <% if (locals.board) { %>
-    <p><%= board.properties.title %></p>
-    <p class="secondary"><%= board.properties.city %></p>
+    <p><%= board.properties.title ? board.properties.title : '' %></p>
+    <p class="secondary"><%= board.properties.city ? board.properties.city : '' %></p>
     <button class="btn register-device">Register Device</button>
     <button class="btn join-game" disabled>Join Game</button>
     <button class="btn tool line" disabled>Fake Movement</button>
