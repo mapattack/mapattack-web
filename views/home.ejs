@@ -61,7 +61,7 @@
           <span class="plain">Title</span>
         </div>
         <div class="col col1of4">
-          <span class="plain">Start Time</span>
+          <span class="plain">Score</span>
         </div>
         <div class="col col1of4">
           <span class="plain">Players</span>
@@ -71,19 +71,19 @@
       <% games.forEach(function(board){ %>
         <div class="game col-group no-padding">
           <div class="col col1of2">
-            <a class="title" href="/games/<%= findIdInTags(board.tags, 'game') %>">
-              <% if (board.properties && board.properties.title) { %>
-                <%= board.properties.title %>
+            <a class="title" href="/games/<%= board.game.game_id %>">
+              <% if (board.name) { %>
+                <%= board.name %>
               <% } else { %>
                 Untitled Board
               <% } %>
             </a>
           </div>
           <div class="col col1of4">
-            <span class="hours">?</span>
+            <span class="hours"><span class="red_num"><%= board.game.red_score %></span> <span class="blue_num"><%= board.game.blue_score %></span></span>
           </div>
           <div class="col col1of4">
-            <span class="hours">?</span>
+            <span class="hours"><span class="red_num"><%= board.game.red_team %></span> <span class="blue_num"><%= board.game.blue_team %></span></span>
           </div>
         </div>
       <% }) %>
