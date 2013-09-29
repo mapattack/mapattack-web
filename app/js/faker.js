@@ -114,7 +114,7 @@
   Faker.request = function(method, params, callback){
     var options = {
       type: 'POST',
-      url: '/api/' + method,
+      url: '/trigger-api/' + method,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json'
     };
@@ -138,7 +138,7 @@
   Faker.api = function(method, params, callback){
     var options = {
       type: 'POST',
-      url: '/fakeapi/' + method,
+      url: '/attack-api/' + method,
       contentType: 'application/json; charset=utf-8',
       dataType: 'json'
     };
@@ -382,8 +382,8 @@
     // --------
 
     Faker.map = L.map('editor', {
-      center: [45.50845, -122.64935],
-      zoom: 16,
+      center: [45.522706,-122.669327],
+      zoom: 12,
       scrollWheelZoom: true,
       attributionControl: false,
       zoomControl: false

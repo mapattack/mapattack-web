@@ -1,6 +1,10 @@
 <div class="nav-wrap transparent">
   <header class="top-nav transparent">
-    <a class="brand" href="/"><span>Map</span> <span>Attack</span></a>
+    <% if (authenticated && user) { %>
+      <a class="brand" href="/home"><span>Map</span> <span>Attack</span></a>
+    <% } else { %>
+      <a class="brand" href="/"><span>Map</span> <span>Attack</span></a>
+    <% } %>
     <nav>
     <% if (authenticated && user) { %>
       <img id="user-data" data-id="<%= user.id %>" src="<%= user.photos[0].value %>" alt="<%= user.username %>" width="42">
