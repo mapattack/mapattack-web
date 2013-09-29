@@ -127,16 +127,20 @@ function getBoards(req, res, next) {
 function getGames(req, res, next) {
   needle.get('http://api.mapattack.org/game/list', function(error, response, body){
     if (!error && response.statusCode == 200 && body.games) {
-      console.log(body.games);
       res.locals({
         games: body.games
       });
-      next();
     } else {
+      res.locals({
+        games: []
+      });
       console.log("Couldn't retrieve game list");
     }
+    next();
   });
 }
+
+// util
 
 function getNewBoardId(callback) {
   needle.post('http://api.mapattack.org/board/new', {
@@ -149,8 +153,6 @@ function getNewBoardId(callback) {
     }
   });
 }
-
-// util
 
 function findBoardById(id) {
   return boards.filter(function(obj){
@@ -187,9 +189,8 @@ app.locals.findIdInTags = findIdInTags;
 app.get('/boards*', ensureAuthenticated, loadAuthentication, getBoards);
 app.get('/faker*', loadAuthentication, getBoards);
 app.get('/games*', loadAuthentication, getGames);
-app.get('/', loadAuthentication, getBoards, getGames);
-// just do it up for debug for now for the win
-// app.get('*', loadAuthentication, getBoards);
+app.get('/home', ensureAuthenticated, loadAuthentication, getBoards, getGames);
+app.get('/', loadAuthentication);
 
 // root
 // ----
@@ -197,10 +198,14 @@ app.get('/', loadAuthentication, getBoards, getGames);
 // render home if user is logged in, otherwise render index
 app.get('/', function(req, res){
   if (req.user) {
-    res.render('home');
+    res.redirect('/home');
   } else {
     res.render('index');
   }
+});
+
+app.get('/home', function(req, res){
+  res.render('home');
 });
 
 // authentication
@@ -221,7 +226,7 @@ app.get('/auth/twitter/callback',
       req.session.redirectUrl = null;
       res.redirect(redirectUrl);
     } else {
-      res.redirect('/');
+      res.redirect('/home');
     }
   }
 );
@@ -263,15 +268,32 @@ app.get('/boards/new', function(req, res){
 // show existing board
 app.get('/boards/:id', function(req, res){
   var board = findBoardById(req.params.id);
-  res.json(board);
+  if (board) {
+    res.json(board);
+  } else {
+    res.send('Board not found');
+  }
 });
 
 // edit existing board
 app.get('/boards/:id/edit', function(req, res){
   var board = findBoardById(req.params.id);
-  console.log('editing board: ' + board.properties.title + ' (boardId: ' + req.params.id + ', triggerId: ' + board.triggerId + ')');
-  res.locals.board = board;
-  res.render('editor', { layout: false });
+  if (board) {
+    console.log('editing board: ' + board.properties.title + ' (boardId: ' + req.params.id + ', triggerId: ' + board.triggerId + ')');
+    res.locals.board = board;
+    res.render('editor', { layout: false });
+  } else {
+    res.send('Board not found');
+  }
+});
+
+// delete board and all associated coins
+app.get('/boards/:id/delete', function(req, res){
+  api.request('trigger/delete', {
+    tags: ['coin:board:' + req.params.id, 'board:' + req.params.id]
+  }, function(error, response){
+    res.json(error || response);
+  });
 });
 
 // coin routes
@@ -307,12 +329,34 @@ app.get('/games/:id', function(req, res){
   res.render('viewer', { layout: false });
 });
 
-// Geotrigger API route
-// --------------------
-// passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
-app.post('/api/*', function(req, res){
+app.get('/games/:id/state', function(req, res){
+  var game = findGameById(req.params.id);
+  needle.post('http://api.mapattack.org/board/new', {
+    access_token: api.token
+  }, function(error, response, body) {
+    if (!error && response.statusCode == 200 && body.board_id) {
+      callback(body.board_id);
+    } else {
+      callback(false);
+    }
+  });
+  res.render('viewer', { layout: false });
+});
+
+// API routes
+// ----------
+
+// passes posts to `/trigger-api/:method_name` to geotriggers.js, e.g. `trigger/list`
+app.post('/trigger-api/*', function(req, res){
   api.request(req.params[0], req.body, function(error, response){
     res.json(error || response);
+  });
+});
+
+// passes posts to `/attack-api/:method_name` to mapattack api
+app.post('/attack-api/*', function(req, res){
+  needle.post('http://api.mapattack.org/' + req.params[0], req.body, function(error, response, body) {
+    res.json(error || body);
   });
 });
 
@@ -323,12 +367,6 @@ app.get('/faker/:id', function(req, res){
   var board = findBoardById(req.params.id);
   res.locals.board = board;
   res.render('faker', { layout: false });
-});
-
-app.post('/fakeapi/*', function(req, res){
-  needle.post('http://api.mapattack.org/' + req.params[0], req.body, function(error, response, body) {
-    res.json(error || body);
-  });
 });
 
 app.post('/faker/:id/update', function(req, res){

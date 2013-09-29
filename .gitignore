@@ -45,3 +45,6 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# yeoman
+app/css/
