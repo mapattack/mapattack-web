@@ -14,6 +14,9 @@
               <% } else { %>
                 Untitled Board
               <% } %>
+              <% if (board.properties && board.properties.city) { %>
+                <small>(<%= board.properties.city %>)</small>
+              <% } %>
             </a>
           </li>
         <% } %>
@@ -36,6 +39,9 @@
               <%= board.properties.title %>
             <% } else { %>
               Untitled Board
+            <% } %>
+            <% if (board.properties && board.properties.city) { %>
+              <small>(<%= board.properties.city %>)</small>
             <% } %>
           </a>
         </li>

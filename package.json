@@ -1,10 +1,10 @@
 {
   "name": "mapattack-web",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "server.js",
   "scripts": {
     "test": "grunt test",
-    "start": "grunt server"
+    "start": "node server.js"
   },
   "dependencies": {
     "passport-twitter": "~1.0.2",
@@ -33,11 +33,11 @@
     "grunt-concurrent": "~0.3.0",
     "load-grunt-tasks": "~0.1.0",
     "time-grunt": "~0.1.1",
-    "grunt-nodemon": "~0.1.1",
-    "grunt-shell": "~0.4.0"
+    "grunt-nodemon": "~0.1.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "0.10.x",
+    "npm": "1.2.x"
   },
   "repository": {
     "type": "git",

@@ -45,7 +45,3 @@ tmp
 .yardoc
 _yardoc
 doc/
-
-# yeoman
-app/bower_components
-app/css

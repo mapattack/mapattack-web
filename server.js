@@ -47,14 +47,15 @@ app
   .configure('development', function(){
     app
       .use(express.logger('dev'))
-      .use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+      .use(express.errorHandler({ dumpExceptions: true, showStack: true }))
+      .use(express.static(__dirname + '/app'));
   })
   .configure('production', function(){
     app
       .use(express.logger())
-      .use(express.errorHandler());
+      .use(express.errorHandler())
+      .use(express.static(__dirname + '/public'));
   })
-  .use(express.static(__dirname + '/app'))
   .use(partials())
   .use(app.router);
 
@@ -94,11 +95,11 @@ passport.use(new TwitterStrategy({
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   console.log('y\'all ain\'t authenticatered');
-  res.redirect('/');
+  req.session.redirectUrl = req.url;
+  res.redirect('/auth/twitter');
 }
 
 function loadAuthentication(req, res, next) {
-  console.log(req.user);
   res.locals({
     user: req.user ? req.user : null,
     authenticated: req.isAuthenticated()
@@ -211,7 +212,13 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
-    res.redirect('/');
+    if (req.session.redirectUrl) {
+      var redirectUrl = req.session.redirectUrl;
+      req.session.redirectUrl = null;
+      res.redirect(redirectUrl);
+    } else {
+      res.redirect('/');
+    }
   }
 );
 
@@ -300,7 +307,12 @@ app.get('/games/:id', function(req, res){
 // --------------------
 // passes posts to `/api/:method_name` to geotriggers.js, e.g. `trigger/list`
 app.post('/api/*', function(req, res){
+  console.log('API REQUEST: ', req.params, req.body);
+  if (req.body.condition && req.body.condition.geo && req.body.condition.geo.geojson) {
+    console.log('geojson: ', req.body.condition.geo.geojson, req.body.condition.geo.geojson.geometry.coordinates);
+  }
   api.request(req.params[0], req.body, function(error, response){
+    console.log('API RESPONSE: ', error, response);
     res.json(error || response);
   });
 });
