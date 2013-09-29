@@ -195,7 +195,7 @@
       Viewer.clearMap();
       Viewer.update();
       Viewer.zoomToBounds();
-      setTimeout(Viewer.refresh, 15000);
+      setTimeout(Viewer.refresh, 10000);
     }).error(function(errorThrown){
       console.log(errorThrown);
     });

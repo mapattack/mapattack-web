@@ -35,11 +35,12 @@
   width: 300px;
   display: block;
   position: absolute;
-  top: 32px;
-  left: 0;
+  top: 84px;
+  left: 24px;
   padding: 1em;
-  margin: 2em 2em 2em 1em;
   background-color: $cream;
+  border: 2px solid #5498e8;
+  border-top: 12px solid #5498e8;
 
   input[type='text']{
     width: 100%;
