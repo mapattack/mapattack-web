@@ -97,7 +97,6 @@ passport.use(new TwitterStrategy({
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  console.log('y\'all ain\'t authenticatered');
   req.session.redirectUrl = req.url;
   res.redirect('/auth/twitter');
 }
@@ -128,7 +127,6 @@ function getGames(req, res, next) {
   needle.get('http://api.mapattack.org/game/list', function(error, response, body){
     if (!error && response.statusCode == 200 && body.games) {
       games = body.games;
-      console.log(games);
       res.locals({
         games: games
       });
@@ -281,7 +279,6 @@ app.get('/boards/:id', function(req, res){
 app.get('/boards/:id/edit', function(req, res){
   var board = findBoardById(req.params.id);
   if (board) {
-    console.log('editing board: ' + board.properties.title + ' (boardId: ' + req.params.id + ', triggerId: ' + board.triggerId + ')');
     res.locals.board = board;
     res.render('editor', { layout: false });
   } else {
@@ -332,10 +329,6 @@ app.get('/games/:id', function(req, res){
 });
 
 app.get('/games/:id/state', function(req, res){
-  console.log({
-    access_token: api.token,
-    game_id: req.params.id
-  });
   needle.post('http://api.mapattack.org/game/state', {
     game_id: req.params.id
   }, function(error, response, body) {
