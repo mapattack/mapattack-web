@@ -337,7 +337,6 @@ app.get('/games/:id/state', function(req, res){
     game_id: req.params.id
   });
   needle.post('http://api.mapattack.org/game/state', {
-    access_token: 'TTBv3vBEiCkn2wdhdxErRQNHvZiIKhYZNZrGSUnfsNp1Okvy',
     game_id: req.params.id
   }, function(error, response, body) {
     if (!error && response.statusCode == 200 && body) {
