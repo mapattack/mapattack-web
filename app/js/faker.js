@@ -321,7 +321,7 @@
       timestamp: Math.floor(+new Date() / 1000),
       speed: 1,
       bearing: 180,
-      accuracy: 100
+      accuracy: 5
     };
 
     var options = {
