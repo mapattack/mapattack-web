@@ -126,6 +126,13 @@
     background-color:$blue;
     color: $white;
   }
+  &.dark {
+    background-color: $dark-gray;
+    color: $white;
+    a {
+      color: $light-blue;
+    }
+  }
   section {
     max-width: 1080px;
     margin: 0 auto;
@@ -170,6 +177,13 @@
   video, img {
     width: 100%;
     height: auto;
+  }
+  ul {
+    list-style: none;
+    margin-left: 1.5em;
+    li {
+      padding: .5em 0;
+    }
   }
 }
 

@@ -125,14 +125,14 @@
     Viewer.$.leaderBoardBlue.empty();
 
     $.each(Viewer.blueTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
+      var li = '<li class="player" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg)"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
       Viewer.$.leaderBoardBlue.append(li);
     });
 
     Viewer.$.leaderBoardRed.empty();
 
     $.each(Viewer.redTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(' + player.avatar + ')"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
+      var li = '<li class="player" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg)"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
       Viewer.$.leaderBoardRed.append(li);
     });
 
@@ -141,7 +141,7 @@
   Viewer.drawPlayer = function(player) {
     var icon = new Viewer.PlayerIcon({
       className: 'plyr ' + player.team,
-      html: player.name + '<i class="player-avatar" style="background-image:url(' + player.avatar + ');">'
+      html: player.name + '<i class="player-avatar" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg);">'
     });
 
     var latLng = new L.LatLng(player.latitude, player.longitude);

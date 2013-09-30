@@ -126,7 +126,8 @@
   Ed.Coin = L.Marker.extend({
     options: {
       draggable: true,
-      triggerId: null
+      triggerId: null,
+      clickable: false
     }
   });
 
@@ -195,68 +196,7 @@
       triggerId: triggerId
     });
 
-    coin.on('dragstart', function(e){
-      var target = e.target;
-      var triggers = Ed.triggers.getLayers();
-      for (var i = 0; i < triggers.length; i++) {
-        if (triggers[i].options.triggerId === target.options.triggerId) {
-          Ed.triggers.removeLayer(triggers[i]);
-        }
-      }
-    });
-
-    coin.on('dragend', function(e){
-      var target = e.target;
-      var latLng = target.getLatLng();
-      Ed.updateTrigger({
-        triggerId: target.options.triggerId,
-        latLng: latLng
-      });
-    });
-
-    var popup = $(msg);
-
-    // bind delete
-    popup.find('.delete-coin').click(function(e){
-      e.preventDefault();
-      var triggerId = coin.options.triggerId;
-      Ed.deleteTrigger(triggerId);
-    });
-
-    var $pts = popup.find('.point-value');
-
-    // add active class to button with point value of coin
-    $pts.filter(function(){
-      return $(this).data('value') === Number(points);
-    }).addClass('active');
-
-    // bind point value switchery
-    $pts.click(function(e){
-      e.preventDefault();
-      $pts.removeClass('active');
-      var $this = $(this);
-      var val = $this.data('value');
-      var triggerId = coin.options.triggerId;
-
-      Ed.updateTrigger({
-        triggerId: triggerId,
-        points: val,
-        redraw: false,
-        success: function(response){
-          $this.addClass('active');
-          $(coin._icon).removeClass('p50 p30 p20 p10');
-          $(coin._icon).addClass('p' + val);
-
-        }
-      });
-
-      coin.update({
-        className: 'coin p' + val
-      });
-
-    });
-
-    coin.addTo(Ed.coins).bindPopup(popup[0]);
+    coin.addTo(Ed.coins);
 
     return coin;
   };
@@ -272,14 +212,12 @@
   // initialize the editor
   Ed.init = function(callback){
 
-    Ed.$.editor = $('#editor');
-    Ed.$.title = Ed.$.tools.find('input.title');
-    Ed.$.city = Ed.$.tools.find('input.city');
+    Ed.$.editor = $('#map');
 
     // init map
     // --------
 
-    Ed.map = L.map('editor', {
+    Ed.map = L.map('map', {
       center: [45.522706,-122.669327],
       zoom: 12,
       scrollWheelZoom: true,
@@ -293,10 +231,6 @@
       maxZoom: 18,
       subdomains: '0123'
     }).addTo(Ed.map);
-
-    // Ed.map.on('popupopen', function(e) {
-    //   window.popup = this;
-    // });
 
     // init draw
     // ---------

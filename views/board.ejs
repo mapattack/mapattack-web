@@ -23,7 +23,7 @@
   <%- partial('partials/_transparent_nav') %>
 
   <div class="wrapper transparent">
-    <div id="editor"<% if (locals.board || locals.boardId) { %> data-board-id="<%- locals.boardId || findIdInTags(board.tags, 'board') %>"<% } %>></div>
+    <div id="map"<% if (locals.board || locals.boardId) { %> data-board-id="<%- locals.boardId || findIdInTags(board.tags, 'board') %>"<% } %>></div>
     <div class="edit-tools">
       <% if (locals.board) { %>
         <p><%= board.properties.title ? board.properties.title : '' %></p>
@@ -38,6 +38,6 @@
   <script src="/lib/leaflet.js"></script>
   <script src="/lib/leaflet.draw.js"></script>
   <%- partial('partials/_ga') %>
-  <script src="/js/editor.js"></script>
+  <script src="/js/board.js"></script>
 </body>
 </html>

@@ -201,7 +201,7 @@ app.get('/', function(req, res){
   if (req.user) {
     res.redirect('/home');
   } else {
-    res.render('index');
+    res.render('index', { layout: false });
   }
 });
 
@@ -338,6 +338,7 @@ app.get('/games/:id/state', function(req, res){
   needle.post('http://api.mapattack.org/game/state', {
     game_id: req.params.id
   }, function(error, response, body) {
+    console.log(body);
     if (!error && response.statusCode == 200 && body) {
       res.json(body);
     } else {
