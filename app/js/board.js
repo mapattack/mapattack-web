@@ -212,12 +212,12 @@
   // initialize the editor
   Ed.init = function(callback){
 
-    Ed.$.editor = $('#map');
+    Ed.$.editor = $('#editor');
 
     // init map
     // --------
 
-    Ed.map = L.map('map', {
+    Ed.map = L.map('editor', {
       center: [45.522706,-122.669327],
       zoom: 12,
       scrollWheelZoom: true,
