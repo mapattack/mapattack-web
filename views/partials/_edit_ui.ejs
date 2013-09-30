@@ -1,0 +1,18 @@
+<div class="edit-tools">
+  <% if (locals.board) { %>
+    <% if (board.properties) { %>
+      <input name="title" class="title" type="text" placeholder="Board Title" value="<%= board.properties.title %>">
+      <input name="city" class="city" type="text" placeholder="City" value="<%= board.properties.city %>">
+    <% } else { %>
+      <input name="title" class="title" type="text" placeholder="Board Title">
+      <input name="city" class="city" type="text" placeholder="City">
+    <% } %>
+    <input type="hidden" name="id" value="<%= board.triggerId %>">
+  <% } else { %>
+    <input name="title" class="title" type="text" placeholder="Board Title">
+    <input name="city" class="city" type="text" placeholder="City">
+  <% } %>
+  <a class="btn tool point">New Point</a>
+  <a class="btn tool line">New Line</a>
+  <a class="btn done publish">Publish Board</a>
+</div>

@@ -1,0 +1,60 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Map Attack | Viewer</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/lib/leaflet.css">
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/lib/leaflet.ie.css">
+  <![endif]-->
+  <link rel="stylesheet" href="/css/main.css">
+  <%- partial('partials/_html5shiv') %>
+</head>
+<body>
+  <%- partial('partials/_ie') %>
+  <%- partial('partials/_transparent_nav') %>
+
+  <div class="wrapper transparent">
+    <section class="scoreboard">
+      <header class="title">
+      <% if (locals.game) { %>
+        <span class="board-title"><%= game.name %></span>
+      <% } else {%>
+        <span class="board-title">Awesome Board</span>
+      <% } %>
+        <span class="total-players">-- players</span>
+      </header>
+      <div class="col-group">
+        <div class="score blue col col1of2 on-blue">
+          <span class="color">Blue</span>
+          <span class="number">--</span>
+        </div>
+        <div class="score red col col1of2 on-red">
+          <span class="number">--</span>
+          <span class="color">Red</span>
+        </div>
+    </section>
+    <div class="chord blue"></div>
+    <section class="leaderboard blue">
+      <ul class="players"></ul>
+    </section>
+    <div class="chord red"></div>
+    <section class="leaderboard red">
+      <ul class="players"></ul>
+    </section>
+    <div id="viewer"></div>
+  </div>
+
+  <script src="/lib/jquery.min.js"></script>
+  <script src="/lib/leaflet.js"></script>
+  <%- partial('partials/_ga') %>
+  <script type="text/javascript">var game_data = <%- JSON.stringify(locals.game) %>;</script>
+  <script src="/js/viewer.js"></script>
+</body>
+</html>

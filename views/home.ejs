@@ -1,0 +1,92 @@
+<div class="panel blue">
+  <section>
+    <header>
+      <h2>My Boards</h2>
+      <a href="/boards/new" class="btn cream">New Board</a>
+    </header>
+    <ul class="boards mine">
+      <% boards.forEach(function(board){ %>
+        <% if (findIdInTags(board.tags, 'board:twitter_id') === user.id) { %>
+          <li>
+            <a href="/boards/<%= findIdInTags(board.tags, 'board') %>/edit">
+              <% if (board.properties && board.properties.title) { %>
+                <%= board.properties.title %>
+              <% } else { %>
+                Untitled Board
+              <% } %>
+              <% if (board.properties && board.properties.city) { %>
+                <small>(<%= board.properties.city %>)</small>
+              <% } %>
+            </a>
+          </li>
+        <% } %>
+      <% }) %>
+    </ul>
+  </section>
+</div>
+
+<div class="panel cream">
+  <section>
+    <header>
+      <h2 class="red">All Boards</h2>
+      <input class="search col col1of3" placeholder="Filter by Title/City"></input>
+    </header>
+    <ul class="boards all red">
+      <% boards.forEach(function(board){ %>
+        <li>
+          <a href="/boards/<%= findIdInTags(board.tags, 'board') %>">
+            <% if (board.properties && board.properties.title) { %>
+              <%= board.properties.title %>
+            <% } else { %>
+              Untitled Board
+            <% } %>
+            <% if (board.properties && board.properties.city) { %>
+              <small>(<%= board.properties.city %>)</small>
+            <% } %>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+</div>
+
+<div class="panel white">
+  <section>
+    <header>
+      <h2 class="blue">Games In Progress</h2>
+    </header>
+    <div class="games">
+      <div class="game col-group no-padding label">
+        <div class="col col1of2">
+          <span class="plain">Title</span>
+        </div>
+        <div class="col col1of4">
+          <span class="plain">Score</span>
+        </div>
+        <div class="col col1of4">
+          <span class="plain">Players</span>
+        </div>
+      </div>
+
+      <% games.forEach(function(board){ %>
+        <div class="game col-group no-padding">
+          <div class="col col1of2">
+            <a class="title" href="/games/<%= board.game.game_id %>">
+              <% if (board.name) { %>
+                <%= board.name %>
+              <% } else { %>
+                Untitled Board
+              <% } %>
+            </a>
+          </div>
+          <div class="col col1of4">
+            <span class="hours"><span class="red_num"><%= board.game.red_score %></span> <span class="blue_num"><%= board.game.blue_score %></span></span>
+          </div>
+          <div class="col col1of4">
+            <span class="hours"><span class="red_num"><%= board.game.red_team %></span> <span class="blue_num"><%= board.game.blue_team %></span></span>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+</div>

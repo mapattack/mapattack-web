@@ -1,0 +1,309 @@
+.wrapper {
+  min-height: 320px;
+  position: absolute;
+  top: 72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  &.transparent {
+    top: 0;
+    .leaflet-left {
+      left: 12px;
+    }
+    .leaflet-bottom {
+      bottom: 12px;
+    }
+  }
+}
+
+.leaflet-container {
+  background-color: $darkest-gray;
+}
+
+
+#editor {
+  min-height: 320px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.edit-tools {
+  @include box-sizing(border-box);
+  width: 300px;
+  display: block;
+  position: absolute;
+  top: 84px;
+  left: 24px;
+  padding: 1em;
+  background-color: $cream;
+  border: 2px solid #5498e8;
+  border-top: 12px solid #5498e8;
+
+  p {
+    color: #5498e8;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    margin: 0;
+    &.secondary {
+      font-size: 1em;
+      margin-bottom: .5em;
+    }
+  }
+
+  input[type='text']{
+    width: 100%;
+    font-size: 1.25em;
+    color: $blue;
+    background-color: $cream;
+    border: 2px solid $blue;
+    &:first-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background-color: rgba($blue, 0.1);
+    }
+    &:focus {
+      background-color: $blue;
+      color: $white;
+    }
+  }
+  .city {
+    margin-bottom:1em;
+  }
+  .btn {
+    @include box-sizing(border-box);
+    @include border-radius(0px);
+    width: 100%;
+    display: block;
+    border: 2px solid $blue;
+    background-color: $cream;
+    color: $blue;
+    padding: 0.5em;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    font-family: $body-font;
+    &:hover {
+      background-color: rgba($blue, 0.1);
+    }
+    &.active {
+      color: $white;
+      background-color: $blue;
+    }
+    &.red {
+      &:hover {
+        color: $white;
+      }
+    }
+    &[disabled] {
+      border: 2px solid #777;
+      color: #777;
+    }
+  }
+
+  .point {
+    border-bottom: none;
+  }
+
+  .point:after {
+    content: "";
+    display: inline-block;
+    width:  32px;
+    height: 32px;
+    float: right;
+    background: url('../img/pointBlue.png') left center no-repeat transparent;
+    margin-top: -3px;
+    background-size: 28px;
+  }
+  .line:after {
+    content: "";
+    display: inline-block;
+    width:  32px;
+    height: 32px;
+    float: right;
+    background: url('../img/lineBlue.png') left center no-repeat transparent;
+    margin-top: -3px;
+    background-size: 28px;
+  }
+  .active {
+    color: $white;
+    background-color: $blue;
+  }
+  .done {
+    margin-top: 1.5em;
+    text-align: center;
+    border: 2px solid $red;
+    color: $red;
+    &:hover {
+      background-color: $red;
+      color: $white;
+    }
+  }
+}
+
+.coin {
+  width: 20px;
+  height: 17px;
+  font-family: $body-font;
+  font-size: 13px;
+  color: $dark-gray;
+  text-align: center;
+  vertical-align: center;
+  background-color: $light-gray;
+  @include border-radius(11px);
+  &.p10:after {
+    content: '10';
+  }
+  &.p20 {
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    border: 2px solid $orange;
+    @include border-radius(12px);
+    &:after {
+      content: '20';
+    }
+  }
+  &.p30 {
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    border: 3px solid $orange;
+    @include border-radius(13px);
+    &:after {
+      content: '30';
+    }
+  }
+  &.p50 {
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    border: 4px solid $orange;
+    @include border-radius(14px);
+    &:after {
+      content: '50';
+    }
+  }
+  &.red {
+    background-color: $red;
+    color: $white;
+    border-color: $red;
+  }
+  &.blue {
+    background-color: $blue;
+    color: $white;
+    border-color: $blue;
+  }
+}
+
+.step {
+  width: 2px;
+  height: 2px;
+  border-radius: 5px;
+  background-color: $light-gray;
+  &.red {
+    background-color: $red;
+  }
+  &.blue {
+    background-color: $blue;
+  }
+}
+
+.plyr {
+  width: 26px;
+  height: 41px;
+  font-family: $body-font;
+  font-size: 13px;
+  color: $white;
+  line-height: 1.2;
+  text-align: center;
+  vertical-align: center;
+  &.red {
+    background-color: $red;
+  }
+  &.blue {
+    background-color: $blue;
+  }
+  .player-avatar {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: 24px;
+  }
+}
+
+.coin-pop {
+  button {
+    padding: 0 3px;
+    margin: 0 3px 0px 3px;
+    background-color: $white;
+    color: $dark-gray;
+    border: 1px solid $light-gray;
+    &.active {
+      background-color: $dark-gray;
+      color: $off-white;
+      &:hover {
+        background-color: $dark-gray;
+        color: $off-white;
+      }
+    }
+    &:hover {
+      background-color: $light-gray;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+    &.delete-coin {
+      margin-left: 9px;
+      margin-right: 0px;
+      color: $red;
+      border: 1px solid $red;
+      &:hover {
+        background-color: $red;
+        color: $off-white;
+      }
+      &:after {
+        content: "delete";
+      }
+    }
+  }
+  .ten:after {
+    content: "10";
+  }
+  .twenty:after {
+    content: "20";
+  }
+  .thirty:after {
+    content: "30";
+  }
+  .fourty:after {
+    content: "40";
+  }
+  .fifty:after {
+    content: "50";
+  }
+}
+
+.leaflet-popup-content-wrapper {
+  @include border-radius(0);
+  font-family: $body-font;
+  color: $dark-gray;
+  font-size: 12px;
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  display: none;
+}
+
+.leaflet-popup-tip {
+  width: 12px;
+  height: 12px;
+  padding: 1px;
+  margin: -8px auto 0;
+}

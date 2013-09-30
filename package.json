@@ -1,13 +1,19 @@
 {
-  "name": "map-attack",
-  "version": "0.0.0",
+  "name": "mapattack-web",
+  "version": "0.0.1",
+  "main": "server.js",
+  "scripts": {
+    "test": "grunt test",
+    "start": "node server.js"
+  },
   "dependencies": {
-    "flatiron": "~0.3.8",
-    "ecstatic": "~0.4.8",
-    "union": "~0.3.7",
-    "connect": "~2.9.0",
+    "passport-twitter": "~1.0.2",
+    "express": "~3.4.0",
     "passport": "~0.1.17",
-    "passport-twitter": "~1.0.2"
+    "ejs": "~0.8.4",
+    "express-partials": "~0.1.1",
+    "xmlhttprequest": "~1.6.0",
+    "needle": "~0.6.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -30,6 +36,31 @@
     "grunt-nodemon": "~0.1.1"
   },
   "engines": {
-    "node": ">=0.8.0"
-  }
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:geoloqi/mapattack-web.git"
+  },
+  "author": "Esri Portland R&D Center <portland@esri.com>",
+  "contributors": [
+    {
+      "name": "Patrick Arlt",
+      "email": "parlt@esri.com"
+    },
+    {
+      "name": "Nate Goldman",
+      "email": "ngoldman@esri.com"
+    },
+    {
+      "name": "Paul C. Pederson",
+      "email": "ppederson@esri.com"
+    },
+    {
+      "name": "Nikolas Wise",
+      "email": "nwise@esri.com"
+    }
+  ],
+  "license": "Apache 2.0"
 }

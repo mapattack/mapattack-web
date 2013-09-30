@@ -1,0 +1,18 @@
+<div class="nav-wrap">
+  <header class="top-nav">
+    <% if (authenticated && user) { %>
+      <a class="brand" href="/home"><span class="blue">Map</span> <span class="red">Attack</span></a>
+    <% } else { %>
+      <a class="brand" href="/"><span class="blue">Map</span> <span class="red">Attack</span></a>
+    <% } %>
+
+    <nav class="right">
+    <% if (authenticated && user) { %>
+      <img id="user-data" data-id="<%= user.id %>" src="<%= user.photos[0].value %>" alt="<%= user.username %>">
+      <a href="/logout" class="btn red">logout</a>
+    <% } else { %>
+      <a href="/auth/twitter" class="btn blue">Log In</a>
+    <% } %>
+    </nav>
+  </header>
+</div>

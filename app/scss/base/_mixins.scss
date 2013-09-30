@@ -1,0 +1,90 @@
+@mixin crisp-edges {
+  image-rendering: optimizeSpeed;             /*                     */
+  image-rendering: -moz-crisp-edges;          /* Firefox             */
+  image-rendering: -o-crisp-edges;            /* Opera               */
+  image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
+  image-rendering: optimize-contrast;         /* CSS3 Proposed       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
+}
+
+@mixin retina-display {
+  @media screen and (-webkit-min-device-pixel-ratio : 1.5), screen and (min-device-pixel-ratio : 1.5) {
+    @content;
+  }
+}
+
+@mixin full {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.gt-hide {
+  display: none;
+}
+
+@mixin clearfix(){
+  &:before,
+  &:after {
+      content:"";
+      display:table;
+  }
+  &:after {
+      clear:both;
+  }
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+// Mini Inline-Block Grid
+
+.col {
+    display: block;
+    float: left;
+    position: relative;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.col1of1 { float: none; }
+.col1of2 { width: 50%; }
+.col1of3 { width: 33.33333%; }
+.col2of3 { width: 66.66666%; }
+.col1of4 { width: 25%; }
+.col3of4 { width: 75%; }
+.col1of5 { width: 20%; }
+.col2of5 { width: 40%; }
+.col3of5 { width: 60%; }
+.col4of5 { width: 80%; }
+
+.col-group {
+  font-family: 'Courier New', Monospace;
+  letter-spacing: -.65em;
+  margin-left: -15px;
+  margin-right: -15px;
+  text-align: left;
+  .col {
+    display: inline-block;
+    float: none;
+    font-family: $body-font;
+    letter-spacing: normal;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    text-align: left;
+    vertical-align: top;
+  }
+  &.no-padding {
+    margin-left: 0;
+    margin-right: 0;
+    .col {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}

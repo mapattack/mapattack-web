@@ -1,0 +1,37 @@
+// UI Colors
+$white:          #ffffff !default;
+$off-white:      #fefefe !default;
+$light-gray:     #dddddd !default;
+
+$dark-gray:      #30302F !default;
+$darker-gray:    #242323 !default;
+$darkest-gray:   #222222 !default;
+
+$cream:          #FFFBF2 !default;
+$orange:         #FF9843 !default;
+$red:            #F54130 !default;
+$blue:           #5498E8 !default;
+$dark-blue:      #1E6ACA !default;
+
+$body-blue:      darken($blue, 6%);
+$light-blue:     lighten($blue, 10%);
+
+
+
+
+// Font Families
+$body-font:      "Karla", Arial, Helvetica, sans !default;
+$header-font:    "Mensch", Arial, Helvetica, sans !default;
+$button-font:    "Karla", Arial, Helvetica, sans !default;
+
+// Font Weights
+$body-weight:    400 !default;
+$header-weight:  400 !default;
+
+// Font Colors
+$body-color:     $darker-gray;
+$header-color:   $dark-gray;
+
+// Font Sizes
+$body-size:      1em;
+$header-size:    3em;

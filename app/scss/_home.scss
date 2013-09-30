@@ -1,0 +1,29 @@
+.hero {
+  height: 400px;
+  width: 100%;
+  display: block;
+  background: $dark-gray url('/img/dark.jpg') center center no-repeat;
+  background-size: cover;
+}
+
+.board-gallery {
+  figure {
+    padding: 1em;
+    color: $dark-gray;
+    background-color: $cream;
+    margin-bottom: 2em;
+    @include box-sizing(border-box);
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1em;
+    }
+
+  }
+}
+
+.high-five {
+  background:url('/img/points.svg') center center no-repeat;
+  background-size: cover;
+  text-align: center;
+}

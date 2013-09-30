@@ -1,0 +1,120 @@
+.large-link {
+  @include box-sizing(border-box);
+  width: 100%;
+  padding: 1em;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  background-color: $blue;
+  color: $white;
+  display: block;
+  border: 2px solid $white;
+  margin-top: -2px;
+}
+
+.boards {
+  li {
+    list-style-type: none;
+    a {
+      @extend .large-link;
+      &:after {
+        content: ">";
+        float: right;
+        color: $white;
+      }
+      &:hover {
+        color: $blue;
+        background-color: $white;
+        &:after {
+          color: $blue;
+        }
+      }
+      small {
+        font-size: .7em;
+      }
+    }
+  }
+  &.red {
+    li {
+      a {
+        color: $red;
+        background-color: $cream;
+        border: 2px solid $red;
+        &:after {
+          color: $red;
+        }
+        &:hover {
+          color: $cream;
+          background-color: $red;
+          &:after {
+            color: $cream;
+          }
+        }
+      }
+    }
+  }
+  &.filtering {
+    li {
+      display: none;
+      &.visible {
+        display: block;
+      }
+    }
+  }
+}
+
+.games-link {
+  @extend .large-link;
+  font-size: 1em;
+  border: 2px solid $blue;
+  color: $blue;
+  background-color: $white;
+}
+
+.game {
+  .title {
+    @extend .games-link;
+    color: $body-blue;
+    &:hover {
+    }
+    &:after {
+      content: ">";
+      float: right;
+      color: $white;
+    }
+    &:hover {
+      background-color: $blue;
+      color: $white;
+      &:after {
+        color: $blue;
+      }
+    }
+  }
+  .hours {
+    @extend .games-link;
+    border-left: none;
+    color: $body-blue;
+  }
+  .red_num {
+    background-color: $red;
+    color: white;
+    padding: 3px 6px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+  .blue_num {
+    background-color: $blue;
+    color: white;
+    padding: 3px 6px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+  &.label {
+    .plain {
+      @extend .games-link;
+      border-color: transparent;
+      color: $body-blue;
+    }
+  }
+}

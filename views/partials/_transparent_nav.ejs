@@ -1,0 +1,17 @@
+<div class="nav-wrap transparent">
+  <header class="top-nav transparent">
+    <% if (authenticated && user) { %>
+      <a class="brand" href="/home"><span>Map</span> <span>Attack</span></a>
+    <% } else { %>
+      <a class="brand" href="/"><span>Map</span> <span>Attack</span></a>
+    <% } %>
+    <nav>
+    <% if (authenticated && user) { %>
+      <img id="user-data" data-id="<%= user.id %>" src="<%= user.photos[0].value %>" alt="<%= user.username %>">
+      <a href="/logout" class="white-link">logout</a>
+    <% } else { %>
+      <a href="/auth/twitter" class="white-link">Log In</a>
+    <% } %>
+    </nav>
+  </header>
+</div>

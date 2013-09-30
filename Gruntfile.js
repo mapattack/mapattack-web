@@ -61,18 +61,26 @@ module.exports = function (grunt) {
         imagesDir: '<%= yeoman.app %>/images',
         javascriptsDir: '<%= yeoman.app %>/js',
         fontsDir: '<%= yeoman.app %>/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
+        httpImagesPath: '/img',
+        httpGeneratedImagesPath: '/img/generated',
         httpFontsPath: '/fonts',
-        relativeAssets: false,
+        relativeAssets: false
       },
       dist: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated',
+          cssDir: '<%= yeoman.dist %>/css',
+          imagesDir: '<%= yeoman.dist %>/images',
+          javascriptsDir: '<%= yeoman.dist %>/js',
+          fontsDir: '<%= yeoman.dist %>/fonts',
+          generatedImagesDir: '<%= yeoman.dist %>/img/generated',
+          outputStyle: 'compressed'
         }
       },
-      server: {}
+      server: {
+        options: {
+          debugInfo: true
+        }
+      }
     },
     rev: {
       dist: {
@@ -166,16 +174,18 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.{ico,png,txt}',
-            '.htaccess',
-            'images/{,*/}*.{webp,gif}',
-            'fonts/{,*/}*.*'
+            'img/**/*.*',
+            'fonts/**/*.*',
+            'js/**/*.js',
+            'lib/**/*.*',
+            'iphone/*'
           ]
         }]
       }
     },
     concurrent: {
       server: {
-        tasks: ['nodemon:server', 'watch'],
+        tasks: ['nodemon:server', 'watch:compass'],
         options: {
           logConcurrentOutput: true
         }
@@ -198,7 +208,7 @@ module.exports = function (grunt) {
           env: {
             PORT: '3000'
           },
-          debug: true ,
+          debug: true,
           delayTime: 1,
           cwd: __dirname
         }
@@ -209,19 +219,17 @@ module.exports = function (grunt) {
   grunt.registerTask('server', ['clean:styles', 'compass:server', 'concurrent:server']);
 
   grunt.registerTask('build', [
-    'clean',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'cssmin',
-    'uglify',
-    'copy',
-    'rev',
-    'usemin'
+    'clean:dist',
+    // 'useminPrepare',
+    // 'concurrent:dist',
+    // 'concat',
+    // 'cssmin',
+    // 'uglify',
+    'compass:dist',
+    'copy:dist'
+    // 'rev',
+    // 'usemin'
   ]);
 
-  grunt.registerTask('default', [
-    'jshint',
-    'build'
-  ]);
+  grunt.registerTask('default', ['server']);
 };
