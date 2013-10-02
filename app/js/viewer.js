@@ -1,28 +1,20 @@
-/*global $:false, L:false */
+/*global angular:true, L:true, io:true, game_data:true */
+var viewerApp = angular.module('MapAttackViewer', []);
 
-(function(window,$,L,undefined){
+viewerApp.directive('board', function() {
 
-  var Viewer = {
-    $: {},              // dom cache
-    game: null,         // game meta
-    Coin: null,         // Coin marker class
-    coins: null,        // coins
-    Player: null,       // Player marker class
-    players: null,      // players
-    blueTeam: null,     // blue team sorted via points
-    redTeam: null,      // red team sorted via points
-    map: null,          // map instance
-    layerGroup: null    // layer group with all the map stuff
-  };
+  var playerMarkers = {};
+  var coinMarkers = {};
 
   // coin class
-  Viewer.Coin = L.Marker.extend({
+  var CoinMarker = L.Marker.extend({
     options: {
-      draggable: false
+      draggable: false,
+      clickable: false
     }
   });
 
-  Viewer.CoinIcon = L.DivIcon.extend({
+  var CoinIcon = L.DivIcon.extend({
     options: {
       iconSize:      [20, 20],
       iconAnchor:    [10, 10],
@@ -32,13 +24,14 @@
   });
 
   // person class
-  Viewer.Player = L.Marker.extend({
+  var PlayerMarker = L.Marker.extend({
     options: {
-      draggable: false
+      draggable: false,
+      clickable: false
     }
   });
 
-  Viewer.PlayerIcon = L.DivIcon.extend({
+  var PlayerIcon = L.DivIcon.extend({
     options: {
       iconSize:      [26, 41],
       iconAnchor:    [13, 41],
@@ -47,193 +40,203 @@
     }
   });
 
-  // initialize the viewer
-  Viewer.init = function(){
+  return {
+    restrict: 'E',
+    replace: true,
+    template: '<div id="viewer"></div>',
+    compile: function compile(tElement, tAttrs, transclude) {
 
-    Viewer.$.viewer = $('#viewer');
-    Viewer.$.title = $('.board-title');
-    Viewer.$.totalPlayers = $('.total-players');
-    Viewer.$.blueScore = $('.score.blue .number');
-    Viewer.$.redScore = $('.score.red .number');
-    Viewer.$.leaderBoardRed = $('.leaderboard.red .players');
-    Viewer.$.leaderBoardBlue = $('.leaderboard.blue .players');
-
-    // init map
-    Viewer.map = L.map('viewer', {
-      center: [45.522706,-122.669327],
-      zoom: 12,
-      scrollWheelZoom: false,
-      attributionControl: false,
-      zoomControl: false
-    });
-
-    new L.Control.Zoom({ position: 'bottomleft' }).addTo(Viewer.map);
-
-    L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
-      maxZoom: 18,
-      subdomains: '0123'
-    }).addTo(Viewer.map);
-
-    Viewer.layerGroup = new L.LayerGroup();
-    Viewer.layerGroup.addTo(Viewer.map);
-
-    Viewer.refresh();
-  };
-
-  Viewer.update = function(){
-    Viewer.updateScore();
-    Viewer.updateLeaderBoards();
-    Viewer.clearMap();
-    Viewer.addPlayers();
-    Viewer.addCoins();
-  };
-
-  Viewer.clearMap = function(){
-    Viewer.layerGroup.clearLayers();
-  };
-
-  Viewer.updateScore = function(){
-    Viewer.$.blueScore.html(Viewer.game.teams.blue.score);
-    Viewer.$.redScore.html(Viewer.game.teams.red.score);
-    var players = Viewer.game.teams.red.size + Viewer.game.teams.blue.size + ' players';
-    Viewer.$.totalPlayers.html(players);
-  };
-
-  Viewer.updateLeaderBoards = function(){
-
-    Viewer.blueTeam = [];
-    Viewer.redTeam = [];
-
-    for (var i = 0; i < Viewer.players.length; i ++){
-      var p = Viewer.players[i];
-      if (p.team === 'blue'){
-        Viewer.blueTeam.push(p);
-      } else {
-        Viewer.redTeam.push(p);
-      }
-    }
-
-    function rank(a,b){
-      if (a.score < b.score){ return 1; }
-      if (a.score > b.score){ return -1; }
-      return 0;
-    }
-
-    Viewer.blueTeam.sort(rank);
-    Viewer.redTeam.sort(rank);
-
-    Viewer.$.leaderBoardBlue.empty();
-
-    $.each(Viewer.blueTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg)"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
-      Viewer.$.leaderBoardBlue.append(li);
-    });
-
-    Viewer.$.leaderBoardRed.empty();
-
-    $.each(Viewer.redTeam, function(index, player){
-      var li = '<li class="player" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg)"><span class="player-name">' + player.name + '</span><span class="points right">' + player.score + '</span></li>';
-      Viewer.$.leaderBoardRed.append(li);
-    });
-
-  };
-
-  Viewer.drawPlayer = function(player) {
-    var icon = new Viewer.PlayerIcon({
-      className: 'plyr ' + player.team,
-      html: player.name + '<i class="player-avatar" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg);">'
-    });
-
-    var latLng = new L.LatLng(player.latitude, player.longitude);
-    var playerMarker = new Viewer.Player(latLng, { icon: icon });
-    Viewer.layerGroup.addLayer(playerMarker);
-  };
-
-  Viewer.addPlayers = function(){
-    $.each(Viewer.players, function(index, player){
-      if (player.latitude && player.longitude) {
-        Viewer.drawPlayer(player);
-      }
-    });
-  };
-
-  Viewer.drawCoin = function(lat, lng, points, team) {
-    var icon = new Viewer.CoinIcon({ className: 'coin p' + points + ' ' + team});
-    var latLng = new L.LatLng(lat, lng);
-    var coin = new Viewer.Coin(latLng, { icon: icon });
-
-    Viewer.layerGroup.addLayer(coin);
-  };
-
-  Viewer.addCoins = function(){
-    $.each(Viewer.coins, function(index, coin){
-      Viewer.drawCoin(coin.latitude, coin.longitude, coin.value, coin.team);
-    });
-  };
-
-  Viewer.zoomToBounds = function() {
-    var layers = Viewer.layerGroup.getLayers()
-    var bounds = new L.LatLngBounds();
-
-    for (var i=0;i<layers.length;i++) {
-      bounds.extend(layers[i].getLatLng());
-    }
-
-    Viewer.map.fitBounds(bounds, {
-      paddingTopLeft: [0, 130]
-    });
-  };
-
-  Viewer.refresh = function(){
-    // replace this with call to game state route
-    $.getJSON('/games/' + game_data.game.game_id + '/state', function(data){
-      // Set Data to response
-      Viewer.game = data.game;
-      Viewer.coins = data.coins;
-      Viewer.players = data.players;
-
-      Viewer.clearMap();
-      Viewer.update();
-      if (!Viewer.rendered) {
-        Viewer.zoomToBounds();
-      }
-      Viewer.rendered = true;
-
-      setTimeout(Viewer.refresh, 10000);
-    }).error(function(errorThrown){
-      console.log(errorThrown);
-    });
-  };
-
-  Viewer.api = function(method, params, callback){
-    var options = {
-      type: 'POST',
-      url: '/attack-api/' + method,
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json'
-    };
-
-    if (typeof callback === 'undefined' &&
-        typeof params === 'function') {
-      callback = params;
-    }
-
-    if (typeof params === 'object') {
-      options.data = JSON.stringify(params);
-    }
-
-    $.ajax(options)
-      .done(callback)
-      .fail(function(jqXHR, textStatus, errorThrown){
-        console.log('API call failed', jqXHR, textStatus, errorThrown);
+      var board = L.map(tElement[0], {
+        center: [45.522706,-122.669327],
+        zoom: 12,
+        attributionControl: false,
+        zoomControl: false
       });
+
+      new L.Control.Zoom({ position: 'bottomleft' }).addTo(board);
+
+      L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
+        maxZoom: 18,
+        subdomains: '0123'
+      }).addTo(board);
+
+      return function postLink(scope, iElement, iAttrs, controller) {
+        scope.$watch('game.bbox', function(extent){
+          if(extent){
+            var bound = new L.LatLngBounds([extent[1], extent[0]], [extent[3], extent[2]]);
+            board.setMaxBounds(bound.pad(2.5));
+            board.fitBounds(bound.pad(1.25));
+          }
+        }, true);
+
+        // watch for changes in players
+        scope.$watch('playerLocations', function(players, oldPlayers){
+          var playerIds = Object.keys(players);
+          var oldPlayerIds = Object.keys(oldPlayers);
+
+          // loop over all the current players
+          for (var i = playerIds.length - 1; i >= 0; i--) {
+            var playerId = playerIds[i];
+            var player = players[playerId];
+            var oldPlayer = oldPlayers[playerId];
+
+            // if an old player does not exist for this id
+            if(!oldPlayer){
+              // setup watch on player location
+              // create market and add to map
+              var playerMarker = new PlayerMarker(player.latlng, {
+                icon: new PlayerIcon({
+                  className: 'plyr ' + player.team,
+                  html: player.name + '<i class="player-avatar" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg);">'
+                })
+              });
+              playerMarker.addTo(board);
+              playerMarkers[playerId] = playerMarker;
+            }
+
+            // set the players position to their current position
+            if(oldPlayer && player && !(new L.LatLng(player.latlng).equals(oldPlayer.latlng))){
+              playerMarkers[playerId].setLatLng(player.latlng);
+            }
+          }
+
+          for (var x = oldPlayerIds.length - 1; x >= 0; i--) {
+            var oldPlayerId = oldPlayerIds[x];
+            // new players does not have this player in it. remove the player from the map
+            if(!players[oldPlayerId]){
+              board.removeLayer(playerMarkers[oldPlayerId]);
+            }
+          }
+        }, true);
+
+        // watch for changes in coins
+        scope.$watch('coins', function(newCoins, oldCoins){
+          var newCoinIds = Object.keys(newCoins);
+          var oldCoinIds = Object.keys(oldCoins);
+          var newCoin;
+          var oldCoin;
+
+          // loop over all the
+          for (var i = newCoinIds.length - 1; i >= 0; i--) {
+            var newCoinId = newCoinIds[i];
+            newCoin = newCoins[newCoinId];
+            oldCoin = oldCoins[newCoinId];
+
+            // old coins does not have this coin, so make a new marker and add it to the map
+            if(!oldCoins[newCoinId]){
+              var coinMarker = new CoinMarker(newCoin.latlng, {
+                icon: new CoinIcon({
+                  className: 'coin p' + newCoin.value + ' ' + newCoin.team
+                })
+              });
+              coinMarker.addTo(board);
+              coinMarkers[newCoinId] = coinMarker;
+            }
+
+            if(oldCoin && newCoin && (oldCoin.team !== newCoin.team)){
+              L.DomUtil.removeClass(coinMarkers[newCoinId]._icon, null);
+              L.DomUtil.addClass(coinMarkers[newCoinId]._icon, newCoin.team);
+            }
+          }
+
+          for (var x = oldCoinIds.length - 1; x >= 0; i--) {
+            var oldCoinId = oldCoinIds[x];
+
+            // new coins does not have this coin, this means the coin was deleted
+            if(!newCoins[oldCoinId]){
+              // remove marker from mamp
+              board.removeLayer(coinMarkers[oldCoinId]);
+            }
+          }
+        }, true);
+      };
+    }
+  };
+});
+
+viewerApp.factory('socket', function() {
+  return {
+    connect: function(scope, callback){
+      var socket = io.connect('http://api.mapattack.org:8000');
+      socket.on('game_id', function() {
+        socket.emit('game_id', scope.game.game_id);
+        socket.on('data', function(msg){
+          callback(JSON.parse(msg));
+          scope.$digest();
+        });
+      });
+    }
+  };
+});
+
+function GameCtrl($scope, $http, socket) {
+  $scope.ready = false;
+  $scope.game = {
+    teams: {
+      red: {
+        size: '--',
+        score: '--'
+      },
+      blue: {
+        size: '--',
+        score: '--'
+      }
+    }
   };
 
-  // init editor when DOM is ready
-  $(function(){
-    Viewer.init();
+  $scope.coins = {};
+  $scope.playerListing = [];
+  $scope.playerLocations = {};
+
+  $http.get('/games/' + game_data.game.game_id + '/state').success(function(data) {
+    $scope.game = data.game;
+
+    for (var i = data.players.length - 1; i >= 0; i--) {
+      var player = data.players[i];
+
+      $scope.playerListing.push({
+        id: player.device_id,
+        team: player.team,
+        score: player.score,
+        name: player.name
+      });
+
+      $scope.playerLocations[player.device_id] = {
+        device_id: player.device_id,
+        team: player.team,
+        latlng: [player.latitude, player.longitude],
+        name: player.name
+      };
+    }
+
+    for (var x = data.coins.length - 1; x >= 0; x--) {
+      var coin = data.coins[x];
+      $scope.coins[coin.coin_id] = {
+        id: coin.coin_id,
+        latlng: [coin.latitude, coin.longitude],
+        value: coin.value,
+        team: coin.team
+      };
+    }
+
+    socket.connect($scope, function(msg){
+      if(msg.type === 'player'){
+        $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
+      }
+
+      if(msg.type === 'coin'){
+        console.log('coin event', msg.coin_id, msg);
+        $scope.coins[msg.coin_id].team = msg.team;
+        $scope.game.teams.red.score = msg.red_score;
+        $scope.game.teams.blue.score = msg.blue_score;
+        for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
+          var player = $scope.playerListing[i];
+          if(player.id === msg.device_id){
+            player.score = msg.player_score;
+          }
+        }
+      }
+    });
+    $scope.ready = true;
   });
-
-  window.Viewer = Viewer;
-
-})(window,$,L);
+}

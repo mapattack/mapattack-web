@@ -21,38 +21,39 @@
   <%- partial('partials/_transparent_nav') %>
 
   <div ng-controller="GameCtrl" class="wrapper transparent">
-    <section class="scoreboard">
+    <section class="scoreboard" ng>
       <header class="title">
       <% if (locals.game) { %>
         <span class="board-title"><%= game.name %></span>
       <% } else {%>
         <span class="board-title">Awesome Board</span>
       <% } %>
-        <span class="total-players">{{game.teams.blue.size + game.teams.red.size}} players</span>
+        <span class="total-players" ng-if="!ready">-- players</span>
+        <span class="total-players" ng-if="ready">{{game.teams.blue.size + game.teams.red.size}} players</span>
       </header>
       <div class="col-group">
         <div class="score blue col col1of2 on-blue">
           <span class="color">Blue</span>
-          <span class="number">{{game.teams.blue.score}}</span>
+          <span class="number" ng-cloak>{{game.teams.blue.score}}</span>
         </div>
         <div class="score red col col1of2 on-red">
-          <span class="number">{{game.teams.red.score}}</span>
+          <span class="number" ng-cloak>{{game.teams.red.score}}</span>
           <span class="color">Red</span>
         </div>
     </section>
 
-    <section class="leaderboard blue" ng-if="playerListing.length">
+    <section class="leaderboard blue">
       <ul class="players">
-        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'blue'}" class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
+        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'blue'}" ng-cloak class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
           <span class="player-name">{{player.name}}</span>
           <span class="points right">{{player.score}}</span>
         </li>
       </ul>
     </section>
 
-    <section class="leaderboard red" ng-if="playerListing.length">
+    <section class="leaderboard red">
       <ul class="players">
-        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'red'}" class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
+        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'red'}" ng-cloak class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
           <span class="player-name">{{player.name}}</span>
           <span class="points right">{{player.score}}</span>
         </li>
@@ -67,267 +68,6 @@
   <script src="/lib/leaflet.js"></script>
   <%- partial('partials/_ga') %>
   <script type="text/javascript">var game_data = <%- JSON.stringify(locals.game) %>;</script>
-
-  <script>
-    var viewerApp = angular.module('MapAttackViewer', [])
-
-    viewerApp.filter('orderObjectBy', function(){
-     return function(input, attribute) {
-        if (!angular.isObject(input)) return input;
-
-        var array = [];
-        for(var objectKey in input) {
-          array.push(input[objectKey]);
-        }
-
-        array.sort(function(a, b){
-          a = parseInt(a[attribute]);
-          b = parseInt(b[attribute]);
-          return a - b;
-        });
-        return array;
-     }
-    });
-
-    viewerApp.directive('board', function() {
-
-      var playerMarkers = {};
-      var coinMarkers = {};
-
-      // coin class
-      var CoinMarker = L.Marker.extend({
-        options: {
-          draggable: false,
-          clickable: false
-        }
-      });
-
-      var CoinIcon = L.DivIcon.extend({
-        options: {
-          iconSize:      [20, 20],
-          iconAnchor:    [10, 10],
-          className:     'coin',
-          popupAnchor:   [0, -10]
-        }
-      });
-
-      // person class
-      var PlayerMarker = L.Marker.extend({
-        options: {
-          draggable: false,
-          clickable: false
-        }
-      });
-
-      var PlayerIcon = L.DivIcon.extend({
-        options: {
-          iconSize:      [26, 41],
-          iconAnchor:    [13, 41],
-          className:     'playerIcon',
-          popupAnchor:   [0, -10]
-        }
-      });
-
-      return {
-        restrict: 'E',
-        replace: true,
-        template: '<div id="viewer"></div>',
-        compile: function compile(tElement, tAttrs, transclude) {
-
-          var board = L.map(tElement[0], {
-            center: [45.522706,-122.669327],
-            zoom: 12,
-            attributionControl: false,
-            zoomControl: false
-          });
-
-          new L.Control.Zoom({ position: 'bottomleft' }).addTo(board);
-
-          L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
-            maxZoom: 18,
-            subdomains: '0123'
-          }).addTo(board);
-
-          return function postLink(scope, iElement, iAttrs, controller) {
-            // Things to watch
-            // * player locations
-            // * coin changes
-
-            scope.$watch("game.bbox", function(extent){
-              var bound = new L.LatLngBounds([extent[1], extent[0]], [extent[3], extent[2]]);
-              board.setMaxBounds(bound.pad(2));
-              board.fitBounds(bound);
-            }, true);
-
-            // add/remove players
-            scope.$watch("playerLocations", function(newPlayers, oldPlayers){
-              var newPlayerIds = Object.keys(newPlayers);
-              var oldPlayerIds = Object.keys(oldPlayers);
-
-              for (var i = newPlayerIds.length - 1; i >= 0; i--) {
-                var newPlayerId = newPlayerIds[i];
-                var newPlayer = newPlayers[newPlayerId];
-
-                // new player
-                if(!oldPlayers[newPlayerId]){
-                  // setup watch on player location
-                  // create market and add to map
-                  var playerMarker = new PlayerMarker(newPlayer.latlng, {
-                    icon: new PlayerIcon({
-                      className: 'plyr ' + newPlayer.team,
-                      html: newPlayer.name + '<i class="player-avatar" style="background-image:url(http://api.mapattack.org/user/' + newPlayer.device_id + '.jpg);">'
-                    })
-                  });
-                  playerMarker.addTo(board);
-                  playerMarkers[newPlayerId] = playerMarker;
-                }
-
-                playerMarkers[newPlayerId].setLatLng(newPlayer.latlng);
-              }
-
-              for (var i = oldPlayerIds.length - 1; i >= 0; i--) {
-                var oldPlayerId = oldPlayerIds[i];
-                var oldPlayer = oldPlayers[oldPlayerId];
-
-                // removed player
-                if(!newPlayers[oldPlayer]){
-                  // remove watch on player location
-                  // remove marker from map
-                }
-              }
-            }, true);
-
-            // add/remove coins
-            scope.$watch("coins", function(newCoins, oldCoins){
-              var newCoinIds = Object.keys(newCoins);
-              var oldCoinIds = Object.keys(oldCoins);
-
-              for (var i = newCoinIds.length - 1; i >= 0; i--) {
-                var newCoinId = newCoinIds[i];
-                var newCoin = newCoins[newCoinId];
-                var oldCoin = oldCoins[newCoinId];
-
-                // new player
-                if(!oldCoins[newCoinId]){
-                  console.log(newCoin);
-                  var coinMarker = new CoinMarker(newCoin.latlng, {
-                    icon: new CoinIcon({
-                      className: 'coin p' + newCoin.value + ' ' + newCoin.team
-                    })
-                  });
-
-                  coinMarker.addTo(board);
-                  coinMarkers[newCoinId] = coinMarker;
-                }
-
-                if(oldCoin && newCoin && (oldCoin.team !== newCoin.team)){
-                  console.log("coin changed!");
-                  L.DomUtil.removeClass(coinMarkers[newCoinId]._icon, null);
-                  L.DomUtil.addClass(coinMarkers[newCoinId]._icon, newCoin.team);
-                }
-              }
-
-              for (var i = oldCoinIds.length - 1; i >= 0; i--) {
-                var oldCoinId = oldCoinIds[i];
-                var oldCoin = oldCoins[oldCoinId];
-
-                // removed player
-                if(!newCoins[oldCoinId]){
-                  // remove watch on player location
-                  // remove marker from mamp
-                }
-              }
-            }, true);
-
-          }
-        }
-      };
-    });
-
-    viewerApp.factory('socket', function() {
-      return {
-        connect: function(scope, callback){
-          var socket = io.connect("http://api.mapattack.org:8000");
-          socket.on('game_id', function() {
-            socket.emit('game_id', scope.game.game_id);
-            socket.on('data', function(msg){
-              callback(JSON.parse(msg));
-              scope.$digest();
-            });
-          });
-        }
-      };
-    });
-
-    function GameCtrl($scope, $http, socket) {
-      $scope.game = {
-        teams: {
-          red: {
-            size: "--",
-            score: "--"
-          },
-          blue: {
-            size: "--",
-            score: "--"
-          }
-        }
-      }
-
-      $scope.coins = {};
-      $scope.playerListing = [];
-      $scope.playerLocations = {};
-
-      $http.get('/games/' + game_data.game.game_id + '/state').success(function(data) {
-        $scope.game = data.game;
-
-        for (var i = data.players.length - 1; i >= 0; i--) {
-          var player = data.players[i];
-
-          $scope.playerListing.push({
-            id: player.device_id,
-            team: player.team,
-            score: player.score,
-            name: player.name
-          });
-
-          $scope.playerLocations[player.device_id] = {
-            device_id: player.device_id,
-            team: player.team,
-            latlng: [player.latitude, player.longitude],
-            name: player.name
-          }
-        };
-
-        for (var i = data.coins.length - 1; i >= 0; i--) {
-          var coin = data.coins[i];
-          $scope.coins[coin.coin_id] = {
-            id: coin.coin_id,
-            latlng: [coin.latitude, coin.longitude],
-            value: coin.value,
-            team: coin.team
-          }
-        };
-
-        socket.connect($scope, function(msg){
-          if(msg.type === "player"){
-            $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
-          }
-
-          if(msg.type === "coin"){
-            console.log("coin event", msg.coin_id, msg);
-            $scope.coins[msg.coin_id].team = msg.team;
-            $scope.game.teams.red.score = msg.red_score;
-            $scope.game.teams.blue.score = msg.blue_score;
-            for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
-              var player = $scope.playerListing[i];
-              if(player.id === msg.device_id){
-                player.score = msg.player_score;
-              }
-            };
-          }
-        });
-      });
-    }
-  </script>
+  <script src="/js/viewer.js"></script>
 </body>
 </html>
