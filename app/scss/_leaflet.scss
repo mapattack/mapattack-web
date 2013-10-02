@@ -1,0 +1,33 @@
+#viewer {
+  .leaflet-bar {
+    @include box-shadow(none);
+    a {
+      color: $white;
+      font-family: $body-font;
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      font-size: 18px;
+      font-weight: 700;
+      border: 2px solid $white;
+      background: none;
+      &:hover {
+        color: $dark-gray;
+        background-color: $cream;
+      }
+      &:first-child {
+        border-bottom: none;
+        -webkit-border-top-left-radius: 0;
+        border-top-left-radius: 0;
+        -webkit-border-top-right-radius: 0;
+        border-top-right-radius: 0;
+      }
+      &:last-child {
+        -webkit-border-bottom-left-radius: 0;
+        border-bottom-left-radius: 0;
+        -webkit-border-bottom-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}

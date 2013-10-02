@@ -33,8 +33,8 @@ viewerApp.directive('board', function() {
 
   var PlayerIcon = L.DivIcon.extend({
     options: {
-      iconSize:      [26, 41],
-      iconAnchor:    [13, 41],
+      iconSize:      [28, 41],
+      iconAnchor:    [14, 41],
       className:     'playerIcon',
       popupAnchor:   [0, -10]
     }
@@ -57,7 +57,8 @@ viewerApp.directive('board', function() {
 
       L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
         maxZoom: 18,
-        subdomains: '0123'
+        subdomains: '0123',
+        //detectRetina: true
       }).addTo(board);
 
       return function postLink(scope, iElement, iAttrs, controller) {

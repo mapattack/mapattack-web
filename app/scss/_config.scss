@@ -10,6 +10,7 @@ $darkest-gray:   #222222 !default;
 $cream:          #FFFBF2 !default;
 $orange:         #FF9843 !default;
 $red:            #F54130 !default;
+$dark-red:       darken($red, 15) !default;
 $blue:           #5498E8 !default;
 $dark-blue:      #1E6ACA !default;
 
