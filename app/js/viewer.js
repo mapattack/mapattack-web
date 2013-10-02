@@ -42,8 +42,8 @@ viewerApp.directive('board', function() {
 
   return {
     restrict: 'E',
-    replace: true,
     template: '<div id="viewer"></div>',
+    replace: true,
     compile: function compile(tElement, tAttrs, transclude) {
 
       var board = L.map(tElement[0], {
@@ -226,7 +226,6 @@ function GameCtrl($scope, $http, socket) {
       }
 
       if(msg.type === 'coin'){
-        console.log('coin event', msg.coin_id, msg);
         $scope.coins[msg.coin_id].team = msg.team;
         $scope.game.teams.red.score = msg.red_score;
         $scope.game.teams.blue.score = msg.blue_score;
