@@ -16,45 +16,55 @@
   <link rel="stylesheet" href="/css/main.css">
   <%- partial('partials/_html5shiv') %>
 </head>
-<body>
+<body ng-app="MapAttackViewer">
   <%- partial('partials/_ie') %>
   <%- partial('partials/_transparent_nav') %>
 
-  <div class="wrapper transparent">
+  <div ng-controller="GameCtrl" class="wrapper transparent">
     <section class="scoreboard">
       <header class="title">
-      <% if (locals.game) { %>
-        <span class="board-title"><%= game.name %></span>
-      <% } else {%>
-        <span class="board-title">Awesome Board</span>
-      <% } %>
-        <span class="total-players">-- players</span>
+        <% if (state) { %>
+          <span class="board-title" ng-bind="game.name"><%= state.game.name %></span>
+        <% } %>
+        <span class="total-players" ng-bind="game.teams.blue.size + game.teams.red.size + ' players'"><%- state.game.teams.blue.size + state.game.teams.red.size %> players</span>
       </header>
       <div class="col-group">
         <div class="score blue col col1of2 on-blue">
           <span class="color">Blue</span>
-          <span class="number">--</span>
+          <span class="number" ng-bind="game.teams.blue.score"><%- state.game.teams.blue.score %></span>
         </div>
         <div class="score red col col1of2 on-red">
-          <span class="number">--</span>
+          <span class="number" ng-bind="game.teams.red.score"><%- state.game.teams.red.score %></span>
           <span class="color">Red</span>
         </div>
     </section>
-    <div class="chord blue"></div>
+
     <section class="leaderboard blue">
-      <ul class="players"></ul>
+      <ul class="players">
+        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'blue'}" ng-cloak class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
+          <span class="player-name">{{player.name}}</span>
+          <span class="points right">{{player.score}}</span>
+        </li>
+      </ul>
     </section>
-    <div class="chord red"></div>
+
     <section class="leaderboard red">
-      <ul class="players"></ul>
+      <ul class="players">
+        <li ng-repeat="player in playerListing | orderBy:'-score' | filter:{team:'red'}" ng-cloak class="player" style="background-image:url(http://api.mapattack.org/user/{{player.id}}.jpg)">
+          <span class="player-name">{{player.name}}</span>
+          <span class="points right">{{player.score}}</span>
+        </li>
+      </ul>
     </section>
-    <div id="viewer"></div>
+
+    <board bbox="<%- state.game.bbox %>"></board>
   </div>
 
-  <script src="/lib/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+  <script type="text/javascript" src="http://api.mapattack.org:8000/socket.io/socket.io.js"></script>
   <script src="/lib/leaflet.js"></script>
   <%- partial('partials/_ga') %>
-  <script type="text/javascript">var game_data = <%- JSON.stringify(locals.game) %>;</script>
+  <script type="text/javascript">var gameData = <%- JSON.stringify(state) %>;</script>
   <script src="/js/viewer.js"></script>
 </body>
 </html>
