@@ -60,14 +60,20 @@
   position: absolute;
   top: 84px;
   background-color: $cream;
+
+  max-height: -webkit-calc(100% - 84px - 135px);
+  max-height: -moz-calc(100% - 84px - 135px);
+  max-height: calc(100% - 84px - 135px);
+
+  overflow-x: hidden;
   &.blue {
-    left:24px;
+    left:22px;
     color: $blue;
     border: 3px solid $blue;
     border-top: 12px solid $blue;
   }
   &.red {
-    right:24px;
+    right:22px;
     color: $red;
     border: 3px solid $red;
     border-top: 12px solid $red;

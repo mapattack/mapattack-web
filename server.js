@@ -134,7 +134,7 @@ function getGames(req, res, next) {
       res.locals({
         games: []
       });
-      console.log("Couldn't retrieve game list");
+      console.log("Couldn't retrieve game list", error.type, error.message);
     }
     next();
   });
@@ -329,9 +329,18 @@ app.get('/board/:id/coins', function(req, res){
 // -------------
 
 app.get('/games/:id', function(req, res){
-  var game = findGameById(req.params.id);
-  res.locals.game = game;
-  res.render('viewer', { layout: false });
+  //var game = findGameById(req.params.id);
+  needle.post('http://api.mapattack.org/game/state', {
+    game_id: req.params.id
+  }, function(error, response, body) {
+    if (!error && response.statusCode === 200 && body) {
+      res.locals.state = body;
+      res.render('viewer', { layout: false });
+    } else {
+      res.json({ 'error': error });
+    }
+  });
+
 });
 
 app.get('/games/:id/state', function(req, res){

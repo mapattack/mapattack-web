@@ -21,23 +21,20 @@
   <%- partial('partials/_transparent_nav') %>
 
   <div ng-controller="GameCtrl" class="wrapper transparent">
-    <section class="scoreboard" ng>
+    <section class="scoreboard">
       <header class="title">
-      <% if (locals.game) { %>
-        <span class="board-title"><%= game.name %></span>
-      <% } else {%>
-        <span class="board-title">Awesome Board</span>
-      <% } %>
-        <span class="total-players" ng-if="!ready">-- players</span>
-        <span class="total-players" ng-if="ready">{{game.teams.blue.size + game.teams.red.size}} players</span>
+        <% if (state) { %>
+          <span class="board-title" ng-bind="game.name"><%= state.game.name %></span>
+        <% } %>
+        <span class="total-players" ng-bind="game.teams.blue.size + game.teams.red.size + ' players'"><%- state.game.teams.blue.size + state.game.teams.red.size %> players</span>
       </header>
       <div class="col-group">
         <div class="score blue col col1of2 on-blue">
           <span class="color">Blue</span>
-          <span class="number" ng-cloak>{{game.teams.blue.score}}</span>
+          <span class="number" ng-bind="game.teams.blue.score"><%- state.game.teams.blue.score %></span>
         </div>
         <div class="score red col col1of2 on-red">
-          <span class="number" ng-cloak>{{game.teams.red.score}}</span>
+          <span class="number" ng-bind="game.teams.red.score"><%- state.game.teams.red.score %></span>
           <span class="color">Red</span>
         </div>
     </section>
@@ -60,14 +57,14 @@
       </ul>
     </section>
 
-    <board></board>
+    <board bbox="<%- state.game.bbox %>"></board>
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
   <script type="text/javascript" src="http://api.mapattack.org:8000/socket.io/socket.io.js"></script>
   <script src="/lib/leaflet.js"></script>
   <%- partial('partials/_ga') %>
-  <script type="text/javascript">var game_data = <%- JSON.stringify(locals.game) %>;</script>
+  <script type="text/javascript">var gameData = <%- JSON.stringify(state) %>;</script>
   <script src="/js/viewer.js"></script>
 </body>
 </html>
