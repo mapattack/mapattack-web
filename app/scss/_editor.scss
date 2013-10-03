@@ -145,14 +145,17 @@
 
 .coin {
   width: 20px;
-  height: 17px;
+  height: 20px;
   font-family: $body-font;
-  font-size: 13px;
+  font-size: 12px;
+  line-height:20px;
+  font-weight: 700;
+  letter-spacing: -1px;
   color: $dark-gray;
   text-align: center;
   vertical-align: center;
   background-color: $light-gray;
-  @include border-radius(11px);
+  @include border-radius(10px);
   &.p10:after {
     content: '10';
   }
@@ -189,12 +192,12 @@
   &.red {
     background-color: $red;
     color: $white;
-    border-color: $red;
+    border-color: $dark-red;
   }
   &.blue {
     background-color: $blue;
     color: $white;
-    border-color: $blue;
+    border-color: $dark-blue;
   }
 }
 
@@ -212,10 +215,11 @@
 }
 
 .plyr {
-  width: 26px;
-  height: 41px;
+  width: 30px;
+  height: 42px;
   font-family: $body-font;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 700;
   color: $white;
   line-height: 1.2;
   text-align: center;

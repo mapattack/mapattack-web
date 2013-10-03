@@ -16,7 +16,7 @@
     color: $dark-gray;
     font-family: $body-font;
     font-size:1em;
-    border: 2px solid $white;
+    border: 3px solid $white;
     padding: 1em;
     @include box-sizing(border-box);
     .total-players {
@@ -27,10 +27,10 @@
   .score {
     padding: 1em 15px;
     color: white;
-    border: 2px solid white;
+    border: 3px solid white;
     display: inline-block;
     &.blue {
-      border-right: 1px solid $cream;
+      border-right: none;
       .number {
         float:right;
         font-size: 2em;
@@ -41,7 +41,7 @@
       }
     }
     &.red {
-      border-left: 1px solid $cream;
+      border-left: 3px solid $cream;
       .color {
         float:right;
         font-size: 1em;
@@ -60,16 +60,22 @@
   position: absolute;
   top: 84px;
   background-color: $cream;
+
+  max-height: -webkit-calc(100% - 84px - 135px);
+  max-height: -moz-calc(100% - 84px - 135px);
+  max-height: calc(100% - 84px - 135px);
+
+  overflow-x: hidden;
   &.blue {
-    left:24px;
+    left:22px;
     color: $blue;
-    border: 2px solid $blue;
+    border: 3px solid $blue;
     border-top: 12px solid $blue;
   }
   &.red {
-    right:24px;
+    right:22px;
     color: $red;
-    border: 2px solid $red;
+    border: 3px solid $red;
     border-top: 12px solid $red;
   }
   .players {
