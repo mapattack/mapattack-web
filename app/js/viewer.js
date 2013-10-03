@@ -124,7 +124,7 @@ viewerApp.directive('board', function() {
 
             if(!oldCoin || !coinMarkers.getLayer(coinId)){
               var coinMarker = new L.Marker(coin.latlng, {
-                id: coinId,
+                markerId: coinId,
                 clickable: false,
                 zIndexOffset: 0,
                 icon: createCoinIcon(coin)
@@ -133,7 +133,6 @@ viewerApp.directive('board', function() {
             }
 
             if(oldCoin && coin && !angular.equals(coin.team, oldCoin.team)){
-              console.log("coin flip", coin);
               L.DomUtil.removeClass(coinMarkers.getLayer(coinId)._icon, null);
               L.DomUtil.addClass(coinMarkers.getLayer(coinId)._icon, coin.team);
             }
