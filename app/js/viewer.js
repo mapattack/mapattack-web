@@ -118,9 +118,7 @@ viewerApp.directive('board', function() {
           var oldCoinIds = Object.keys(oldCoins);
 
           for (var i = coinIds.length - 1; i >= 0; i--) {
-
             var coinId = coinIds[i];
-            console.log(coinId);
             var coin = coins[coinId];
             var oldCoin = oldCoins[coinId];
 
@@ -135,7 +133,6 @@ viewerApp.directive('board', function() {
             }
 
             if(oldCoin && coin && !angular.equals(coin.team, oldCoin.team)){
-              console.log("coin flip", coinId, coin, coinMarkers.getLayer(coin.id), coinMarkers);
               L.DomUtil.removeClass(coinMarkers.getLayer(coinId)._icon, null);
               L.DomUtil.addClass(coinMarkers.getLayer(coinId)._icon, coin.team);
             }
