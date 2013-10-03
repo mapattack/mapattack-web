@@ -13,6 +13,12 @@
   }
 }
 
+@mixin respond-to($min-width, $max-width) {
+  @media only screen and (min-width : $min-width) and (max-width : $max-width) {
+    @content;
+  }
+}
+
 @mixin full {
   position: absolute;
   top: 0;
@@ -61,6 +67,14 @@
 .col2of5 { width: 40%; }
 .col3of5 { width: 60%; }
 .col4of5 { width: 80%; }
+
+.col-group.responsive {
+  > .col1of2, > .col1of3, > .col2of3, > .col1of4, > .col3of4, > .col1of5, > .col2of5, > .col3of5, > .col4of5 {
+    @include respond-to(0, $tablet){
+      width: 100%;
+    }
+  }
+}
 
 .col-group {
   font-family: 'Courier New', Monospace;

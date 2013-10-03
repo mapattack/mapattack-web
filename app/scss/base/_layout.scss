@@ -125,6 +125,11 @@
   &.blue {
     background-color:$blue;
     color: $white;
+    a {
+      color: $white;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed $white;
+    }
   }
   &.dark {
     background-color: $dark-gray;
@@ -136,6 +141,10 @@
   section {
     max-width: 1080px;
     margin: 0 auto;
+    &.constrained {
+      max-width: 48em;
+      margin: 2em auto;
+    }
   }
   header {
     @extend .clearfix;
@@ -144,9 +153,17 @@
       margin-top: 0;
       display: inline-block;
       float: left;
+      @include respond-to(0, $phone-wide){
+        display: block;
+        width: 100%;
+      }
     }
     .btn {
       float: right;
+      @include respond-to(0, $phone-wide){
+        float: left;
+        display: block;
+      }
     }
     input {
       float: right;
@@ -180,7 +197,6 @@
   }
   ul {
     list-style: none;
-    margin-left: 1.5em;
     li {
       padding: .5em 0;
     }
@@ -203,6 +219,14 @@
     display: inline-block;
     h3 {
       margin-top: 2em;
+    }
+  }
+  @include respond-to(0px, $tablet){
+    .graphic {
+      width: 100%;
+    }
+    .copy {
+      width: 100%;
     }
   }
 }
