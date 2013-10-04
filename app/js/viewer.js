@@ -104,14 +104,6 @@ viewerApp.directive('board', function() {
               playerMarkers.getLayer(playerId).setLatLng(player.latlng);
             }
           }
-
-          for (var x = oldPlayerIds.length - 1; x >= 0; x--) {
-            var oldPlayerId = oldPlayerIds[x];
-            // new players does not have this player in it. remove the player from the map
-            if(!players[oldPlayerId]){
-              playerMarkers.removeLayer(playerMarkers.getLayer(oldPlayerId));
-            }
-          }
         }, true);
 
         // //watch for changes in coins
@@ -137,13 +129,6 @@ viewerApp.directive('board', function() {
             if(oldCoin && coin && !angular.equals(coin.team, oldCoin.team)){
               L.DomUtil.removeClass(coinMarkers.getLayer(coinId)._icon, null);
               L.DomUtil.addClass(coinMarkers.getLayer(coinId)._icon, coin.team);
-            }
-          }
-
-          for (var x = oldCoinIds.length - 1; x >= 0; x--) {
-            var oldCoinId = oldCoinIds[x];
-            if(!coins[oldCoinId]){
-              coinMarkers.removeLayer(coinMarkers.getLayer(oldCoinId));
             }
           }
         }, true);
@@ -174,7 +159,7 @@ function GameCtrl($scope, $http, socket) {
   $scope.playerLocations = {};
   $scope.game = gameData.game;
 
-  var addPlayerListing = function addPlayerListing(player){
+  function addPlayerListing(player){
     if(!findPlayer(player.device_id)){
       $scope.playerListing.push({
         id: player.device_id,
@@ -185,7 +170,7 @@ function GameCtrl($scope, $http, socket) {
     }
   }
 
-  var addPlayerLocation = function addPlayerLocation(player){
+  function addPlayerLocation(player){
     if(player.latitude && player.longitude){
       $scope.playerLocations[player.device_id] = {
         device_id: player.device_id,
@@ -196,12 +181,12 @@ function GameCtrl($scope, $http, socket) {
     }
   }
 
-  var addPlayer = function addPlayer(player){
+  function addPlayer(player){
     addPlayerLocation(player);
     addPlayerListing(player);
   }
 
-  var addCoin = function addCoin(coin) {
+  function addCoin(coin) {
     $scope.coins[coin.coin_id] = {
       id: coin.coin_id,
       latlng: [coin.latitude, coin.longitude],
@@ -210,7 +195,7 @@ function GameCtrl($scope, $http, socket) {
     };
   }
 
-  var findPlayer = function findPlayer(id) {
+  function findPlayer(id) {
     for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
       var player = $scope.playerListing[i];
       if(player.id === id){
