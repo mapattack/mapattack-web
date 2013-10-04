@@ -116,8 +116,10 @@
   color: $dark-gray;
   &.cats {
     background: blue url(/img/cats-tiled.png) repeat center center;
-    .copy {
+    section {
       background-color: transparentize($blue, .1);
+      @include box-sizing(border-box);
+      padding: 1em;
     }
   }
   &.cream {
