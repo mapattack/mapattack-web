@@ -157,6 +157,9 @@
   background-color: $light-gray;
   outline: none;
   @include border-radius(10px);
+  &:focus {
+    outline: 0;
+  }
   &.p10:after {
     content: '10';
   }

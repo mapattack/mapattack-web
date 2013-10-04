@@ -1,0 +1,24 @@
+<div class="panel cream all-boards">
+  <section>
+    <header>
+      <h2 class="red">All Boards</h2>
+      <input class="search col col1of3" placeholder="Filter by Title/City"></input>
+    </header>
+    <ul class="boards all red">
+      <% boards.forEach(function(board){ %>
+        <li>
+          <a href="/boards/<%= findIdInTags(board.tags, 'board') %>">
+            <% if (board.properties && board.properties.title) { %>
+              <%= board.properties.title %>
+            <% } else { %>
+              Untitled Board
+            <% } %>
+            <% if (board.properties && board.properties.city) { %>
+              <small>(<%= board.properties.city %>)</small>
+            <% } %>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+</div>
