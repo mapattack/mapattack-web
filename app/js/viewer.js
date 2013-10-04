@@ -174,24 +174,31 @@ function GameCtrl($scope, $http, socket) {
   $scope.playerLocations = {};
   $scope.game = gameData.game;
 
-  var addPlayer = function addPlayer(player){
+  var addPlayerListing = function addPlayerListing(player){
     if(!findPlayer(player.device_id)){
       $scope.playerListing.push({
         id: player.device_id,
         team: player.team,
-        score: player.score || 0,
-        name: player.name || player.device_id.slice(0,2)
+        score: player.score,
+        name: player.name
       });
     }
+  }
 
+  var addPlayerLocation = function addPlayerLocation(player){
     if(player.latitude && player.longitude){
       $scope.playerLocations[player.device_id] = {
         device_id: player.device_id,
         team: player.team,
         latlng: [player.latitude, player.longitude],
-        name: player.name || player.device_id.slice(0,2)
+        name: player.name
       };
     }
+  }
+
+  var addPlayer = function addPlayer(player){
+    addPlayerLocation(player);
+    addPlayerListing(player);
   }
 
   var addCoin = function addCoin(coin) {
@@ -223,31 +230,16 @@ function GameCtrl($scope, $http, socket) {
   socket.connect($scope, function(msg){
     console.log(msg.type, msg);
     if(msg.type === 'player'){
-      var player = findPlayer(msg.device_id);
-
       // if this player is already in player locations update it otherwise add it to player locations
       if($scope.playerLocations[msg.device_id]){
-        console.log("update location");
         $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
       } else {
-        console.log("create location");
-        $scope.playerLocations[msg.device_id] = {
-          device_id: msg.device_id,
-          team: msg.team,
-          latlng: [msg.latitude, msg.longitude],
-          name: msg.name || msg.device_id.slice(0,2)
-        };
+        addPlayerLocation(msg);
       }
 
       //if we cannot find this player in the listing
       if(!findPlayer(msg.device_id)) {
-        console.log("create listing");
-        $scope.playerListing.push({
-          id: msg.device_id,
-          team: msg.team,
-          score: msg.score || 0,
-          name: msg.name || msg.device_id.slice(0,2)
-        });
+        addPlayerListing(msg);
       }
     }
 
