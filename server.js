@@ -259,7 +259,7 @@ app.get('/logout', function(req, res){
 
 // list all boards
 app.get('/boards', function(req, res){
-  res.json(res.locals.boards);
+  res.render('all-boards');
 });
 
 // new board

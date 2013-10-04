@@ -26,14 +26,15 @@
 </div>
 
 <div class="panel cream">
-  <section>
+  <section class="all-boards">
     <header>
-      <h2 class="red">All Boards</h2>
-      <input class="search col col1of3" placeholder="Filter by Title/City"></input>
+      <h2 class="red">Recent Boards</h2>
+      <a href="/boards" class="btn red">View All Boards</a>
     </header>
     <ul class="boards all red">
-      <% boards.forEach(function(board){ %>
+      <% for (var i = 0; i < 5 && i < boards.length; i++){ %>
         <li>
+          <% var board = boards[i]; %>
           <a href="/boards/<%= findIdInTags(board.tags, 'board') %>">
             <% if (board.properties && board.properties.title) { %>
               <%= board.properties.title %>
@@ -45,7 +46,7 @@
             <% } %>
           </a>
         </li>
-      <% }) %>
+      <% } %>
     </ul>
   </section>
 </div>

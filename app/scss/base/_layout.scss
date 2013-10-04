@@ -125,11 +125,6 @@
   &.blue {
     background-color:$blue;
     color: $white;
-    a {
-      color: $white;
-      padding-bottom: 4px;
-      border-bottom: 1px dashed $white;
-    }
   }
   &.dark {
     background-color: $dark-gray;
