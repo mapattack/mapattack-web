@@ -124,7 +124,7 @@ function getBoards(req, res, next) {
 }
 
 function getGames(req, res, next) {
-  needle.get('http://api.mapattack.org/game/list', function(error, response, body){
+  needle.get(config.mapattack.api+'/game/list', function(error, response, body){
     if (!error && response.statusCode == 200 && body.games) {
       games = body.games;
       res.locals({
@@ -143,7 +143,7 @@ function getGames(req, res, next) {
 // util
 
 function getNewBoardId(callback) {
-  needle.post('http://api.mapattack.org/board/new', {
+  needle.post(config.mapattack.api+'/board/new', {
     access_token: api.token
   }, function(error, response, body) {
     if (!error && response.statusCode == 200 && body.board_id) {
@@ -342,7 +342,7 @@ app.get('/board/:id/coins', function(req, res){
 
 app.get('/games/:id', function(req, res){
   //var game = findGameById(req.params.id);
-  needle.post('http://api.mapattack.org/game/state', {
+  needle.post(config.mapattack.api+'/game/state', {
     game_id: req.params.id
   }, function(error, response, body) {
     if (!error && response.statusCode === 200 && body) {
@@ -356,7 +356,7 @@ app.get('/games/:id', function(req, res){
 });
 
 app.get('/games/:id/state', function(req, res){
-  needle.post('http://api.mapattack.org/game/state', {
+  needle.post(config.mapattack.api+'/game/state', {
     game_id: req.params.id
   }, function(error, response, body) {
     console.log(body);
@@ -380,7 +380,7 @@ app.post('/trigger-api/*', function(req, res){
 
 // passes posts to `/attack-api/:method_name` to mapattack api
 app.post('/attack-api/*', function(req, res){
-  needle.post('http://api.mapattack.org/' + req.params[0], req.body, function(error, response, body) {
+  needle.post(config.mapattack.api+'/' + req.params[0], req.body, function(error, response, body) {
     res.json(error || body);
   });
 });
@@ -397,7 +397,7 @@ app.get('/faker/:id', function(req, res){
 app.post('/faker/:id/update', function(req, res){
   var message = JSON.stringify(req.body);
 
-  client.send(new Buffer(message), 0, message.length, 5309, 'api.mapattack.org', function(err, bytes) {
+  client.send(new Buffer(message), 0, message.length, 5309, config.mapattack.udp_host, function(err, bytes) {
     // forgotten
   });
 
