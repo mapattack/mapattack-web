@@ -301,6 +301,18 @@ app.get('/boards/:id/delete', function(req, res){
   });
 });
 
+// avatar
+// ------
+
+app.get('/map-avatar/:img.png', function(req, res){
+  console.log("Image: "+req.params.img);
+  // pass-thru to PHP script cause it was way easier to do it in PHP
+  needle.get('http://pin13.net/mapattack/images/'+req.params.img+'.png', function(err, response, body){
+    res.writeHead(200, {'Content-Type': 'image/png'});
+    res.end(body, 'binary');
+  });
+});
+
 // coin routes
 // -----------
 
