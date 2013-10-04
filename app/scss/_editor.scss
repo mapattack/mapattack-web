@@ -155,6 +155,7 @@
   text-align: center;
   vertical-align: center;
   background-color: $light-gray;
+  outline: none;
   @include border-radius(10px);
   &.p10:after {
     content: '10';

@@ -55,6 +55,7 @@ viewerApp.directive('board', function() {
       var board = L.map(tElement[0], {
         attributionControl: false,
         zoomControl: false,
+        maxZoom: 17
       }).fitBounds(bounds, {
         paddingTopLeft: [230, 150],
         paddingBottomRight: [230, 0]
@@ -64,7 +65,8 @@ viewerApp.directive('board', function() {
 
       L.tileLayer('http://mapattack-tiles-{s}.pdx.esri.com/dark/{z}/{y}/{x}', {
         maxZoom: 18,
-        subdomains: '0123'
+        subdomains: '0123',
+        detectRetina: true
       }).addTo(board);
 
       var playerMarkers = new MarkerCollection().addTo(board);
@@ -173,19 +175,21 @@ function GameCtrl($scope, $http, socket) {
   $scope.game = gameData.game;
 
   var addPlayer = function addPlayer(player){
-    $scope.playerListing.push({
-      id: player.device_id,
-      team: player.team,
-      score: player.score,
-      name: player.name
-    });
+    if(!findPlayer(player.device_id)){
+      $scope.playerListing.push({
+        id: player.device_id,
+        team: player.team,
+        score: player.score || 0,
+        name: player.name || player.device_id.slice(0,2)
+      });
+    }
 
     if(player.latitude && player.longitude){
       $scope.playerLocations[player.device_id] = {
         device_id: player.device_id,
         team: player.team,
         latlng: [player.latitude, player.longitude],
-        name: player.name
+        name: player.name || player.device_id.slice(0,2)
       };
     }
   }
@@ -219,29 +223,30 @@ function GameCtrl($scope, $http, socket) {
   socket.connect($scope, function(msg){
     console.log(msg.type, msg);
     if(msg.type === 'player'){
-      // if this player is already in player locations
-      if($scope.playerLocations[msg.device_id]){
-        $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
+      var player = findPlayer(msg.device_id);
 
-      // if this player is in player listing
-      } else if(findPlayer(msg.device_id)){
-        var player = findPlayer(msg.device_id);
+      // if this player is already in player locations update it otherwise add it to player locations
+      if($scope.playerLocations[msg.device_id]){
+        console.log("update location");
+        $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
+      } else {
+        console.log("create location");
         $scope.playerLocations[msg.device_id] = {
           device_id: msg.device_id,
-          team: player.team,
+          team: msg.team,
           latlng: [msg.latitude, msg.longitude],
-          name: player.name
+          name: msg.name || msg.device_id.slice(0,2)
         };
+      }
 
-      // we know nothing about this player so we have to go find them in the api and add them to the map on the next $digest cycle
-      } else {
-        $http.get('/games/' + $scope.game.game_id + '/state').success(function(data) {
-          for (var i = data.players.length - 1; i >= 0; i--) {
-            var player = data.players[i];
-            if(player.device_id == msg.device_id){
-              addPlayer(player);
-            }
-          };
+      //if we cannot find this player in the listing
+      if(!findPlayer(msg.device_id)) {
+        console.log("create listing");
+        $scope.playerListing.push({
+          id: msg.device_id,
+          team: msg.team,
+          score: msg.score || 0,
+          name: msg.name || msg.device_id.slice(0,2)
         });
       }
     }
