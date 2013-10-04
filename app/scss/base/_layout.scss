@@ -115,7 +115,7 @@
   background-color: $white;
   color: $dark-gray;
   &.cats {
-    background: blue url(/img/cats-tiled.png) repeat center center;
+    background: blue url(/img/cats-tiled-transparent.png) repeat center center;
     section {
       background-color: transparentize($blue, .1);
       @include box-sizing(border-box);
