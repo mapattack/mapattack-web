@@ -114,6 +114,12 @@
   padding: 3em 1em;
   background-color: $white;
   color: $dark-gray;
+  &.cats {
+    background: blue url(/img/cats-tiled.png) repeat center center;
+    .copy {
+      background-color: transparentize($blue, .1);
+    }
+  }
   &.cream {
     background-color: $cream;
     color: $darker-gray;
@@ -137,7 +143,7 @@
     max-width: 1080px;
     margin: 0 auto;
     &.constrained {
-      max-width: 48em;
+      max-width: 40em;
       margin: 2em auto;
     }
   }
@@ -186,10 +192,6 @@
       }
     }
   }
-  video, img {
-    width: 100%;
-    height: auto;
-  }
   ul {
     list-style: none;
     li {
@@ -207,6 +209,10 @@
     margin-right: 5%;
     float: left;
     display: inline-block;
+    video, img {
+      width: 100%;
+      height: auto;
+    }
   }
   .copy {
     width: 45%;
