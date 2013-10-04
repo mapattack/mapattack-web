@@ -24,8 +24,8 @@ viewerApp.directive('board', function() {
 
   var PlayerIcon = L.DivIcon.extend({
     options: {
-      iconSize:      [30, 41],
-      iconAnchor:    [14, 41],
+      iconSize:      [30, 54],
+      iconAnchor:    [15, 54],
       className:     'playerIcon',
       popupAnchor:   [0, -10]
     }
@@ -33,8 +33,8 @@ viewerApp.directive('board', function() {
 
   function createPlayerIcon(player){
     return new PlayerIcon({
-      className: 'plyr ' + player.team,
-      html: player.name + '<i class="player-avatar" style="background-image:url(http://api.mapattack.org/user/' + player.device_id + '.jpg);">'
+      className: 'plyr',
+      html: '<i style="background-image:url(/map-avatar/'+player.device_id+'-'+player.team+'-'+player.name+'.png);">'
     });
   }
 
