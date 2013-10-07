@@ -204,6 +204,15 @@ function GameCtrl($scope, $http, socket) {
     }
   }
 
+  function findPlayer(id) {
+    for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
+      var player = $scope.playerListing[i];
+      if(player.id === id){
+        return player;
+      }
+    }
+  }
+
   for (var i = gameData.players.length - 1; i >= 0; i--) {
     addPlayer(gameData.players[i]);
   }
@@ -218,6 +227,8 @@ function GameCtrl($scope, $http, socket) {
       // if this player is already in player locations update it otherwise add it to player locations
       if($scope.playerLocations[msg.device_id]){
         $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
+        $scope.playerLocations[msg.device_id].team = msg.team;
+        $scope.playerLocations[msg.device_id].name = msg.name;
       } else {
         addPlayerLocation(msg);
       }
@@ -225,6 +236,14 @@ function GameCtrl($scope, $http, socket) {
       //if we cannot find this player in the listing
       if(!findPlayer(msg.device_id)) {
         addPlayerListing(msg);
+      }
+
+      var player = findPlayer(msg.device_id);
+
+      if(player) {
+        player.score = player.score;
+        player.team = player.team;
+        player.name = player.name;
       }
     }
 
