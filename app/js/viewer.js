@@ -204,6 +204,15 @@ function GameCtrl($scope, $http, socket) {
     }
   }
 
+  function findPlayer(id) {
+    for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
+      var player = $scope.playerListing[i];
+      if(player.id === id){
+        return player;
+      }
+    }
+  }
+
   for (var i = gameData.players.length - 1; i >= 0; i--) {
     addPlayer(gameData.players[i]);
   }
