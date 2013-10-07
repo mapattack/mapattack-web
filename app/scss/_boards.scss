@@ -11,6 +11,13 @@
   margin-top: -2px;
 }
 
+.all-boards {
+  min-height: 100vh;
+  margin-top: -72px;
+  @include box-sizing(border-box);
+  padding-top: 122px;
+}
+
 .boards {
   li {
     list-style-type: none;
@@ -60,6 +67,10 @@
       }
     }
   }
+}
+
+.more-boards {
+  margin-top:2em;
 }
 
 .games-link {

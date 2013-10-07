@@ -157,6 +157,9 @@
   background-color: $light-gray;
   outline: none;
   @include border-radius(10px);
+  &:focus {
+    outline: 0;
+  }
   &.p10:after {
     content: '10';
   }
@@ -217,25 +220,11 @@
 
 .plyr {
   width: 30px;
-  height: 42px;
-  font-family: $body-font;
-  font-size: 12px;
-  font-weight: 700;
-  color: $white;
-  line-height: 1.2;
-  text-align: center;
-  vertical-align: center;
-  &.red {
-    background-color: $red;
-  }
-  &.blue {
-    background-color: $blue;
-  }
-  .player-avatar {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-size: 24px;
+  height: 54px;
+  i {
+    display: block;
+    width: 30px;
+    height: 54px;
   }
 }
 

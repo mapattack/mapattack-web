@@ -114,6 +114,14 @@
   padding: 3em 1em;
   background-color: $white;
   color: $dark-gray;
+  &.cats {
+    background: blue url(/img/cats-tiled-transparent.png) repeat center center;
+    section {
+      @include text-shadow(1px 1px 0 $blue);
+      @include box-sizing(border-box);
+      padding: 1em;
+    }
+  }
   &.cream {
     background-color: $cream;
     color: $darker-gray;
@@ -136,6 +144,10 @@
   section {
     max-width: 1080px;
     margin: 0 auto;
+    &.constrained {
+      max-width: 40em;
+      margin: 2em auto;
+    }
   }
   header {
     @extend .clearfix;
@@ -144,9 +156,17 @@
       margin-top: 0;
       display: inline-block;
       float: left;
+      @include respond-to(0, $phone-wide){
+        display: block;
+        width: 100%;
+      }
     }
     .btn {
       float: right;
+      @include respond-to(0, $phone-wide){
+        float: left;
+        display: block;
+      }
     }
     input {
       float: right;
@@ -174,13 +194,8 @@
       }
     }
   }
-  video, img {
-    width: 100%;
-    height: auto;
-  }
   ul {
     list-style: none;
-    margin-left: 1.5em;
     li {
       padding: .5em 0;
     }
@@ -196,6 +211,10 @@
     margin-right: 5%;
     float: left;
     display: inline-block;
+    video, img {
+      width: 100%;
+      height: auto;
+    }
   }
   .copy {
     width: 45%;
@@ -203,6 +222,14 @@
     display: inline-block;
     h3 {
       margin-top: 2em;
+    }
+  }
+  @include respond-to(0px, $tablet){
+    .graphic {
+      width: 100%;
+    }
+    .copy {
+      width: 100%;
     }
   }
 }
