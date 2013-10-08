@@ -341,7 +341,6 @@ app.get('/board/:id/coins', function(req, res){
 // -------------
 
 app.get('/games/:id', function(req, res){
-  //var game = findGameById(req.params.id);
   needle.post(config.mapattack.api+'/game/state', {
     game_id: req.params.id
   }, function(error, response, body) {
@@ -353,19 +352,6 @@ app.get('/games/:id', function(req, res){
     }
   });
 
-});
-
-app.get('/games/:id/state', function(req, res){
-  needle.post(config.mapattack.api+'/game/state', {
-    game_id: req.params.id
-  }, function(error, response, body) {
-    console.log(body);
-    if (!error && response.statusCode == 200 && body) {
-      res.json(body);
-    } else {
-      res.json({ 'error': error });
-    }
-  });
 });
 
 // API routes
