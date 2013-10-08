@@ -26,7 +26,11 @@
     <div id="editor"<% if (locals.board || locals.boardId) { %> data-board-id="<%- locals.boardId || findIdInTags(board.tags, 'board') %>"<% } %>></div>
     <div class="edit-tools">
       <% if (locals.board) { %>
-        <p><%= board.properties.title ? board.properties.title : '' %></p>
+        <% if (board.properties && board.properties.title) { %>
+          <p><%= board.properties.title %></p>
+        <% } else { %>
+          <p>Untitled Board</p>
+        <% } %></p>
         <p class="secondary"><%= board.properties.city ? board.properties.city : '' %></p>
       <% } else { %>
         <p>Can't Find Board</p>
