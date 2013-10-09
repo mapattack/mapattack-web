@@ -213,6 +213,11 @@ app.get('/iphone', function(req, res){
   res.render('iphone');
 });
 
+// In-Game Info Web View
+app.get('/info', function(req, res){
+  res.render('info', { layout: false });
+});
+
 // authentication
 // --------------
 
@@ -300,6 +305,7 @@ app.get('/boards/:id/delete', function(req, res){
     res.json(error || response);
   });
 });
+
 
 // coin routes
 // -----------

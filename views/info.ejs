@@ -1,0 +1,74 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Map Attack | Home</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/lib/leaflet.css">
+  <link rel="stylesheet" href="/lib/leaflet.draw.css">
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/lib/leaflet.ie.css">
+    <link rel="stylesheet" href="/lib/leaflet.draw.ie.css">
+  <![endif]-->
+  <link rel="stylesheet" href="/css/main.css">
+  <%- partial('partials/_html5shiv') %>
+</head>
+<body>
+  <div class="panel blue">
+    <section>
+      <header>
+        <h2>How to Play</h2>
+      </header>
+
+      <p>MapAttack is a game of territory capture for groups up to 20 people!</p>
+      <p>You can play MapAttack if there is a gameboard in your area, or you can make your own from the web at <a href="http://mapattack.org">mapattack.org</a>!</p>
+      <p>To join the game from your phone, tap on Nearby Games to see if there is a game near you. Once you see a nearby game, click on the game to join it, and you'll be assigned a team. Group up with your team and wait until all players have connected to start the game.</p>
+      <p>Once all players have been assigned a team, try to pick up as many points on the map as you can. You'll be able to see the other players on the other team by their icons on the map, and you'll be able to see both team's scores update in real time.</p>
+      <p>When all the points on the map are gone, you'll get a message with your score!</p>
+    </section>
+  </div>
+
+  <div class="panel dark">
+    <section>
+      <h2>Credits</h2>
+      <p>MapAttack was built for iPhone and Android by the team at Esri R&amp;D Center in Portland, OR.</p>
+
+      <ul>
+        <li><a href="http://twitter.com/caseorganic">Amber Case</a></li>
+        <li><a href="http://twitter.com/aaronpk">Aaron Parecki</a></li>
+        <li><a href="http://twitter.com/NikolasWise">Nik Wise</a></li>
+        <li><a href="http://twitter.com/paulcpederson">Paul Pederson</a></li>
+        <li><a href="http://twitter.com/n8ji">Nate Goldman</a></li>
+        <li><a href="http://twitter.com/patrickarlt">Patrick Arlt</a></li>
+        <li><a href="http://twitter.com/hsoj">Josh Yaganeh</a></li>
+        <li><a href="http://twitter.com/FowlerCourt">Court Fowler</a></li>
+        <li><a href="http://twitter.com/thatryana">Ryan Arana</a></li>
+        <li><a href="http://twitter.com/poeks">Jen Oslislo</a></li>
+        <li><a href="http://twitter.com/kenichi_pdx">Kenichi Nakamura</a></li>
+        <li><a href="http://twitter.com/davystevenson">Davy Stevenson</a></li>
+        <li><a href="http://twitter.com/JerrySievert">Jerry Sievert</a></li>
+      </ul>
+
+      <h2>Technology</h2>
+      <p>MapAttack is a real-time location-based geofencing game built on Esri technology.</p>
+
+      <p>For more information about Esri technology for developers, see <a href="http://developers.esri.com">developers.arcgis.com</a>.</p>
+
+      <h2>History</h2>
+
+      <p>MapAttack is a tribute to the 2004 location-based mapping game <a href="http://www.pacmanhattan.com/">PacManhattan</a>, and is a remake of the original <a href="https://geoloqi.com/blog/2011/04/geoloqi-launches-mapattack-a-real-time-location-based-mobile-gaming-platform-of-awesomeness/">MapAttack 2011</a> built on Geoloqi software.</p>
+    </section>
+  </div>
+
+  <script src="/lib/jquery.min.js"></script>
+  <script src="/lib/leaflet.js"></script>
+  <script src="/lib/leaflet.draw.js"></script>
+  <%- partial('partials/_ga') %>
+  <script src="/js/index.js"></script>
+</body>
+</html>
