@@ -6,5 +6,9 @@
   "ago": {
     "client_id": "Px0e06WENB0n1G9Q",
     "client_secret": "eac52347bca444dca9fd12020132a9d8"
+  },
+  "mapattack": {
+    "api": "http://api.mapattack.org",
+    "udp_host": "api.mapattack.org"
   }
 }

@@ -60,6 +60,10 @@
     {
       "name": "Nikolas Wise",
       "email": "nwise@esri.com"
+    },
+    {
+      "name": "Aaron Parecki",
+      "email": "aparecki@esri.com"
     }
   ],
   "license": "Apache 2.0"

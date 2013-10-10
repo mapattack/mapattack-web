@@ -10,14 +10,12 @@ $darkest-gray:   #222222 !default;
 $cream:          #FFFBF2 !default;
 $orange:         #FF9843 !default;
 $red:            #F54130 !default;
+$dark-red:       darken($red, 15) !default;
 $blue:           #5498E8 !default;
 $dark-blue:      #1E6ACA !default;
 
 $body-blue:      darken($blue, 6%);
 $light-blue:     lighten($blue, 10%);
-
-
-
 
 // Font Families
 $body-font:      "Karla", Arial, Helvetica, sans !default;
@@ -35,3 +33,12 @@ $header-color:   $dark-gray;
 // Font Sizes
 $body-size:      1em;
 $header-size:    3em;
+
+
+// Breakpoints
+$phone:        300px  !default;
+$phone-wide:   480px  !default;
+$tablet:       720px  !default;
+$tablet-wide:  1080px !default;
+$desktop:      1280px !default;
+$desktop-wide: 1920px !default;

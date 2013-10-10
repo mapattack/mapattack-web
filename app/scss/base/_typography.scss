@@ -88,4 +88,9 @@ a {
   &.blue-link {
     color: $blue;
   }
+  &.white {
+    color: $white;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed $white;
+  }
 }
