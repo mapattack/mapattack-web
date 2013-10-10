@@ -213,6 +213,11 @@ app.get('/iphone', function(req, res){
   res.render('iphone');
 });
 
+// In-Game Info Web View
+app.get('/info', function(req, res){
+  res.render('info', { layout: false });
+});
+
 // authentication
 // --------------
 
