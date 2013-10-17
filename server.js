@@ -98,7 +98,7 @@ passport.use(new TwitterStrategy({
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   req.session.redirectUrl = req.url;
-  res.redirect('/auth/twitter');
+  res.redirect('/');
 }
 
 function loadAuthentication(req, res, next) {
@@ -228,7 +228,7 @@ app.get('/info', function(req, res){
 
 // twitter auth endpoint
 // sends user to twitter API to authenticate
-app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/login', passport.authenticate('twitter'));
 
 // twitter auth callback endpoint
 // where twitter sends the user once auth step is done

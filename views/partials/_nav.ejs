@@ -10,8 +10,6 @@
     <% if (authenticated && user) { %>
       <img id="user-data" data-id="<%= user.id %>" src="<%= user.photos[0].value %>" alt="<%= user.username %>">
       <a href="/logout" class="btn red">logout</a>
-    <% } else { %>
-      <a href="/auth/twitter" class="btn blue">Log In</a>
     <% } %>
     </nav>
   </header>
