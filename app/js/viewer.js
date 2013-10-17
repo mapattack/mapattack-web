@@ -12,7 +12,6 @@ viewerApp.directive('board', function() {
     }
   });
 
-  // coin icon
   var CoinIcon = L.DivIcon.extend({
     options: {
       iconSize:      [20, 20],
@@ -41,6 +40,25 @@ viewerApp.directive('board', function() {
   function createCoinIcon(coin){
     return new CoinIcon({
       className: 'coin p' + coin.value + ' ' + coin.team
+    });
+  }
+
+  function createCoinMarker(coin){
+    console.log(coin);
+    return new L.Marker(coin.latlng, {
+      markerId: coin.id,
+      clickable: false,
+      zIndexOffset: 0,
+      icon: createCoinIcon(coin)
+    });
+  }
+
+  function createPlayerMarker(player){
+    return new L.Marker(player.latlng, {
+      zIndexOffset: 1000,
+      markerId: player.device_id,
+      clickable: false,
+      icon: createPlayerIcon(player)
     });
   }
 
@@ -79,28 +97,16 @@ viewerApp.directive('board', function() {
           var playerIds = Object.keys(players);
           var oldPlayerIds = Object.keys(oldPlayers);
 
-          // loop over all the current players
           for (var i = playerIds.length - 1; i >= 0; i--) {
             var playerId = playerIds[i];
             var player = players[playerId];
             var oldPlayer = oldPlayers[playerId];
 
-            // if an old player does not exist for this id
-            // or
-            // if this player exists but has to latlng
-            if(!oldPlayer || !playerMarkers.getLayer(playerId)){
-              // create market and add to map
-              var playerMarker = new L.Marker(player.latlng, {
-                zIndexOffset: 1000,
-                markerId: playerId,
-                clickable: false,
-                icon: createPlayerIcon(player)
-              });
-              playerMarkers.addLayer(playerMarker);
+            if(!playerMarkers.getLayer(playerId)){
+              playerMarkers.addLayer(createPlayerMarker(player));
             }
 
-            //set the players position to their current position
-            if(!angular.equals(player, oldPlayer) && player.latlng){
+            if(!angular.equals(player, oldPlayer)){
               playerMarkers.getLayer(playerId).setLatLng(player.latlng);
             }
           }
@@ -116,18 +122,11 @@ viewerApp.directive('board', function() {
             var coin = coins[coinId];
             var oldCoin = oldCoins[coinId];
 
-            if(!oldCoin || !coinMarkers.getLayer(coinId)){
-              var coinMarker = new L.Marker(coin.latlng, {
-                markerId: coinId,
-                clickable: false,
-                zIndexOffset: 0,
-                icon: createCoinIcon(coin)
-              });
-              coinMarkers.addLayer(coinMarker);
+            if(!coinMarkers.getLayer(coinId)){
+              coinMarkers.addLayer(createCoinMarker(coin));
             }
 
-            if(oldCoin && coin && !angular.equals(coin.team, oldCoin.team)){
-              L.DomUtil.removeClass(coinMarkers.getLayer(coinId)._icon, null);
+            if(coin.team){
               L.DomUtil.addClass(coinMarkers.getLayer(coinId)._icon, coin.team);
             }
           }
@@ -137,21 +136,22 @@ viewerApp.directive('board', function() {
   };
 });
 
-viewerApp.factory('socket', function() {
+viewerApp.factory('socket', ['$rootScope', function($rootScope) {
   return {
-    connect: function(scope, callback){
+    connect: function(gameId, callback){
       var socket = io.connect('http://api.mapattack.org:8000');
       socket.on('game_id', function() {
-        socket.emit('game_id', scope.game.game_id);
+        socket.emit('game_id', gameId);
         socket.on('data', function(msg){
-          scope.$apply(function(){
-            callback(JSON.parse(msg));
-          });
+          callback(JSON.parse(msg));
+          if(!$rootScope.$$phase) {
+            $rootScope.$apply();
+          }
         });
       });
     }
   };
-});
+}]);
 
 function GameCtrl($scope, $http, socket) {
   $scope.coins = {};
@@ -204,15 +204,6 @@ function GameCtrl($scope, $http, socket) {
     }
   }
 
-  function findPlayer(id) {
-    for (var i = $scope.playerListing.length - 1; i >= 0; i--) {
-      var player = $scope.playerListing[i];
-      if(player.id === id){
-        return player;
-      }
-    }
-  }
-
   for (var i = gameData.players.length - 1; i >= 0; i--) {
     addPlayer(gameData.players[i]);
   }
@@ -221,37 +212,65 @@ function GameCtrl($scope, $http, socket) {
     addCoin(gameData.coins[x]);
   }
 
-  socket.connect($scope, function(msg){
-    console.log(msg.type, msg);
+  socket.connect($scope.game.game_id, function(msg){
+    if(msg.type === 'game_start'){
+      $scope.game.active = true;
+    }
+
+    if(msg.type === 'game_end'){
+      $scope.game.active = false;
+    }
+
+    if(msg.type === 'player_join'){
+      var playerListing = findPlayer(msg.device_id);
+
+      if(!playerListing) {
+        addPlayerListing({
+          id: msg.device_id,
+          team: msg.team,
+          score: 0,
+          name: msg.name
+        });
+      }
+    }
+
     if(msg.type === 'player'){
-      // if this player is already in player locations update it otherwise add it to player locations
-      if($scope.playerLocations[msg.device_id]){
-        $scope.playerLocations[msg.device_id].latlng = [msg.latitude, msg.longitude];
-        $scope.playerLocations[msg.device_id].team = msg.team;
-        $scope.playerLocations[msg.device_id].name = msg.name;
+      var playerLocation = $scope.playerLocations[msg.device_id];
+
+      if(playerLocation){
+        playerLocation.latlng = [msg.latitude, msg.longitude];
+        playerLocation.team = msg.team;
+        playerLocation.name = msg.name;
       } else {
         addPlayerLocation(msg);
       }
 
-      //if we cannot find this player in the listing
-      if(!findPlayer(msg.device_id)) {
+      var playerListing = findPlayer(msg.device_id);
+
+      if(playerListing) {
+        playerListing.score = msg.score;
+        playerListing.team = msg.team;
+        playerListing.name = msg.name;
+      } else {
         addPlayerListing(msg);
+      }
+    }
+
+    if(msg.type === 'coin'){
+      $scope.game.teams.red.score = msg.red_score;
+      $scope.game.teams.blue.score = msg.blue_score;
+
+      var coin = $scope.coins[msg.coin_id];
+
+      if(coin){
+        coin.team = msg.team;
       }
 
       var player = findPlayer(msg.device_id);
 
       if(player) {
-        player.score = player.score;
-        player.team = player.team;
-        player.name = player.name;
+        player.score = msg.player_score;
       }
-    }
-
-    if(msg.type === 'coin'){
-      $scope.coins[msg.coin_id].team = msg.team;
-      $scope.game.teams.red.score = msg.red_score;
-      $scope.game.teams.blue.score = msg.blue_score;
-      findPlayer(msg.device_id).score = msg.player_score;
     }
   });
 }

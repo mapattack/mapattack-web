@@ -20,9 +20,9 @@
   <%- partial('partials/_ie') %>
   <%- partial('partials/_transparent_nav') %>
 
-  <div ng-controller="GameCtrl" class="wrapper transparent">
+  <div id="main" ng-controller="GameCtrl" class="wrapper transparent">
     <section class="scoreboard">
-      <header class="title">
+      <header class="title <%= (state && state.game.active) ? 'active' : 'inactive' %>" ng-class="{active: game.active}">
         <% if (state) { %>
           <span class="board-title" ng-bind="game.name"><%= state.game.name %></span>
         <% } %>
