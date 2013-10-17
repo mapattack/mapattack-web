@@ -136,7 +136,7 @@ viewerApp.directive('board', function() {
   };
 });
 
-viewerApp.factory('socket', ["$rootScope", function($rootScope) {
+viewerApp.factory('socket', ['$rootScope', function($rootScope) {
   return {
     connect: function(gameId, callback){
       var socket = io.connect('http://api.mapattack.org:8000');
@@ -213,7 +213,27 @@ function GameCtrl($scope, $http, socket) {
   }
 
   socket.connect($scope.game.game_id, function(msg){
-    console.log(msg.type, msg);
+    if(msg.type === 'game_start'){
+      $scope.game.active = true;
+    }
+
+    if(msg.type === 'game_end'){
+      $scope.game.active = false;
+    }
+
+    if(msg.type === 'player_join'){
+      var playerListing = findPlayer(msg.device_id);
+
+      if(!playerListing) {
+        addPlayerListing({
+          id: msg.device_id,
+          team: msg.team,
+          score: 0,
+          name: msg.name
+        });
+      }
+    }
+
     if(msg.type === 'player'){
       var playerLocation = $scope.playerLocations[msg.device_id];
 
