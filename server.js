@@ -191,6 +191,7 @@ app.get('/faker*', loadAuthentication, getBoards);
 app.get('/games*', loadAuthentication, getGames);
 app.get('/home', ensureAuthenticated, loadAuthentication, getBoards, getGames);
 app.get('/iphone', loadAuthentication);
+app.get('/android', loadAuthentication);
 app.get('/', loadAuthentication);
 
 // root
@@ -211,6 +212,10 @@ app.get('/home', function(req, res){
 
 app.get('/iphone', function(req, res){
   res.render('iphone');
+});
+
+app.get('/android', function(req, res){
+  res.render('android');
 });
 
 // In-Game Info Web View
