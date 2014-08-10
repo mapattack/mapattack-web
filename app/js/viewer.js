@@ -139,7 +139,7 @@ viewerApp.directive('board', function() {
 viewerApp.factory('socket', ['$rootScope', function($rootScope) {
   return {
     connect: function(gameId, callback){
-      var socket = new WebSocket('ws://api.mapattack.org/viewer/' + gameId);
+      var socket = new WebSocket('ws://api.mapattack.org:8080/viewer/' + gameId);
       socket.onmessage = function(e){
         callback(JSON.parse(e.data));
         if(!$rootScope.$$phase) {
