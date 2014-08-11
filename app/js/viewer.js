@@ -139,16 +139,13 @@ viewerApp.directive('board', function() {
 viewerApp.factory('socket', ['$rootScope', function($rootScope) {
   return {
     connect: function(gameId, callback){
-      var socket = io.connect('http://api.mapattack.org:8000');
-      socket.on('game_id', function() {
-        socket.emit('game_id', gameId);
-        socket.on('data', function(msg){
-          callback(JSON.parse(msg));
-          if(!$rootScope.$$phase) {
-            $rootScope.$apply();
-          }
-        });
-      });
+      var socket = new WebSocket('ws://api.mapattack.org:8080/viewer/' + gameId);
+      socket.onmessage = function(e){
+        callback(JSON.parse(e.data));
+        if(!$rootScope.$$phase) {
+          $rootScope.$apply();
+        }
+      };
     }
   };
 }]);
