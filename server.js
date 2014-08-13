@@ -134,7 +134,8 @@ function getGames(req, res, next) {
       res.locals({
         games: []
       });
-      console.log("Couldn't retrieve game list", error.type, error.message);
+      console.log("Couldn't retrieve game list");
+      console.log(error);
     }
     next();
   });
